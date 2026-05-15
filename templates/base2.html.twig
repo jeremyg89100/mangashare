@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}MangaShare{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('styles/styles.css')}}">
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}
+                {{ importmap('app') }}
+            {% endblock %}
+        {% endblock %}
+
+        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+        {% if frankenphpHotReload %}
+            <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
+            <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+            <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+        {% endif %}
+    </head>
+    <body>
+        <header>
+            <nav class="nav-flex">
+                <a href="{{path('app_home')}}">MANGASHARE</a>
+                <div class="nav-links">
+                    <a href="#">Rules</a>
+                    <a href="#">New Release</a>
+                    <a href="#">Projects</a>
+                    <a href="#">Popular</a>
+                    <a href="#">Tips & Tricks</a>
+                </div>
+                <<div class="nav-profil">
+                    <input type="text" placeholder="Search..." id="search-input">
+                    {%if app.user %}
+                        <a href="#">🔔</a>
+                        <div class="nav-dropdown">
+                            <div>{{ app.user.pseudo }}</div>
+                            <div class="dropdown-menu">
+                                <a href="#">My Profile</a>
+                                <a href="#">My Projects</a>
+                                <a href="#">My Tips & Tricks</a>
+                                <a href="#">Dashboard</a>
+                                <a href="{{ path('app_logout') }}">Log Out</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{{ path('app_login') }}">Login</a>
+                    {% endif %}
+                </div>
+            </nav>
+        </header>
+        <main>
+            {% block body %}
+            {% endblock %}
+        </main>
+        <footer>
+            <div class="footer-content">
+                <p>MANGASHARE</p>
+                <p>Nous suivre</p>
+                <div class="footer-socials">
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Discord</a>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
