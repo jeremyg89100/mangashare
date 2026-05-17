@@ -15,10 +15,8 @@
     </head>
     <body>
 
-        {# Checkbox Hamburger #}
         <input type="checkbox" id="hamburger-toggle" class="hamburger-checkbox">
 
-        {# Checkbox hamburger Dropdown #}
         <input type="checkbox" id="user-toggle" class="user-checkbox">
         <nav>
             <a href="{{ path('app_home') }}" class="nav-logo">MangaShare</a>
@@ -88,6 +86,7 @@
 
         <main>
             {% block body %}
+
             {% endblock %}
         </main>
 
@@ -118,7 +117,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© {{ "now"|date("Y") }} MangaShare — Tous droits réservés</p>
+                <p>© {{ "now"|date("Y") }} MangaShare - Tous droits réservés</p>
             </div>
         </footer>
         <script>

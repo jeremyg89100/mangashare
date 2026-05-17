@@ -16,6 +16,18 @@ class MangaRepository extends ServiceEntityRepository
         parent::__construct($registry, Manga::class);
     }
 
+    public function findMostPopular(int $limit):array 
+    {
+        return $this->createQueryBuilder('manga')
+            ->leftJoin('manga.likes', 'likes')
+            ->addSelect('COUNT(likes.id) as HIDDEN likeCount')
+            ->groupBy('manga.id')
+            ->orderBy('likeCount', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Manga[] Returns an array of Manga objects
     //     */
