@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{%block stylesheets%}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}">
+{%endblock%}
+
+{% block title %}Popular{% endblock %}
+
+{% block body %}
+<div class="home-catchphrase">
+        <h1>Partages avec toute une communauté !</h1>
+    </div>
+
+    <section class="home-section">
+        <h2>Le plus populaire</h2>
+        <div class="manga-grid">
+            {% for manga in popular %}
+                <a href="#" class="manga-card">
+                    <div class="manga-card-cover">
+                        {% if manga.miniature %}
+                            <img src="{{ asset('uploads/' ~ manga.miniature) }}" alt="{{ manga.title }}">
+                        {% else %}
+                            <div class="manga-card-placeholder">
+                                <p> {{manga.title}} </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="manga-card-info">
+                        <span class="manga-card-title">{{ manga.title }}</span>
+                        <div class="manga-card-meta">
+                            <span class="manga-card-author">{{ manga.user.pseudo }}</span>
+                            <span class="manga-card-likes">
+                                {{ manga.likes|length }}
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <div class="load-more-wrap">
+            <button class="load-more-btn" aria-label="Voir plus">+</button>
+        </div>
+    </section>
+
+{% endblock %}

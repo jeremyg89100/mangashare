@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}" >
+{% endblock %}
+
+{% block title %}
+    Articles
+{% endblock %}
+
+{% block body %}
+    <section class="home-section">
+        <div class="project-header project-buttons">
+            <h1>Partages tes astuces avec la communauté !</h1>
+            <button class="add-project-button">Ecris un article</button>
+        </div>
+        <div class="project-section">
+            <h3>Your Articles</h3>
+        </div>
+    </section>
+{% endblock %}

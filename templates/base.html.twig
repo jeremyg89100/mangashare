@@ -22,11 +22,11 @@
             <a href="{{ path('app_home') }}" class="nav-logo">MangaShare</a>
 
             <div class="nav-links">
-                <a href="#">Nouveautés</a>
-                <a href="#">Projets</a>
-                <a href="#">Populaire</a>
-                <a href="#">Astuces</a>
-                <a href="#">Règles</a>
+                <a href="{{path('app_new_content')}}">Nouveautés</a>
+                <a href="{{path('app_projects')}}">Projets</a>
+                <a href="{{path('app_popular')}}">Populaire</a>
+                <a href="{{path('app_articles')}}">Astuces</a>
+                <a href="{{path('app_rules')}}">Règles</a>
             </div>
 
             <div class="nav-mobile-search">
@@ -77,11 +77,11 @@
 
         {# Mobile Menu #}
         <div class="nav-mobile-menu">
-            <a href="{{ path('app_home') }}">Nouveautés</a>
-            <a href="#">Projets</a>
-            <a href="#">Populaire</a>
-            <a href="#">Astuces</a>
-            <a href="#">Règles</a>
+            <a href="{{path('app_new_content')}}">Nouveautés</a>
+            <a href="{{path('app_projects')}}">Projets</a>
+            <a href="{{path('app_popular')}}">Populaire</a>
+            <a href="{{path('app_articles')}}">Astuces</a>
+            <a href="{{path('app_rules')}}">Règles</a>
         </div>
 
         <main>

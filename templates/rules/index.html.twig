@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}" >
+{% endblock %}
+
+{% block title %}
+    Rules
+{% endblock %}
+
+{% block body %}
+
+    <div class="home-catchphrase">
+        <h1>Quelques règles avant
+        de partager ton manga ! !</h1>
+    </div>
+
+    <section>
+        <article class="rules-article">
+            <h2>Règles à respecter</h2>
+            <p id="rules-in-article">Pour que notre plateforme reste un lieu d'échange sain et inspirant
+                pour tous les passionnés, nous appliquons une politique de tolérance
+                zéro concernant certains contenus. Vous êtes libres de partager toutes
+                vos créations et styles artistiques, à la condition stricte que vos
+                publications ne contiennent aucun contenu NSFW (à caractère sexuel
+                ou explicitement violent) ni aucun appel à la haine, propos
+                discriminatoires ou harcèlement. Le respect mutuel est le pilier
+                de notre communauté : tout manquement à ces règles de base
+                entraînera la suppression immédiate du contenu et pourra conduire
+            à un bannissement définitif de votre compte.</p>
+            <div class="img-rules">Img remplacement</div>
+        </article>
+    </section>
+
+{% endblock %}
