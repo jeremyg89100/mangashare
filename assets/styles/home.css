@@ -338,6 +338,50 @@ body {
     overflow: hidden;
 }
 
+/* UserPage */
+.userpage-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.userpage-pseudo-avatar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.userpage-section input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+}
+
+.userpage-section label {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+#description {
+    padding-bottom: 100px;
+}
+
+.userpage-buttons-save {
+    gap: 8px;
+    display: flex;
+    flex-direction: row;
+}
+
+.userpage-buttons-save button {
+    color: white;
+    background-color: black;
+    border: #666 1px solid;
+    border-radius: 8px;
+    padding: 8px;
+    width: 50%;
+}
 @media (min-width: 768px) {
     .home-phrase {
         padding: 56px 24px;

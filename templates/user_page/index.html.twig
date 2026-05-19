@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    UserPage
+{% endblock %}
+
+{% block stylesheets%}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}">
+{% endblock%}
+
+{% block body %}
+    <div class="home-section">
+        <div class="userpage-top-buttons">
+            <a>Compte</a>
+            <a>Dashboard</a>
+        </div>
+        <div class="userpage-section">
+            <label>Pseudo</label>
+            <div class="userpage-pseudo-avatar">
+                <input type="text" id="pseudo" name="pseudo" placeholder="pseudo">
+                <div class="nav-avatar" id="avatar-btn">
+                    {% if app.user.avatar %}
+                        <img src="{{ asset('uploads/avatars/' ~ app.user.avatar) }}" alt="Avatar">
+                    {% else %}
+                        {{ app.user.pseudo|slice(0,1)|upper }}
+                    {% endif %}
+                </div>
+            </div>
+            <label>E-mail</label>
+            <input type="text" id="email" name="email" placeholder="E-mail">
+            <label>Date de naissance</label>
+            <input type="date" id="birthdate" name="birthdate" placeholder="XX/XX/XXXX">
+            <label>Description (optionnelle)</label>
+            <input type="text" id="description" name="description" placeholder="Description">
+            <label>Changement de mot de passe</label>
+            <input type="text" id="changePassword" name="ChangePassword" placeholder="mot de passe">
+            <label>Confirmation du mot de passe</label>
+            <input type="text" id="passwordConfirm" name="passwordConfirm" placeholder="mot de passe">
+            <div class="userpage-buttons-save">
+                <button>Sauvegarder</button>
+                <button>Annuler</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
