@@ -374,6 +374,23 @@ body {
     flex-direction: row;
 }
 
+.userpage-section a {
+    color: white;
+    background-color: black;
+    border: #666 1px solid;
+    border-radius: 8px;
+    padding: 8px;
+    width: 50%;
+    text-align: center;
+}
+
+.userpage-top-buttons {
+    margin: 20px 0px;
+    gap: 8px;
+    display: flex;
+    flex-direction: row;
+}
+
 .userpage-buttons-save button {
     color: white;
     background-color: black;
