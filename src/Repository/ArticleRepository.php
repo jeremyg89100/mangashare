@@ -16,6 +16,32 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public function findMostPopular(int $limit): array
+    {
+        return $this->createQueryBuilder('article')
+            ->leftJoin('article.likes', 'likes')
+            ->addSelect('COUNT(likes.id) as HIDDEN likeCount')
+            ->groupBy('article.id')
+            ->orderBy('likeCount', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findMostPopularByCategory(string $category, int $limit): array
+    {
+        return $this->createQueryBuilder('article')
+            ->leftJoin('article.likes', 'likes')
+            ->addSelect('COUNT(likes.id) as HIDDEN likeCount')
+            ->where('article.category = :category')
+            ->setParameter('category', $category)
+            ->groupBy('article.id')
+            ->orderBy('likeCount', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Article[] Returns an array of Article objects
     //     */
