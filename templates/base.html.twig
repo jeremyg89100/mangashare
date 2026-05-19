@@ -8,16 +8,16 @@
         {% block stylesheets %}
         {% endblock %}
         {% block javascripts %}
-            {% block importmap %}
-                {{ importmap('app') }}
-            {% endblock %}
+                {{ importmap(['app', 'dropdown']) }}
         {% endblock %}
+        <script>
+           
+        </script>
     </head>
     <body>
 
         <input type="checkbox" id="hamburger-toggle" class="hamburger-checkbox">
 
-        <input type="checkbox" id="user-toggle" class="user-checkbox">
         <nav>
             <a href="{{ path('app_home') }}" class="nav-logo">MangaShare</a>
 
@@ -120,19 +120,6 @@
                 <p>© {{ "now"|date("Y") }} MangaShare - Tous droits réservés</p>
             </div>
         </footer>
-        <script>
-            const avatar = document.getElementById('avatar-btn');
-            const dropdown = document.getElementById('user-dropdown');
-
-            if (avatar) {
-                avatar.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    dropdown.classList.toggle('open');
-                });
-                document.addEventListener('click', () => {
-                    dropdown.classList.remove('open');
-                });
-            }
-        </script>
+        
     </body>
 </html>
