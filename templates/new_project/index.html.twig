@@ -25,7 +25,7 @@
             </div>
             <div id="upload-pages" class="upload-pages">
                 <div class="new-project-middle">
-                <span class="delete-btn-pages" style="display: none">&times;</span>
+                    <span class="delete-btn-pages" style="display: none">&times;</span>
                     <input type="file" id="file-upload" name="pages[]" accept="image/png, image/jpeg" class="file-input">
                     <label for="file-upload" class="upload-file">
                         <span class="plus-icon">+</span>
@@ -33,6 +33,39 @@
                     </label>
                 </div>
             </div>
+            <span>Synopsis</span>
+            <input type="text" placeholder="synopsis" class="project-synopsis">
+        </div>
+        <div class="new-project-right">
+            <input type="text" name="chapterTitle" placeholder="Titre du chapitre 1">
+            <span>Miniature</span>
+            <div id="upload-miniature" class="upload-miniature-container">
+                <div class="new-project-middle">
+                    <span class="delete-btn-pages" style="display: none">&times;</span>
+                    <input type="file" id="file-miniature" name="miniature" accept="image/png, image/jpeg" class="file-input-miniature">
+                    <label for="file-miniature" class="upload-file">
+                        <span class="plus-icon">+</span>
+                        <img class="image-preview" src="" alt="Aperçu" style="display: none;">
+                    </label>
+                </div>
+            </div>
+            <span>Catégories</span>
+            <div class="categories-section">
+                <button>Action</button>
+                <button>Romance</button>
+                <button>Fantastique</button>
+                <button>Tranche de Vie</button>
+                <button>Horreur</button>
+                <button>Comédie</button>
+                <button>Sport</button>
+            </div>
+            <span>Statut</span>
+            <div class="status-section">
+                <button>En Cours</button>
+                <button>Terminé</button>
+                <button>En Pause</button>
+            </div>
+
         </div>
     </section>
 {% endblock %}

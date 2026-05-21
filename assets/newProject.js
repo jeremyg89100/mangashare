@@ -1,58 +1,78 @@
+function handleImagePreview(fileInput) {
+    const file = fileInput.files[0];
+    const container = fileInput.closest(".new-project-middle");
+    const imgPreview = container.querySelector(".image-preview");
+    const plusIcon = container.querySelector(".plus-icon");
+    const deleteBtn = container.querySelector(".delete-btn-pages");
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            if (imgPreview) {
+                imgPreview.src = e.target.result;
+                imgPreview.style.display = "block";
+                plusIcon.style.display = "none";
+            }
+            if (deleteBtn) deleteBtn.style.display = "flex";
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Add image to miniature
+const uploadMiniature = document.querySelector("#upload-miniature");
+
+uploadMiniature.addEventListener("change", function (event) {
+    if (event.target.classList.contains("file-input-miniature")) {
+        handleImagePreview(event.target);
+    }
+});
+
+// Add images to the pages section
 const uploadPages = document.querySelector("#upload-pages");
 let fileCounter = 0;
 
 uploadPages.addEventListener("change", function (event) {
     if (event.target.classList.contains("file-input")) {
         const fileInput = event.target;
-        const file = fileInput.files[0];
-
         const container = fileInput.closest(".new-project-middle");
-        const imgPreview = container.querySelector(".image-preview");
-        const plusIcon = container.querySelector(".plus-icon");
-        const deleteBtn = container.querySelector(".delete-btn-pages");
 
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                if (imgPreview) {
-                    imgPreview.src = e.target.result;
-                    imgPreview.style.display = "block";
-                    plusIcon.style.display = "none";
-                }
+        handleImagePreview(fileInput);
 
-                if (deleteBtn) deleteBtn.style.display = "flex";
-
-                if (container === uploadPages.lastElementChild) {
-                    fileCounter++;
-                    createNewUpload(fileCounter);
-                }
-            };
-            reader.readAsDataURL(file);
+        if (fileInput.files[0] && container === uploadPages.lastElementChild) {
+            fileCounter++;
+            createNewUpload(fileCounter);
         }
     }
 });
 
-uploadPages.addEventListener("click", function (event) {
+// Delete images
+document.addEventListener("click", function (event) {
     if (event.target.classList.contains("delete-btn-pages")) {
         const deleteBtn = event.target;
         const container = deleteBtn.closest(".new-project-middle");
+        const fileInput = container.querySelector("input[type='file']");
+        const imgPreview = container.querySelector(".image-preview");
+        const plusIcon = container.querySelector(".plus-icon");
 
-        if (uploadPages.children.length === 1) {
-            const fileInput = container.querySelector(".file-input");
-            const imgPreview = container.querySelector(".image-preview");
-            const plusIcon = container.querySelector(".plus-icon");
-
-            fileInput.value = "";
-            imgPreview.removeAttribute("src");
-            imgPreview.style.display = "none";
-            plusIcon.style.display = "block";
-            deleteBtn.style.display = "none";
-        } else {
+        if (
+            container.closest("#upload-pages") &&
+            uploadPages.children.length > 1
+        ) {
             container.remove();
+        } else {
+            if (fileInput) fileInput.value = "";
+            if (imgPreview) {
+                imgPreview.removeAttribute("src");
+                imgPreview.style.display = "none";
+            }
+            if (plusIcon) plusIcon.style.display = "block";
+            deleteBtn.style.display = "none";
         }
     }
 });
 
+// Create a new input to upload another image
 function createNewUpload(index) {
     const container = document.createElement("div");
     container.classList.add("new-project-middle");
