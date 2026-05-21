@@ -8,10 +8,10 @@
         {% block stylesheets %}
         {% endblock %}
         {% block javascripts %}
-                {{ importmap(['app', 'dropdown']) }}
+            {{ importmap(['app', 'dropdown']) }}
         {% endblock %}
         <script>
-           
+
         </script>
     </head>
     <body>
@@ -19,7 +19,9 @@
         <input type="checkbox" id="hamburger-toggle" class="hamburger-checkbox">
 
         <nav>
-            <a href="{{ path('app_home') }}" class="nav-logo">MangaShare</a>
+            <a href="{{ path('app_home') }}" class="nav-logo">
+                <img src="{{asset('uploads/mangashareLogoWhite.png')}}" alt="mangashareLogo">
+            </a>
 
             <div class="nav-links">
                 <a href="{{path('app_new_content')}}">Nouveautés</a>
@@ -74,6 +76,9 @@
                 </div>
             </div>
         </nav>
+        <div class="banner">
+            <img src="{{asset('uploads/MangashareBannerMobile.png')}}">
+        </div>
 
         {# Mobile Menu #}
         <div class="nav-mobile-menu">
@@ -120,6 +125,6 @@
                 <p>© {{ "now"|date("Y") }} MangaShare - Tous droits réservés</p>
             </div>
         </footer>
-        
+
     </body>
 </html>

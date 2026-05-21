@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    New Project
+{% endblock %}
+
+{%block stylesheets%}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}">
+{%endblock%}
+
+{% block javascripts %}
+    {{ importmap(['app', 'mangaPage']) }}
+{% endblock %}
+
+{% block body %}
+    <section class="home-section">
+        <div class="new-project-left">
+            <div class="new-project-top-left">
+                <input type="text" name="mangaTitle" placeholder="Titre du manga">
+                <div class="reading-direction">
+                    <span>Sens de Lecture</span>
+                    <button>JP</button>
+                    <button>FR</button>
+                </div>
+            </div>
+            <div id="upload-pages" class="upload-pages">
+                <div class="new-project-middle">
+                <span class="delete-btn-pages" style="display: none">&times;</span>
+                    <input type="file" id="file-upload" name="pages[]" accept="image/png, image/jpeg" class="file-input">
+                    <label for="file-upload" class="upload-file">
+                        <span class="plus-icon">+</span>
+                        <img class="image-preview" src="" alt="Aperçu" style="display: none;">
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

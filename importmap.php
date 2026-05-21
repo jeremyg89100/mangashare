@@ -20,6 +20,10 @@ return [
         'path' => './assets/dropdown.js',
         'entrypoint' => true,
     ],
+    'mangaPage' => [
+        'path' => './assets/newProject.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
