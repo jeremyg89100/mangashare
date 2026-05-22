@@ -44,7 +44,7 @@ class Manga
     /**
      * @var Collection<int, Chapter>
      */
-    #[ORM\OneToMany(targetEntity: Chapter::class, mappedBy: 'manga', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Chapter::class, mappedBy: 'manga', orphanRemoval: true, cascade: ['persist'])]
     private Collection $chapters;
 
     /**
@@ -58,6 +58,9 @@ class Manga
      */
     #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'manga')]
     private Collection $likes;
+
+    #[ORM\Column(length: 80)]
+    private ?array $categories = null;
 
     public function __construct()
     {
@@ -253,6 +256,18 @@ class Manga
                 $like->setManga(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategories(): ?array
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(array $categories): static
+    {
+        $this->categories = $categories;
 
         return $this;
     }

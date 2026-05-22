@@ -20,7 +20,7 @@
                 <div class="project-card">
                     <div class="project-card-cover">
                         {% if manga.miniature %}
-                            <img src="{{ asset('uploads/' ~ manga.miniature) }}" alt="{{ manga.title }}">
+                            <img src="{{ asset('uploads/miniatures/' ~ manga.miniature) }}" alt="{{ manga.title }}">
                         {% else %}
                             <div class="project-card-placeholder">
                                 <p> {{manga.title}} </p>

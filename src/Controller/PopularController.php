@@ -15,7 +15,6 @@ final class PopularController extends AbstractController
         $popular = $mangaRepository->findMostPopular(6);
         return $this->render('popular/index.html.twig', [
             'popular' => $popular,
-            'controller_name' => 'PopularController',
         ]);
     }
 }

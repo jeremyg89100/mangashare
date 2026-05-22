@@ -15,7 +15,6 @@ final class HomeController extends AbstractController
         $popular = $mangaRepository->findMostPopular(6);
         $newContent = $mangaRepository->findBy([], ['createdAt' => 'DESC'], 6);
         return $this->render('home/index.html.twig', [
-            // 'controller_name' => 'HomeController',
             'popular' => $popular,
             'newContent' => $newContent,
         ]);

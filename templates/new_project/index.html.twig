@@ -13,59 +13,116 @@
 {% endblock %}
 
 {% block body %}
-    <section class="home-section">
-        <div class="new-project-left">
-            <div class="new-project-top-left">
-                <input type="text" name="mangaTitle" placeholder="Titre du manga">
-                <div class="reading-direction">
-                    <span>Sens de Lecture</span>
-                    <button>JP</button>
-                    <button>FR</button>
-                </div>
-            </div>
-            <div id="upload-pages" class="upload-pages">
-                <div class="new-project-middle">
-                    <span class="delete-btn-pages" style="display: none">&times;</span>
-                    <input type="file" id="file-upload" name="pages[]" accept="image/png, image/jpeg" class="file-input">
-                    <label for="file-upload" class="upload-file">
-                        <span class="plus-icon">+</span>
-                        <img class="image-preview" src="" alt="Aperçu" style="display: none;">
-                    </label>
-                </div>
-            </div>
-            <span>Synopsis</span>
-            <input type="text" placeholder="synopsis" class="project-synopsis">
-        </div>
-        <div class="new-project-right">
-            <input type="text" name="chapterTitle" placeholder="Titre du chapitre 1">
-            <span>Miniature</span>
-            <div id="upload-miniature" class="upload-miniature-container">
-                <div class="new-project-middle">
-                    <span class="delete-btn-pages" style="display: none">&times;</span>
-                    <input type="file" id="file-miniature" name="miniature" accept="image/png, image/jpeg" class="file-input-miniature">
-                    <label for="file-miniature" class="upload-file">
-                        <span class="plus-icon">+</span>
-                        <img class="image-preview" src="" alt="Aperçu" style="display: none;">
-                    </label>
-                </div>
-            </div>
-            <span>Catégories</span>
-            <div class="categories-section">
-                <button>Action</button>
-                <button>Romance</button>
-                <button>Fantastique</button>
-                <button>Tranche de Vie</button>
-                <button>Horreur</button>
-                <button>Comédie</button>
-                <button>Sport</button>
-            </div>
-            <span>Statut</span>
-            <div class="status-section">
-                <button>En Cours</button>
-                <button>Terminé</button>
-                <button>En Pause</button>
-            </div>
+    <form action="{{path('app_new_project')}}" method="POST" enctype="multipart/form-data">
+        <section class="home-section">
+            <div class="new-project-left">
+                <h1>Nouveau Manga :</h1>
+                <div class="new-project-top-left">
+                    <span class="span-color">Titre du Manga :</span>
+                    <input type="text" name="mangaTitle" placeholder="Titre du manga">
 
-        </div>
-    </section>
+                    <span class="span-color">Sens de Lecture :</span>
+                    <div class="reading-direction">
+                        <label class="reading-direction-btn">
+                            <input type="radio" name="reading-direction" value="JP" style="display: none;">
+                            <span class="btn-text">JP</span>
+                        </label>
+                        <label class="reading-direction-btn">
+                            <input type="radio" name="reading-direction" value="JP" style="display: none;">
+                            <span class="btn-text">FR</span>
+                        </label>
+                    </div>
+                </div>
+                <span  class="span-color, margin-bottom-span">Ajouter des pages :</span>
+                <div id="upload-pages" class="upload-pages">
+                    <div class="new-project-middle">
+                        <span class="delete-btn-pages" style="display: none">&times;</span>
+                        <input type="file" id="file-upload" name="pages[]" accept="image/png, image/jpeg" class="file-input">
+                        <label for="file-upload" class="upload-file">
+                            <span class="plus-icon">+</span>
+                            <img class="image-preview" src="" alt="Aperçu" style="display: none;">
+                        </label>
+                    </div>
+                </div>
+                <span class="span-color">Synopsis :</span>
+                <input type="text" placeholder="Synopsis" name="synopsis" class="project-synopsis">
+            </div>
+            <div class="new-project-right">
+                <span class="span-color">Titre du chapître :</span>
+                <input type="text" name="chapterTitle" placeholder="Titre du chapitre 1">
+                <span  class="span-color">Miniature :</span>
+                <div id="upload-miniature" class="upload-miniature-container">
+                    <div class="new-project-middle">
+                        <span class="delete-btn-pages" style="display: none">&times;</span>
+                        <input type="file" id="file-miniature" name="miniature" accept="image/png, image/jpeg" class="file-input-miniature">
+                        <label for="file-miniature" class="upload-file">
+                            <span class="plus-icon">+</span>
+                            <img class="image-preview" src="" alt="Aperçu" style="display: none;">
+                        </label>
+                    </div>
+                </div>
+                <span  class="span-color">Catégories :</span>
+                <div class="categories-section">
+                    <label class="category-btn">
+                        <input type="checkbox" name="categories[]" value="Action" style="display: none;">
+                        <span class="btn-text">Action</span>
+                    </label>
+                    <label class="category-btn">
+                        <input type="checkbox" name="categories[]" value="Romance" style="display: none;">
+                        <span class="btn-text">Romance</span>
+                    </label>
+                    <label class="category-btn">
+                        <input type="checkbox" name="categories[]" value="Fantastique" style="display: none;">
+                        <span class="btn-text">Fantastique</span>
+                    </label>
+                    <label class="category-btn">
+                        <input type="checkbox" name="categories[]" value="Tranche de vie" style="display: none;">
+                        <span class="btn-text">Tranche de vie</span>
+                    </label>
+                    <label class="category-btn">
+                        <input type="checkbox" name="categories[]" value="Horreur" style="display: none;">
+                        <span class="btn-text">Horreur</span>
+                    </label>
+                    <label class="category-btn">
+                        <input type="checkbox" name="categories[]" value="Comédie" style="display: none;">
+                        <span class="btn-text">Comédie</span>
+                    </label>
+                    <label class="category-btn">
+                        <input type="checkbox" name="categories[]" value="Sport" style="display: none;">
+                        <span class="btn-text">Sport</span>
+                    </label>
+                </div>
+                <span class="span-color">Statut :</span>
+                <div class="status-section">
+                    <label class="status-btn">
+                        <input type="radio" name="status" value="En cours" style="display: none;">
+                        <span class="btn-text">En cours</span>
+                    </label>
+                    <label class="status-btn">
+                        <input type="radio" name="status" value="Terminé" style="display: none;">
+                        <span class="btn-text">Terminé</span>
+                    </label>
+                    <label class="status-btn">
+                        <input type="radio" name="status" value="En pause" style="display: none;">
+                        <span class="btn-text">En pause</span>
+                    </label>
+                </div>
+                <span class="span-color">Statut :</span>
+                <div class="publish-section">
+                    <label class="publish-btn">
+                        <input type="radio" name="published" value="Publié" style="display: none;">
+                        <span class="btn-text">Publié</span>
+                    </label>
+                    <label class="publish-btn">
+                        <input type="radio" name="published" value="Non publié" style="display: none;">
+                        <span class="btn-text">Non publié</span>
+                    </label>
+                </div>
+                <div class="userpage-buttons-save">
+                    <button type="submit">Créer le manga</button>
+                    <button type="button">Annuler</button>
+                </div>
+            </div>
+        </section>
+    </form>
 {% endblock %}
