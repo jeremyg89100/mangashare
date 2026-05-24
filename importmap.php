@@ -20,6 +20,10 @@ return [
         'path' => './assets/dropdown.js',
         'entrypoint' => true,
     ],
+    'toolbar' => [
+        'path' => './assets/toolbarEditor.js',
+        'entrypoint' => true,
+    ],
     'mangaPage' => [
         'path' => './assets/newProject.js',
         'entrypoint' => true,

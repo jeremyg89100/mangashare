@@ -12,7 +12,7 @@
     <section class="home-section">
         <div class="project-header project-buttons">
             <h1>Partages tes astuces avec la communauté !</h1>
-            <button class="add-project-button">Ecris un article</button>
+            <a href="{{path('app_new_article')}}" class="add-project-button">Ecris un article</a>
         </div>
         <div class="project-section">
             <h3>Your Articles</h3>
@@ -30,7 +30,7 @@
                             <div class="article-card-left">
                                 <div class="article-img">
                                     {% if article.miniature %}
-                                        <img src="{{ asset('uploads/' ~ article.miniature) }}" alt="{{ article.title }}">
+                                        <img src="{{ asset('uploads/miniatureArticle/' ~ article.miniature) }}" alt="{{ article.title }}">
                                     {% else %}
                                         <div class="project-card-placeholder">
                                             <p> {{article.title}} </p>
@@ -50,7 +50,7 @@
                             <div class="article-card-right">
                                 <div class="article-content">
                                     <h3> {{article.title}} </h3>
-                                    <p> {{article.textContent}} </p>
+                                    <p> {{article.textContent|raw}} </p>
                                 </div>
                             </div>
                         </div>
