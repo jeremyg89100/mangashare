@@ -1,20 +1,70 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EditChapterController!{% endblock %}
+{% block title %}
+    Edit Chapter
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}" >
+{% endblock %}
+
+{% block javascripts %}
+    {{ importmap([ 'app','mangaPage']) }}
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <form action="{{path('app_edit_chapter', {'id' : chapter.id})}}" method="POST" enctype="multipart/form-data">
+        <section class="home-section">
+            <div class="new-project-left">
+                <h1>Edite ton chapitre :</h1>
+                <span class="span-color margin-bottom-span">Ajouter des pages :</span>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                <div id="upload-pages" class="upload-pages">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/jerem/mangashare/mangashare/src/Controller/EditChapterController.php</code></li>
-        <li>Your template at <code>/home/jerem/mangashare/mangashare/templates/edit_chapter/index.html.twig</code></li>
-    </ul>
-</div>
+                    {% for page in chapter.pages %}
+                        <div class="new-project-middle">
+                            <span class="delete-btn-pages" style="display: flex;">&times;</span>
+
+                            <input type="file" id="file-upload-{{ loop.index }}" name="pages[]" accept="image/png, image/jpeg" class="file-input">
+
+                            <label for="file-upload-{{ loop.index }}" class="upload-file">
+                                <span class="plus-icon" style="display: none;">+</span>
+                                <img class="image-preview" src="{{ asset('uploads/pages/' ~ page.imageUrl) }}" alt="Page {{ page.pageOrder }}" style="display: block;">
+                            </label>
+                        </div>
+                    {% endfor %}
+
+                    <div class="new-project-middle">
+                        <span class="delete-btn-pages" style="display: none">&times;</span>
+                        <input type="file" id="file-upload-new" name="pages[]" accept="image/png, image/jpeg" class="file-input">
+
+                        <label for="file-upload-new" class="upload-file">
+                            <span class="plus-icon">+</span>
+                            <img class="image-preview" src="" alt="Aperçu" style="display: none;">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="new-project-right">
+                <span class="span-color">Titre du chapitre :</span>
+                <input type="text" name="chapterTitle" value="{{chapter.title}}">
+                <span class="span-color">Publication :</span>
+                <div class="publish-section">
+                    <label class="publish-btn">
+                        <input type="radio" name="published" value="Publié" style="display: none;">
+                        <span class="btn-text">Publié</span>
+                    </label>
+                    <label class="publish-btn">
+                        <input type="radio" name="published" value="Non publié" style="display: none;">
+                        <span class="btn-text">Non publié</span>
+                    </label>
+                </div>
+                <div class="userpage-buttons-save">
+                    <button type="submit">Editer le chapitre</button>
+                    <button type="button" onclick="window.history.back();">Annuler</button>
+                </div>
+            </div>
+
+        </section>
+    </form>
 {% endblock %}

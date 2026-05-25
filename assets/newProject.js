@@ -11,7 +11,7 @@ function handleImagePreview(fileInput) {
             if (imgPreview) {
                 imgPreview.src = e.target.result;
                 imgPreview.style.display = "block";
-                plusIcon.style.display = "none";
+                if (plusIcon) plusIcon.style.display = "none";
             }
             if (deleteBtn) deleteBtn.style.display = "flex";
         };
@@ -20,17 +20,11 @@ function handleImagePreview(fileInput) {
 }
 
 // Add image to miniature
-const uploadMiniature = document.querySelector("#upload-miniature");
-
-uploadMiniature.addEventListener("change", function (event) {
-    if (event.target.classList.contains("file-input-miniature")) {
-        handleImagePreview(event.target);
-    }
-});
-
-// Add images to the pages section
 const uploadPages = document.querySelector("#upload-pages");
-let fileCounter = 0;
+
+let fileCounter = document.querySelectorAll(
+    "#upload-pages .new-project-middle",
+).length;
 
 uploadPages.addEventListener("change", function (event) {
     if (event.target.classList.contains("file-input")) {
@@ -51,14 +45,15 @@ document.addEventListener("click", function (event) {
     if (event.target.classList.contains("delete-btn-pages")) {
         const deleteBtn = event.target;
         const container = deleteBtn.closest(".new-project-middle");
+
+        if (!container) return;
+
         const fileInput = container.querySelector("input[type='file']");
         const imgPreview = container.querySelector(".image-preview");
         const plusIcon = container.querySelector(".plus-icon");
+        const totalPages = uploadPages ? uploadPages.children.length : 0;
 
-        if (
-            container.closest("#upload-pages") &&
-            uploadPages.children.length > 1
-        ) {
+        if (container.closest("#upload-pages") && totalPages > 1) {
             container.remove();
         } else {
             if (fileInput) fileInput.value = "";
@@ -72,21 +67,20 @@ document.addEventListener("click", function (event) {
     }
 });
 
-// Create a new input to upload another image
+// Create new input to upload another image
 function createNewUpload(index) {
     const container = document.createElement("div");
     container.classList.add("new-project-middle");
 
-    // Create file input
     const input = document.createElement("input");
     input.type = "file";
-    input.id = `file-upload-${index}`;
+    input.id = `file-upload-new-${index}`;
     input.name = "pages[]";
     input.accept = "image/png, image/jpeg";
     input.classList.add("file-input");
 
     const label = document.createElement("label");
-    label.setAttribute("for", `file-upload-${index}`);
+    label.setAttribute("for", `file-upload-new-${index}`);
     label.classList.add("upload-file");
 
     const plusSpan = document.createElement("span");
@@ -104,7 +98,6 @@ function createNewUpload(index) {
     deleteBtnPage.style.display = "none";
 
     label.append(plusSpan, img);
-
     container.append(input, label, deleteBtnPage);
 
     uploadPages.appendChild(container);

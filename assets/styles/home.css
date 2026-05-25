@@ -497,8 +497,39 @@ body {
 #editor-article {
     border-radius: 8px;
 }
-.new-project-middle {
+.upload-pages {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
     margin-bottom: 20px;
+}
+
+.new-project-middle {
+    position: relative;
+    width: 100px;
+    height: 140px;
+    display: block;
+}
+
+.page-upload-block {
+    position: relative;
+    width: 100px;
+    height: 140px;
+    flex-shrink: 0;
+}
+
+.upload-file {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #666;
+    border-radius: 8px;
+    cursor: pointer;
+    overflow: hidden;
 }
 .project-synopsis,
 .article-synopsis {
@@ -523,24 +554,6 @@ body {
 
 .file-input {
     display: none;
-}
-
-.upload-file {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 100px;
-    background-color: #666;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.upload-pages {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
 }
 
 .margin-bottom-span {
@@ -569,12 +582,6 @@ body {
     transform: scale(1.1);
 }
 
-.new-project-middle {
-    position: relative;
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-}
 .reading-direction {
     display: flex;
     flex-direction: row;
