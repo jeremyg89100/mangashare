@@ -256,12 +256,44 @@ body {
     gap: 8px;
     width: 100%;
 }
-.project-buttons button {
+
+.chapter-btn {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.chapter-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.chapter-text-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.chapter-publish {
+    border: #555 solid 1px;
+    border-radius: 8px;
+    background-color: #888;
+    color: white;
+    padding: 5px 12px;
+}
+.project-buttons button,
+.project-buttons a,
+.chapter-btn button,
+.chapter-btn a {
     background-color: black;
     color: white;
     padding: 8px;
     border-radius: 8px;
     width: 100%;
+    text-align: center;
 }
 
 /* Filter */
