@@ -15,7 +15,7 @@
         <h2>Le plus populaire</h2>
         <div class="manga-grid">
             {% for manga in popular %}
-                <a href="#" class="manga-card">
+                <a href="{{path('app_info_manga', {'id' : manga.id })}}" class="manga-card">
                     <div class="manga-card-cover">
                         {% if manga.miniature %}
                             <img src="{{ asset('uploads/' ~ manga.miniature) }}" alt="{{ manga.title }}">

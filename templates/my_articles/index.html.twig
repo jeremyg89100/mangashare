@@ -53,9 +53,9 @@
                                     <p> {{article.textContent|raw}} </p>
                                 </div>
                                 <div class="edit-btn">
-                                        <a href=" {{path('app_edit_articles', {'id' : article.id }) }} "> Editer </a>
-                                        <button type="button">Supprimer</button>
-                                    </div>
+                                    <a href=" {{path('app_edit_articles', {'id' : article.id }) }} "> Editer </a>
+                                    <button type="button">Supprimer</button>
+                                </div>
                             </div>
                         </div>
                     {%endfor%}

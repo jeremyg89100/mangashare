@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Infos Manga
+{% endblock %}
+
+{%block stylesheets%}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}">
+{%endblock%}
+
+{% block body %}
+
+    <section class="home-section">
+        <div class="manga-info">
+            <span class="manga-title">{{ manga.title }}</span>
+            <span class="manga-likes">
+                {{ manga.likes|length }}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+            </span>
+        </div>
+        <div class="manga-grid">
+            <a href="#" class="manga-card">
+                <div class="manga-card-cover">
+                    {% if manga.miniature %}
+                        <img src="{{ asset('uploads/miniatures/' ~ manga.miniature) }}" alt="{{ manga.title }}">
+                    {% else %}
+                        <div class="manga-card-placeholder">
+                            <p> {{manga.title}} </p>
+                        </div>
+                    {% endif %}
+                </div>
+            </a>
+            <div class="manga-side-info">
+                <span class="manga-author">Crée par : {{ manga.user.pseudo }}</span>
+                <span>Synopsis : </span>
+                <<span class="manga-synopsis margin-top-class">{{manga.synopsis|raw}}</span>
+            </div>
+
+        </div>
+        <div class="edit-btn">
+            <a>Lire</a>
+            <button type="button">Commentaire</button>
+        </div>
+        <h3 class="margin-top-class">Chapitres : </h3>
+        {% for chapter in manga.chapters %}
+            <a href="#" class="chapter-card margin-top-class">
+                <span> {{chapter.title}} </span>
+                <span>#{{chapter.number}}</span>
+            </a>
+        {%endfor%}
+        {%if manga.comments%}
+            {% for comment in manga.comments %}
+                <div class="manga-comment">
+                    <span>{{comment.user.miniature}}</span>
+                    <span>{{comment.user}}</span>
+                    <span>{{comment.date}}</span>
+                    <span> {{comment.content}} </span>
+                </div>
+            {%endfor%}
+        {%endif%}
+    </section>
+
+{% endblock %}
