@@ -54,8 +54,8 @@
                             </div>
                             <div class="nav-dropdown-menu" id="user-dropdown">
                                 <a href="{{path('app_user_page')}}">Mon profil</a>
-                                <a href="#">Mes Projets</a>
-                                <a href="#">Mes Astuces</a>
+                                <a href="{{path('app_projects')}}">Mes Projets</a>
+                                <a href=" {{path('app_my_articles')}} ">Mes Astuces</a>
                                 <a href="#">Dashboard</a>
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <a href="#">Administration</a>

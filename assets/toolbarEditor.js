@@ -10,6 +10,12 @@ const quill = new Quill("#editor-article", {
     },
 });
 
+const hiddenTextarea = document.querySelector("#article-content-hidden");
+// If textarea already has text
+if (hiddenTextarea && hiddenTextarea.value) {
+    quill.root.innerHTML = hiddenTextarea.value;
+}
+
 const toolbar = quill.getModule("toolbar");
 toolbar.addHandler("image", () => {
     const input = document.createElement("input");

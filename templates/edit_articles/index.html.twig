@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Editeur d'article
+{% endblock %}
+
+{% block stylesheets%}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}">
+{%endblock%}
+
+{%block javascripts%}
+    <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
+    {{ importmap(['app', 'toolbar', 'mangaPage']) }}
+{%endblock%}
+
+{% block body %}
+    <form action="{{path('app_edit_articles', {'id' : article.id})}}" method="POST" enctype="multipart/form-data">
+        <section class="home-section">
+            <div class="new-article-left">
+                <h1>Nouvel Article :</h1>
+                <div class="new-article-top-left">
+                    <span class="span-color">Titre de l'article :</span>
+                    <input type="text" name="articleTitle" placeholder="Titre de l'article" value="{{article.title}}">
+                </div>
+                <span class="span-color">Contenu :</span>
+                <div id="editor-wrap">
+                    <div id="editor-article"></div>
+                    <textarea type="text" placeholder="Contenu de l'article" name="article-content" id="article-content-hidden" style="display:none" class="article-synopsis">{{article.textContent|raw}}</textarea>
+                </div>
+            </div>
+            <div class="new-project-right">
+                <span  class="span-color">Miniature :</span>
+                <div id="upload-miniature" class="upload-miniature-container">
+                    <div class="new-project-middle">
+                        <span class="delete-btn-pages" style="display: none">&times;</span>
+                        <input type="file" id="file-miniature" name="miniature" accept="image/png, image/jpeg" class="file-input-miniature">
+                        <label for="file-miniature" class="upload-file">
+                            {% if (article.miniature)%}
+                             <img class="image-preview" src="{{ article.miniature ? asset('uploads/miniatureArticle/' ~ article.miniature) : '' }}" alt="Aperçu" style="display: {{ article.miniature ? 'block' : 'none' }}">
+                            {%else%}
+                                <span class="plus-icon">+</span>
+                                <img class="image-preview" src="" alt="Aperçu" style="display: none">
+                            {%endif%}
+                        </label>
+                    </div>
+                </div>
+                <span  class="span-color margin-top-class">Catégories :</span>
+                <div class="categories-section">
+                    <label class="category-btn">
+                        <input type="radio" name="category" value="Dessin & anatomies" style="display: none;">
+                        <span class="btn-text">Dessin & anatomies</span>
+                    </label>
+                    <label class="category-btn">
+                        <input type="radio" name="category" value="Scenario & storytelling" style="display: none;">
+                        <span class="btn-text">Scenario & storytelling</span>
+                    </label>
+                    <label class="category-btn">
+                        <input type="radio" name="category" value="Technique & logiciels" style="display: none;">
+                        <span class="btn-text">Technique & logiciels</span>
+                    </label>
+                    <label class="category-btn">
+                        <input type="radio" name="category" value="Edition & publication" style="display: none;">
+                        <span class="btn-text">Edition & publication</span>
+                    </label>
+                </div>
+
+                <span class="span-color">Publication :</span>
+                <div class="publish-section">
+                    <label class="publish-btn">
+                        <input type="radio" name="published" value="1" style="display: none;">
+                        <span class="btn-text">Publié</span>
+                    </label>
+                    <label class="publish-btn">
+                        <input type="radio" name="published" value="0" style="display: none;">
+                        <span class="btn-text">Non publié</span>
+                    </label>
+                </div>
+                <div class="userpage-buttons-save">
+                    <button type="submit">Créer l'article</button>
+                    <button type="button">Annuler</button>
+                </div>
+            </div>
+        </section>
+    </form>
+{% endblock %}

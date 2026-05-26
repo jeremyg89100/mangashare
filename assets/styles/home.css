@@ -172,7 +172,9 @@ body {
     grid-column: 1/4;
     grid-row: 2;
 }
-
+.margin-top-class {
+    margin-top: 20px;
+}
 .img-rules {
     grid-column: 4/5;
     background-color: black;
@@ -257,7 +259,7 @@ body {
     width: 100%;
 }
 
-.chapter-btn {
+.edit-btn {
     display: flex;
     flex-direction: row;
     gap: 8px;
@@ -286,8 +288,8 @@ body {
 }
 .project-buttons button,
 .project-buttons a,
-.chapter-btn button,
-.chapter-btn a {
+.edit-btn button,
+.edit-btn a {
     background-color: black;
     color: white;
     padding: 8px;
@@ -332,6 +334,10 @@ body {
 .article-card {
     display: flex;
     flex-direction: row;
+}
+
+.article-content {
+    height: 100%;
 }
 
 .article-card-left {

@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{asset('styles/home.css')}}" >
+{% block title %}
+    Mes Articles
 {% endblock %}
 
-{% block title %}
-    Articles
-{% endblock %}
+{% block stylesheets%}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}">
+{%endblock%}
 
 {% block body %}
     <section class="home-section">
@@ -17,7 +17,7 @@
         <div class="project-section">
             <h3>Articles</h3>
             <div class="filter">
-                <a href="{{ path('app_articles')}}" class="chip {{ currentCategory is null ? 'active' }}">Tout</a>
+                <a href="{{ path('app_my_articles')}}" class="chip {{ currentCategory is null ? 'active' }}">Tout</a>
                 {% for cat in categories %}
                     <a href="{{ path('app_articles', {'category' : cat}) }}"
                         class="chip {{currentCategory == cat ? 'active'}}"> {{ cat }}
@@ -52,6 +52,10 @@
                                     <h3> {{article.title}} </h3>
                                     <p> {{article.textContent|raw}} </p>
                                 </div>
+                                <div class="edit-btn">
+                                        <a href=" {{path('app_edit_articles', {'id' : article.id }) }} "> Editer </a>
+                                        <button type="button">Supprimer</button>
+                                    </div>
                             </div>
                         </div>
                     {%endfor%}
