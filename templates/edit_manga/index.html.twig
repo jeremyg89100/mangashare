@@ -12,7 +12,7 @@
     <section class="home-section">
         <div class="project-header project-buttons">
             <h1>Edites ou ajoute un chapître à ton projet !</h1>
-            <a class="add-project-button" href="{{path('app_new_project')}}">Ajouter un nouveau chapitre</a>
+            <a class="add-project-button" href="{{path('app_add_chapter', {'id' : manga.id })}}">Ajouter un nouveau chapitre</a>
         </div>
 
         <div class="chapter-section">
@@ -20,7 +20,7 @@
             {% for chapter in manga.chapters %}
                 <div class="chapter-title">
                     <div class="chapter-text-group">
-                        <span>Chapitre {{chapter.number}} :</span>
+                        <span>Chapitre {{loop.index}} :</span>
                         <h3>{{chapter.title}}</h3>
                     </div>
 
@@ -34,7 +34,10 @@
                 </div>
                 <div class="edit-btn">
                     <a href="{{path('app_edit_chapter', {'id' : chapter.id })}}">Editer</a>
-                    <button>Supprimer</button>
+                    <form action="{{path('app_delete_chapter', {'id': chapter.id})}}" method="POST" onsubmit="return confirm('Supprimer ce chapître ?')">
+                        <input type="hidden" name="_token" value="{{csrf_token('delete ~ chapter.id')}}">
+                        <button type="submit">Supprimer</button>
+                    </form>
                 </div>
             {% endfor %}
         </div>

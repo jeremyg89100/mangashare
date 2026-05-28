@@ -18,7 +18,7 @@
                 <a href="{{path('app_info_manga', {'id' : manga.id })}}" class="manga-card">
                     <div class="manga-card-cover">
                         {% if manga.miniature %}
-                            <img src="{{ asset('uploads/' ~ manga.miniature) }}" alt="{{ manga.title }}">
+                            <img src="{{ asset('uploads/miniatures/' ~ manga.miniature) }}" alt="{{ manga.title }}">
                         {% else %}
                             <div class="manga-card-placeholder">
                                 <p> {{manga.title}} </p>

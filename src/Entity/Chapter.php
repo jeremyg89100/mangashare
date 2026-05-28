@@ -34,7 +34,7 @@ class Chapter
     /**
      * @var Collection<int, Page>
      */
-    #[ORM\OneToMany(targetEntity: Page::class, mappedBy: 'chapter', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Page::class, mappedBy: 'chapter', orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $pages;
 
     public function __construct()

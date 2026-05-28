@@ -47,7 +47,7 @@
         {% for chapter in manga.chapters %}
             <a href="#" class="chapter-card margin-top-class">
                 <span> {{chapter.title}} </span>
-                <span>#{{chapter.number}}</span>
+                <span>#{{loop.index}}</span>
             </a>
         {%endfor%}
         {%if manga.comments%}
