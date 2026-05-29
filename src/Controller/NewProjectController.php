@@ -41,14 +41,14 @@ final class NewProjectController extends AbstractController
             $manga->setStatus($status);
             $manga->setCategories($categories);
             $manga->setViews(0);
-            $manga->setCreatedAt(new \DateTime());
+            $manga->setCreatedAt(new \DateTimeImmutable());
             $manga->setUser($user);
 
             $chapter = new Chapter();
             $chapter->setTitle($chapterTitle);
             $chapter->setNumber(1);
             $chapter->setPublished($publication);
-            $chapter->setCreatedAt(new \DateTime());
+            $chapter->setCreatedAt(new \DateTimeImmutable());
 
             if ($miniatureFile instanceof UploadedFile) {
                 $originalFileName = pathinfo($miniatureFile->getClientOriginalName(), \PATHINFO_FILENAME);

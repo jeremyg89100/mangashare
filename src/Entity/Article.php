@@ -17,26 +17,26 @@ class Article
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    private string $title;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $textContent = null;
+    private string $textContent;
 
     #[ORM\Column(length: 255)]
-    private ?string $miniature = null;
+    private string $miniature;
 
     #[ORM\Column(length: 80)]
-    private ?string $category = null;
+    private string $category;
 
     #[ORM\Column]
-    private ?bool $published = null;
+    private bool $published;
 
     #[ORM\Column]
-    private ?\DateTime $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private User $user;
 
     /**
      * @var Collection<int, Comment>
@@ -61,7 +61,7 @@ class Article
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -73,7 +73,7 @@ class Article
         return $this;
     }
 
-    public function getTextContent(): ?string
+    public function getTextContent(): string
     {
         return $this->textContent;
     }
@@ -85,7 +85,7 @@ class Article
         return $this;
     }
 
-    public function getMiniature(): ?string
+    public function getMiniature(): string
     {
         return $this->miniature;
     }
@@ -97,7 +97,7 @@ class Article
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getCategory(): string
     {
         return $this->category;
     }
@@ -109,7 +109,7 @@ class Article
         return $this;
     }
 
-    public function isPublished(): ?bool
+    public function isPublished(): bool
     {
         return $this->published;
     }
@@ -121,24 +121,24 @@ class Article
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(User $user): static
     {
         $this->user = $user;
 
@@ -195,12 +195,7 @@ class Article
 
     public function removeLike(Like $like): static
     {
-        if ($this->likes->removeElement($like)) {
-            // set the owning side to null (unless already changed)
-            if ($like->getArticle() === $this) {
-                $like->setArticle(null);
-            }
-        }
+        $this->likes->removeElement($like);
 
         return $this;
     }

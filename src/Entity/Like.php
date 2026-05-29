@@ -15,51 +15,51 @@ class Like
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?\DateTime $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(inversedBy: 'likes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Manga $manga = null;
+    private Manga $manga;
 
     #[ORM\ManyToOne(inversedBy: 'likes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Article $article = null;
+    private Article $article;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getManga(): ?Manga
+    public function getManga(): Manga
     {
         return $this->manga;
     }
 
-    public function setManga(?Manga $manga): static
+    public function setManga(Manga $manga): static
     {
         $this->manga = $manga;
 
         return $this;
     }
 
-    public function getArticle(): ?Article
+    public function getArticle(): Article
     {
         return $this->article;
     }
 
-    public function setArticle(?Article $article): static
+    public function setArticle(Article $article): static
     {
         $this->article = $article;
 

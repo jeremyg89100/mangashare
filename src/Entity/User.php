@@ -21,13 +21,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $pseudo = null;
+    private string $pseudo;
 
     #[ORM\Column(length: 255)]
-    private ?string $email = null;
+    private string $email;
 
     #[ORM\Column(length: 255)]
-    private ?string $password = null;
+    private string $password;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar = null;
@@ -35,8 +35,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTime $birthDate = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $birthDate = null;
 
     /**
      * @var list<string>
@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     #[ORM\Column]
-    private ?\DateTime $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     /**
      * @var Collection<int, Manga>
@@ -112,7 +112,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getPseudo(): ?string
+    public function getPseudo(): string
     {
         return $this->pseudo;
     }
@@ -124,7 +124,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -136,7 +136,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -172,12 +172,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBirthDate(): ?\DateTime
+    public function getBirthDate(): ?\DateTimeImmutable
     {
         return $this->birthDate;
     }
 
-    public function setBirthDate(?\DateTime $birthDate): static
+    public function setBirthDate(?\DateTimeImmutable $birthDate): static
     {
         $this->birthDate = $birthDate;
 
@@ -205,12 +205,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
@@ -237,12 +237,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeManga(Manga $manga): static
     {
-        if ($this->mangas->removeElement($manga)) {
-            // set the owning side to null (unless already changed)
-            if ($manga->getUser() === $this) {
-                $manga->setUser(null);
-            }
-        }
+        $this->mangas->removeElement($manga);
 
         return $this;
     }
@@ -267,12 +262,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeArticle(Article $article): static
     {
-        if ($this->articles->removeElement($article)) {
-            // set the owning side to null (unless already changed)
-            if ($article->getUser() === $this) {
-                $article->setUser(null);
-            }
-        }
+        $this->articles->removeElement($article);
 
         return $this;
     }
@@ -297,12 +287,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeComment(Comment $comment): static
     {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getUser() === $this) {
-                $comment->setUser(null);
-            }
-        }
+        $this->comments->removeElement($comment);
 
         return $this;
     }
@@ -327,11 +312,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeFollowsAsFollower(Follow $follow): static
     {
-        if ($this->followsAsFollower->removeElement($follow)) {
-            if ($follow->getFollower() === $this) {
-                $follow->setFollower(null);
-            }
-        }
+        $this->followsAsFollower->removeElement($follow);
 
         return $this;
     }
@@ -356,11 +337,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeFollowsAsFollowing(Follow $follow): static
     {
-        if ($this->followsAsFollowing->removeElement($follow)) {
-            if ($follow->getFollowing() === $this) {
-                $follow->setFollowing(null);
-            }
-        }
+        $this->followsAsFollowing->removeElement($follow);
 
         return $this;
     }
@@ -385,11 +362,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeReportingsSent(Reporting $reporting): static
     {
-        if ($this->reportingsSent->removeElement($reporting)) {
-            if ($reporting->getAuthor() === $this) {
-                $reporting->setAuthor(null);
-            }
-        }
+        $this->reportingsSent->removeElement($reporting);
 
         return $this;
     }
@@ -414,11 +387,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeReportingsReceived(Reporting $reporting): static
     {
-        if ($this->reportingsReceived->removeElement($reporting)) {
-            if ($reporting->getTarget() === $this) {
-                $reporting->setTarget(null);
-            }
-        }
+        $this->reportingsReceived->removeElement($reporting);
 
         return $this;
     }
@@ -443,19 +412,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeNotification(Notification $notification): static
     {
-        if ($this->notifications->removeElement($notification)) {
-            // set the owning side to null (unless already changed)
-            if ($notification->getUser() === $this) {
-                $notification->setUser(null);
-            }
-        }
+        $this->notifications->removeElement($notification);
 
         return $this;
     }
 
     public function getUserIdentifier(): string
     {
-        \assert(null !== $this->email && '' !== $this->email);
+        \assert('' !== $this->email);
 
         return $this->email;
     }

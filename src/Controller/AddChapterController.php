@@ -29,7 +29,7 @@ final class AddChapterController extends AbstractController
             $chapterNumber = \count($manga->getChapters()) + 1;
             $chapter->setNumber($chapterNumber);
             $chapter->setPublished($publication);
-            $chapter->setCreatedAt(new \DateTime());
+            $chapter->setCreatedAt(new \DateTimeImmutable());
 
             $pageOrder = 1;
             foreach ($pages as $pageFile) {

@@ -30,7 +30,7 @@ class RegistrationController extends AbstractController
 
             $user->setRoles([]);
 
-            $user->setCreatedAt(new \DateTime());
+            $user->setCreatedAt(new \DateTimeImmutable());
 
             $entityManager->persist($user);
             $entityManager->flush();

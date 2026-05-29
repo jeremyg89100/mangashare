@@ -17,7 +17,7 @@ class Manga
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    private string $title;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $synopsis = null;
@@ -26,20 +26,20 @@ class Manga
     private ?string $miniature = null;
 
     #[ORM\Column(length: 10)]
-    private ?string $readingDirection = null;
+    private string $readingDirection;
 
     #[ORM\Column(length: 20)]
-    private ?string $status = null;
+    private string $status;
 
     #[ORM\Column]
-    private ?int $views = null;
+    private int $views;
 
     #[ORM\Column]
-    private ?\DateTime $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(inversedBy: 'mangas')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private User $user;
 
     /**
      * @var Collection<int, Chapter>
@@ -60,10 +60,10 @@ class Manga
     private Collection $likes;
 
     /**
-     * @var array<int, string>|null
+     * @var array<int, string>
      */
     #[ORM\Column(length: 80)]
-    private ?array $categories = null;
+    private array $categories = [];
 
     public function __construct()
     {
@@ -77,7 +77,7 @@ class Manga
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -113,7 +113,7 @@ class Manga
         return $this;
     }
 
-    public function getReadingDirection(): ?string
+    public function getReadingDirection(): string
     {
         return $this->readingDirection;
     }
@@ -125,7 +125,7 @@ class Manga
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -137,7 +137,7 @@ class Manga
         return $this;
     }
 
-    public function getViews(): ?int
+    public function getViews(): int
     {
         return $this->views;
     }
@@ -149,24 +149,24 @@ class Manga
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(User $user): static
     {
         $this->user = $user;
 
@@ -193,12 +193,7 @@ class Manga
 
     public function removeChapter(Chapter $chapter): static
     {
-        if ($this->chapters->removeElement($chapter)) {
-            // set the owning side to null (unless already changed)
-            if ($chapter->getManga() === $this) {
-                $chapter->setManga(null);
-            }
-        }
+        $this->chapters->removeElement($chapter);
 
         return $this;
     }
@@ -253,20 +248,15 @@ class Manga
 
     public function removeLike(Like $like): static
     {
-        if ($this->likes->removeElement($like)) {
-            // set the owning side to null (unless already changed)
-            if ($like->getManga() === $this) {
-                $like->setManga(null);
-            }
-        }
+        $this->likes->removeElement($like);
 
         return $this;
     }
 
     /**
-     * @return array<int, string>|null
+     * @return array<int, string>
      */
-    public function getCategories(): ?array
+    public function getCategories(): array
     {
         return $this->categories;
     }

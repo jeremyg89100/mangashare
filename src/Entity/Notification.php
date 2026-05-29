@@ -14,27 +14,27 @@ class Notification
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $message = null;
+    private string $message;
 
     #[ORM\Column]
-    private ?bool $hasBeenRead = null;
+    private bool $hasBeenRead;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $link = null;
 
     #[ORM\Column]
-    private ?\DateTime $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private User $user;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getMessage(): ?string
+    public function getMessage(): string
     {
         return $this->message;
     }
@@ -46,7 +46,7 @@ class Notification
         return $this;
     }
 
-    public function hasBeenRead(): ?bool
+    public function hasBeenRead(): bool
     {
         return $this->hasBeenRead;
     }
@@ -70,24 +70,24 @@ class Notification
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(User $user): static
     {
         $this->user = $user;
 
