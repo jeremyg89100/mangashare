@@ -23,10 +23,10 @@
                 <div class="userpage-pseudo-avatar">
                     <div class="pseudo-userpage">
                         <label>Pseudo</label>
-                        <input type="text" id="pseudo" name="pseudo" placeholder="pseudo">
+                        <input type="text" id="pseudo" name="pseudo" value="{{user.pseudo}}" placeholder="pseudo">
                     </div>
                     <div class="avatar-profil-30px">
-                        <input type="file" id="file-avatar" name="avatar" accept="image/png, image/jpeg" class="file-input-avatar" style="display: none !important;">
+                        <input type="file" id="file-avatar" name="avatar" accept="image/png, image/jpeg" class="file-input-avatar" style="display: none;">
 
                         <label for="file-avatar" class="avatar-click-zone">
                             {% if app.user.avatar %}
@@ -35,25 +35,25 @@
                                 <span class="avatar-letter avatar-placeholder">
                                     {{ app.user.pseudo|slice(0,1)|upper }}
                                 </span>
-                                <img class="image-preview" src="" alt="Aperçu" style="display: none !important;">
+                                <img class="image-preview" src="" alt="Aperçu" style="display: none;">
                             {% endif %}
                         </label>
                     </div>
                 </div>
 
                 <label>E-mail</label>
-                <input type="text" id="email" name="email" placeholder="E-mail">
+                <input type="text" id="email" name="email" value="{{user.email}}">
                 <label>Date de naissance</label>
-                <input type="date" id="birthdate" name="birthdate" placeholder="XX/XX/XXXX">
+                <input type="date" id="birthdate" name="birthdate" value="{{user.birthdate ? user.birthdate|date('Y-m-d') : ''}}">
                 <label>Description (optionnelle)</label>
-                <input type="text" id="description" name="description" placeholder="Description">
+                <input type="text" id="description" name="description" value="{{user.description}}">
                 <label>Changement de mot de passe</label>
                 <input type="text" id="changePassword" name="changePassword" placeholder="mot de passe">
                 <label>Confirmation du mot de passe</label>
                 <input type="text" id="passwordConfirm" name="passwordConfirm" placeholder="mot de passe">
                 <div class="userpage-buttons-save">
                     <button type="submit">Sauvegarder</button>
-                    <button type="button">Annuler</button>
+                    <button type="button" onclick="window.history.back();">Annuler</button>
                 </div>
             </div>
         </div>
