@@ -54,7 +54,10 @@
                                 </div>
                                 <div class="edit-btn">
                                     <a href=" {{path('app_edit_articles', {'id' : article.id }) }} "> Editer </a>
-                                    <button type="button">Supprimer</button>
+                                    <form action="{{path('app_delete_article', {'id': article.id})}}" method="POST" onsubmit="return confirm('Supprimer cet article ?')">
+                                        <input type="hidden" name="_token" value="{{csrf_token('delete ~ chapter.id')}}">
+                                        <button type="submit">Supprimer</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

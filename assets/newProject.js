@@ -26,7 +26,7 @@ let fileCounter = document.querySelectorAll(
     "#upload-pages .new-project-middle",
 ).length;
 
-uploadPages.addEventListener("change", function (event) {
+document.addEventListener("change", function (event) {
     if (event.target.classList.contains("file-input")) {
         const fileInput = event.target;
         const container = fileInput.closest(".new-project-middle");
@@ -37,6 +37,10 @@ uploadPages.addEventListener("change", function (event) {
             fileCounter++;
             createNewUpload(fileCounter);
         }
+    }
+
+    if (event.target.classList.contains("file-input-miniature")) {
+        handleImagePreview(event.target);
     }
 });
 

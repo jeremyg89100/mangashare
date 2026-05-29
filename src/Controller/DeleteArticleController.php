@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\Article;
+use Doctrine\ORM\EntityManagerInterface;
+
+final class DeleteArticleController extends AbstractController
+{
+    #[Route('/delete/article/{id}', name: 'app_delete_article')]
+    public function index(Article $article, EntityManagerInterface $em): Response
+    {
+        $em->remove($article);
+        $em->flush();
+
+        return $this->redirectToRoute('app_my_articles');
+        return $this->render('delete_article/index.html.twig', [
+        ]);
+    }
+}

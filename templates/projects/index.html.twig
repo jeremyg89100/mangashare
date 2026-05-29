@@ -31,7 +31,10 @@
                         <span> {{manga.title}} </span>
                         <div class="project-buttons">
                             <a href="{{path('app_edit_manga', {'id' : manga.id})}}">Editer</a>
-                            <button>Supprimer</button>
+                            <form action="{{path('app_delete_manga', {'id': manga.id})}}" method="POST" onsubmit="return confirm('Supprimer ce manga ?')">
+                                <input type="hidden" name="_token" value="{{csrf_token('delete ~ manga.id')}}">
+                                <button type="submit">Supprimer</button>
+                            </form>
                         </div>
                     </div>
                 </div>
