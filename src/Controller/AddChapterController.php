@@ -8,6 +8,7 @@ use App\Entity\Page;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,9 +20,9 @@ final class AddChapterController extends AbstractController
     public function index(Request $request, SluggerInterface $slugger, Manga $manga, EntityManagerInterface $em, #[Autowire('%kernel.project_dir%/public/uploads/miniatures')] string $miniatureDirectory, #[Autowire('%kernel.project_dir%/public/uploads/pages')] string $pageDirectory): Response
     {
         if ($request->isMethod('POST')) {
-            $publication = $request->request->get('published');
-            $pages = $request->files->get('pages');
-            $chapterTitle = $request->request->get('chapterTitle');
+            $publication = $request->request->getBoolean('published');
+            $pages = $request->files->all('pages');
+            $chapterTitle = $request->request->getString('chapterTitle');
 
             $chapter = new Chapter();
             $chapter->setTitle($chapterTitle);
@@ -30,21 +31,22 @@ final class AddChapterController extends AbstractController
             $chapter->setPublished($publication);
             $chapter->setCreatedAt(new \DateTime());
 
-            if ($pages) {
-                $pageOrder = 1;
-                foreach ($pages as $pageFile) {
-                    $originalPageName = pathinfo($pageFile->getClientOriginalName(), \PATHINFO_FILENAME);
-                    $safePageName = $slugger->slug($originalPageName);
-                    $newPageName = $safePageName.'-'.uniqid().'.'.$pageFile->guessExtension();
-
-                    $pageFile->move($pageDirectory, $newPageName);
-
-                    $page = new Page();
-                    $page->setImageUrl($newPageName);
-                    $page->setPageOrder($pageOrder);
-                    ++$pageOrder;
-                    $chapter->addPage($page);
+            $pageOrder = 1;
+            foreach ($pages as $pageFile) {
+                if (!$pageFile instanceof UploadedFile) {
+                    continue;
                 }
+                $originalPageName = pathinfo($pageFile->getClientOriginalName(), \PATHINFO_FILENAME);
+                $safePageName = $slugger->slug($originalPageName);
+                $newPageName = $safePageName.'-'.uniqid().'.'.$pageFile->guessExtension();
+
+                $pageFile->move($pageDirectory, $newPageName);
+
+                $page = new Page();
+                $page->setImageUrl($newPageName);
+                $page->setPageOrder($pageOrder);
+                ++$pageOrder;
+                $chapter->addPage($page);
             }
 
             $manga->addChapter($chapter);

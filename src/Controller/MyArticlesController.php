@@ -13,7 +13,7 @@ final class MyArticlesController extends AbstractController
     #[Route('/my/articles', name: 'app_my_articles')]
     public function index(Request $request, ArticleRepository $articleRepository): Response
     {
-        $category = $request->query->get('category');
+        $category = $request->query->getString('category');
         $categories = [
             'Dessin & Anatomies',
             'Scenario & Storytelling',
@@ -21,7 +21,7 @@ final class MyArticlesController extends AbstractController
             'Edition & Publication',
         ];
 
-        if ($category && \in_array($category, $categories)) {
+        if ('' !== $category && \in_array($category, $categories, true)) {
             $articles = $articleRepository->findMostPopularByCategory($category, 12);
         } else {
             $articles = $articleRepository->findMostPopular(12);

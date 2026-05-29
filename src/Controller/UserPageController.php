@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -19,42 +21,40 @@ final class UserPageController extends AbstractController
     public function index(EntityManagerInterface $em, SluggerInterface $slugger, Request $request, UserPasswordHasherInterface $passwordHasher, #[Autowire('%kernel.project_dir%/public/uploads/avatar')] string $avatarDirectory): Response
     {
         $user = $this->getUser();
-        /** @var \App\Entity\User $user */
-        if (!$user) {
-            throw $this->createAccessDeniedException('Vous devez être connecté.');
-        }
+        \assert($user instanceof User);
+
         if ($request->isMethod('POST')) {
-            $userBirthdate = $request->request->get('birthdate');
-            $username = $request->request->get('pseudo');
-            $mail = $request->request->get('email');
-            $userDescription = $request->request->get('description');
-            $changePassword = $request->request->get('changePassword');
-            $confirmPassword = $request->request->get('passwordConfirm');
+            $userBirthdate = $request->request->getString('birthdate');
+            $username = $request->request->getString('pseudo');
+            $mail = $request->request->getString('email');
+            $userDescription = $request->request->getString('description');
+            $changePassword = $request->request->getString('changePassword');
+            $confirmPassword = $request->request->getString('passwordConfirm');
             $avatarFile = $request->files->get('avatar');
 
-            if ($changePassword != $confirmPassword) {
+            if ($changePassword !== $confirmPassword) {
                 $this->addFlash('error', 'Les mots de passe sont différents !');
 
                 return $this->redirectToRoute('app_userpage');
             }
-            if ($userBirthdate) {
+            if ('' !== $userBirthdate) {
                 $user->setBirthDate(new \DateTime($userBirthdate));
             }
-            if ($username) {
+            if ('' !== $username) {
                 $user->setPseudo($username);
             }
-            if ($mail) {
+            if ('' !== $mail) {
                 $user->setEmail($mail);
             }
-            if ($userDescription) {
+            if ('' !== $userDescription) {
                 $user->setDescription($userDescription);
             }
-            if ($changePassword) {
+            if ('' !== $changePassword) {
                 $hashedPassword = $passwordHasher->hashPassword($user, $changePassword);
                 $user->setPassword($hashedPassword);
             }
 
-            if ($avatarFile) {
+            if ($avatarFile instanceof UploadedFile) {
                 $originalFileName = pathinfo($avatarFile->getClientOriginalName(), \PATHINFO_FILENAME);
                 $safeFileName = $slugger->slug($originalFileName);
                 $newFileName = $safeFileName.'-'.uniqid().'.'.$avatarFile->guessExtension();

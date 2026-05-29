@@ -15,7 +15,7 @@ final class ProjectsController extends AbstractController
     public function index(MangaRepository $mangaRepository): Response
     {
         $user = $this->getUser();
-        $manga = $mangaRepository->findBy([], ['createdAt' => 'DESC'], '6');
+        $manga = $mangaRepository->findBy([], ['createdAt' => 'DESC'], 6);
 
         return $this->render('projects/index.html.twig', [
             'user' => $user,

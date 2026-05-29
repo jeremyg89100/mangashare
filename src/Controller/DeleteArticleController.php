@@ -17,8 +17,5 @@ final class DeleteArticleController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_my_articles');
-
-        return $this->render('delete_article/index.html.twig', [
-        ]);
     }
 }

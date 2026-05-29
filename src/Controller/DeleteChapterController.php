@@ -14,14 +14,17 @@ final class DeleteChapterController extends AbstractController
     #[Route('/delete/chapter/{id}', name: 'app_delete_chapter')]
     public function index(Chapter $chapter, Request $request, EntityManagerInterface $em): Response
     {
-        $mangaId = $chapter->getManga()->getId();
+        $manga = $chapter->getManga();
+
+        if (null === $manga) {
+            throw $this->createNotFoundException();
+        }
+
+        $mangaId = $manga->getId();
 
         $em->remove($chapter);
         $em->flush();
 
         return $this->redirectToRoute('app_edit_manga', ['id' => $mangaId]);
-
-        return $this->render('delete_chapter/index.html.twig', [
-        ]);
     }
 }

@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,12 +19,13 @@ final class NewArticleController extends AbstractController
     public function index(Request $request, SluggerInterface $slugger, EntityManagerInterface $em, #[Autowire('%kernel.project_dir%/public/uploads/miniatureArticle')] string $miniatureDirectory): Response
     {
         if ($request->isMethod('POST')) {
-            $articleTitle = $request->request->get('articleTitle');
-            $articleContent = $request->request->get('article-content');
+            $articleTitle = $request->request->getString('articleTitle');
+            $articleContent = $request->request->getString('article-content');
             $user = $this->getUser();
+            \assert($user instanceof User);
             $miniatureFile = $request->files->get('miniature');
-            $categories = $request->request->get('category');
-            $published = $request->request->get('published');
+            $categories = $request->request->getString('category');
+            $published = $request->request->getBoolean('published');
 
             $article = new Article();
             $article->setUser($user);
@@ -32,7 +35,7 @@ final class NewArticleController extends AbstractController
             $article->setCreatedAt(new \DateTime());
             $article->setTextContent($articleContent);
 
-            if ($miniatureFile) {
+            if ($miniatureFile instanceof UploadedFile) {
                 $originalFileName = pathinfo($miniatureFile->getClientOriginalName(), \PATHINFO_FILENAME);
                 $safeFileName = $slugger->slug($originalFileName);
                 $newFileName = $safeFileName.'-'.uniqid().'.'.$miniatureFile->guessExtension();

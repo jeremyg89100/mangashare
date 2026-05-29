@@ -17,9 +17,5 @@ final class DeleteMangaController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_projects');
-
-        return $this->render('delete_manga/index.html.twig', [
-            'controller_name' => 'DeleteMangaController',
-        ]);
     }
 }
