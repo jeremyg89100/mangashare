@@ -16,6 +16,9 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    /**
+     * @return array<int, Article>
+     */
     public function findMostPopular(int $limit): array
     {
         return $this->createQueryBuilder('article')
@@ -28,6 +31,9 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @return array<int, Article>
+     */
     public function findMostPopularByCategory(string $category, int $limit): array
     {
         return $this->createQueryBuilder('article')

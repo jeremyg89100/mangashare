@@ -16,6 +16,9 @@ class MangaRepository extends ServiceEntityRepository
         parent::__construct($registry, Manga::class);
     }
 
+    /**
+     * @return array<int, Manga>
+     */
     public function findMostPopular(int $limit): array
     {
         return $this->createQueryBuilder('manga')

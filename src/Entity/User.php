@@ -38,6 +38,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $birthDate = null;
 
+    /**
+     * @var list<string>
+     */
     #[ORM\Column]
     private array $roles = [];
 
@@ -181,14 +184,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return list<string>
+     */
     public function getRoles(): array
     {
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
+        return array_values(array_unique($roles));
     }
 
+    /**
+     * @param list<string> $roles
+     */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
@@ -327,6 +336,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return Collection<int, Follow>
+     */
     public function getFollowsAsFollowing(): Collection
     {
         return $this->followsAsFollowing;
@@ -382,6 +394,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return Collection<int, Reporting>
+     */
     public function getReportingsReceived(): Collection
     {
         return $this->reportingsReceived;
@@ -440,7 +455,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        \assert(null !== $this->email && '' !== $this->email);
+
+        return $this->email;
     }
 
     public function eraseCredentials(): void
