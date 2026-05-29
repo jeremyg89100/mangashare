@@ -46,7 +46,7 @@ final class EditArticlesController extends AbstractController
 
             $em->persist($article);
             $em->flush();
-            return $this->redirectToRoute('app_new_article');
+            return $this->redirectToRoute('app_my_articles');
         }
         return $this->render('edit_articles/index.html.twig', [
             'article' => $article,

@@ -1,9 +1,14 @@
 function handleImagePreview(fileInput) {
     const file = fileInput.files[0];
-    const container = fileInput.closest(".new-project-middle");
+    const container =
+        fileInput.closest(".new-project-middle") ||
+        fileInput.closest(".avatar-profil-30px");
     const imgPreview = container.querySelector(".image-preview");
     const plusIcon = container.querySelector(".plus-icon");
     const deleteBtn = container.querySelector(".delete-btn-pages");
+    const letterPlaceholder =
+        container.querySelector(".avatar-letter") ||
+        container.querySelector(".avatar-placeholder");
 
     if (file) {
         const reader = new FileReader();
@@ -12,6 +17,9 @@ function handleImagePreview(fileInput) {
                 imgPreview.src = e.target.result;
                 imgPreview.style.display = "block";
                 if (plusIcon) plusIcon.style.display = "none";
+            }
+            if (letterPlaceholder) {
+                letterPlaceholder.style.setProperty("display", "none");
             }
             if (deleteBtn) deleteBtn.style.display = "flex";
         };
@@ -40,6 +48,10 @@ document.addEventListener("change", function (event) {
     }
 
     if (event.target.classList.contains("file-input-miniature")) {
+        handleImagePreview(event.target);
+    }
+
+    if (event.target.classList.contains("file-input-avatar")) {
         handleImagePreview(event.target);
     }
 });

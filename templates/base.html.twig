@@ -47,7 +47,7 @@
                         <div class="nav-user">
                             <div class="nav-avatar" id="avatar-btn">
                                 {% if app.user.avatar %}
-                                    <img src="{{ asset('uploads/avatars/' ~ app.user.avatar) }}" alt="Avatar">
+                                    <img src="{{ asset('uploads/avatar/' ~ app.user.avatar) }}" alt="Avatar">
                                 {% else %}
                                     {{ app.user.pseudo|slice(0,1)|upper }}
                                 {% endif %}

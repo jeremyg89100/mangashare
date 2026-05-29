@@ -19,7 +19,7 @@
             <div class="filter">
                 <a href="{{ path('app_my_articles')}}" class="chip {{ currentCategory is null ? 'active' }}">Tout</a>
                 {% for cat in categories %}
-                    <a href="{{ path('app_articles', {'category' : cat}) }}"
+                    <a href="{{ path('app_my_articles', {'category' : cat}) }}"
                         class="chip {{currentCategory == cat ? 'active'}}"> {{ cat }}
                         </a>
                     {% endfor %}
