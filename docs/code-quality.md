@@ -70,7 +70,8 @@ php-docker 'php bin/console cache:warmup --env=dev && composer stan'
 
 ### Note sur les entités
 
-L'option `doctrine.allowNullablePropertyForRequiredField: true` est activée : les entités
-suivent le pattern `make:entity` (propriétés `?Type $x = null` pour l'hydratation, colonnes
-NOT NULL). C'est une option **officielle** de l'extension, pas une suppression d'erreurs.
+Le typage PHP des entités est **aligné avec le schéma Doctrine** : les colonnes et
+associations `NOT NULL` ont un type PHP non-nullable, et les dates utilisent
+`\DateTimeImmutable`. Aucune dérogation (`allowNullablePropertyForRequiredField`) n'est
+nécessaire.
 
