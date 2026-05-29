@@ -2,9 +2,9 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Article;
 use App\Entity\Manga;
 use App\Entity\User;
-use App\Entity\Article;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -13,7 +13,8 @@ class AppFixtures extends Fixture
 {
     public function __construct(
         private UserPasswordHasherInterface $hasher
-    ) {}
+    ) {
+    }
 
     public function load(ObjectManager $manager): void
     {
@@ -32,11 +33,11 @@ class AppFixtures extends Fixture
         foreach ($titles as $title) {
             $manga = new Manga();
             $manga->setTitle($title);
-            $manga->setSynopsis('Synopsis of ' . $title);
+            $manga->setSynopsis('Synopsis of '.$title);
             $manga->setStatus('en cours');
             $manga->setCreatedAt(new \DateTime());
             $manga->setReadingDirection('JP');
-            $manga->setViews(rand(0,1000));
+            $manga->setViews(rand(0, 1000));
             $manga->setUser($user);
             $manager->persist($manga);
         }
@@ -45,8 +46,8 @@ class AppFixtures extends Fixture
         foreach ($titleArticlesDrawing as $titleArticleDrawing) {
             $article = new Article();
             $article->setTitle($titleArticleDrawing);
-            $article->setTextContent("Ceci est un article de " . $titleArticleDrawing);
-            $article->setCategory("Dessin & Anatomies");
+            $article->setTextContent('Ceci est un article de '.$titleArticleDrawing);
+            $article->setCategory('Dessin & Anatomies');
             $article->setPublished(true);
             $article->setMiniature('astuces.png');
             $article->setCreatedAt(new \DateTime());
@@ -58,8 +59,8 @@ class AppFixtures extends Fixture
         foreach ($titleArticlesStory as $titleArticleStory) {
             $article = new Article();
             $article->setTitle($titleArticleStory);
-            $article->setTextContent("Ceci est un article de " . $titleArticleStory);
-            $article->setCategory("Scenario & Storytelling");
+            $article->setTextContent('Ceci est un article de '.$titleArticleStory);
+            $article->setCategory('Scenario & Storytelling');
             $article->setPublished(true);
             $article->setMiniature('astuces.png');
             $article->setCreatedAt(new \DateTime());
@@ -71,8 +72,8 @@ class AppFixtures extends Fixture
         foreach ($titleArticlesSoftware as $titleArticleSoftware) {
             $article = new Article();
             $article->setTitle($titleArticleSoftware);
-            $article->setTextContent("Ceci est un article de " . $titleArticleSoftware);
-            $article->setCategory("Techniques & Logiciels");
+            $article->setTextContent('Ceci est un article de '.$titleArticleSoftware);
+            $article->setCategory('Techniques & Logiciels');
             $article->setPublished(true);
             $article->setMiniature('astuces.png');
             $article->setCreatedAt(new \DateTime());
@@ -84,8 +85,8 @@ class AppFixtures extends Fixture
         foreach ($titleArticlesPublication as $titleArticlePublication) {
             $article = new Article();
             $article->setTitle($titleArticlePublication);
-            $article->setTextContent("Ceci est un article de " . $titleArticlePublication);
-            $article->setCategory("Edition & Publication");
+            $article->setTextContent('Ceci est un article de '.$titleArticlePublication);
+            $article->setCategory('Edition & Publication');
             $article->setPublished(true);
             $article->setMiniature('astuces.png');
             $article->setCreatedAt(new \DateTime());

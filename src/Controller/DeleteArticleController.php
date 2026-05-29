@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\Article;
-use Doctrine\ORM\EntityManagerInterface;
 
 final class DeleteArticleController extends AbstractController
 {
@@ -17,6 +17,7 @@ final class DeleteArticleController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_my_articles');
+
         return $this->render('delete_article/index.html.twig', [
         ]);
     }

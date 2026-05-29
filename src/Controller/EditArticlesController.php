@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Article;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class EditArticlesController extends AbstractController
 {
@@ -19,7 +19,8 @@ final class EditArticlesController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         SluggerInterface $slugger,
-        #[Autowire('%kernel.project_dir%/public/uploads/miniatureArticle')] string $miniatureDirectory
+        #[Autowire('%kernel.project_dir%/public/uploads/miniatureArticle')]
+        string $miniatureDirectory
     ): Response {
         if ($article->getUser() !== $this->getUser()) {
             throw $this->createAccessDeniedException();
@@ -33,11 +34,10 @@ final class EditArticlesController extends AbstractController
 
             $miniatureFile = $request->files->get('miniature');
 
-
             if ($miniatureFile) {
-                $originalFileName = pathinfo($miniatureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalFileName = pathinfo($miniatureFile->getClientOriginalName(), \PATHINFO_FILENAME);
                 $safeFileName = $slugger->slug($originalFileName);
-                $newFileName = $safeFileName . '-' . uniqid() . '.' . $miniatureFile->guessExtension();
+                $newFileName = $safeFileName.'-'.uniqid().'.'.$miniatureFile->guessExtension();
 
                 $miniatureFile->move($miniatureDirectory, $newFileName);
 
@@ -46,8 +46,10 @@ final class EditArticlesController extends AbstractController
 
             $em->persist($article);
             $em->flush();
+
             return $this->redirectToRoute('app_my_articles');
         }
+
         return $this->render('edit_articles/index.html.twig', [
             'article' => $article,
         ]);

@@ -8,9 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -72,7 +71,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Follow>
      */
-
     #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'following')]
     private Collection $followsAsFollowing;
 
@@ -187,6 +185,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
+
         return array_unique($roles);
     }
 
@@ -313,6 +312,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->followsAsFollower->add($follow);
             $follow->setFollower($this);
         }
+
         return $this;
     }
 
@@ -323,6 +323,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $follow->setFollower(null);
             }
         }
+
         return $this;
     }
 
@@ -337,6 +338,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->followsAsFollowing->add($follow);
             $follow->setFollowing($this);
         }
+
         return $this;
     }
 
@@ -347,6 +349,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $follow->setFollowing(null);
             }
         }
+
         return $this;
     }
 
@@ -364,6 +367,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->reportingsSent->add($reporting);
             $reporting->setAuthor($this);
         }
+
         return $this;
     }
 
@@ -374,6 +378,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $reporting->setAuthor(null);
             }
         }
+
         return $this;
     }
 
@@ -388,6 +393,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->reportingsReceived->add($reporting);
             $reporting->setTarget($this);
         }
+
         return $this;
     }
 
@@ -398,6 +404,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $reporting->setTarget(null);
             }
         }
+
         return $this;
     }
 

@@ -1,11 +1,11 @@
 <?php
 
-$finder = (new PhpCsFixer\Finder())
+$finder = new PhpCsFixer\Finder()
     ->in([__DIR__.'/src', __DIR__.'/tests'])
     ->append([__FILE__])
 ;
 
-return (new PhpCsFixer\Config())
+return new PhpCsFixer\Config()
     ->setRiskyAllowed(true)
     ->setRules([
         '@Symfony' => true,

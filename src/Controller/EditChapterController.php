@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Chapter;
 use App\Entity\Page;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class EditChapterController extends AbstractController
 {
@@ -20,9 +20,9 @@ final class EditChapterController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         SluggerInterface $slugger,
-        #[Autowire('%kernel.project_dir%/public/uploads/pages')] string $pageDirectory
+        #[Autowire('%kernel.project_dir%/public/uploads/pages')]
+        string $pageDirectory
     ): Response {
-
         $manga = $chapter->getManga();
 
         if ($manga->getUser() !== $this->getUser()) {
@@ -34,13 +34,13 @@ final class EditChapterController extends AbstractController
 
             $uploadFiles = $request->files->all()['pages'] ?? [];
 
-            $pageOrder =1;
+            $pageOrder = 1;
 
             foreach ($uploadFiles as $file) {
                 if ($file) {
-                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $originalFilename = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME);
                     $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
                     $file->move($pageDirectory, $newFilename);
 
@@ -48,7 +48,7 @@ final class EditChapterController extends AbstractController
                     $page->setImageUrl($newFilename);
                     $page->setPageOrder($pageOrder);
 
-                    $pageOrder++;
+                    ++$pageOrder;
 
                     $chapter->addPage($page);
                     $em->persist($page);
