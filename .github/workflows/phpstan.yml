@@ -1,0 +1,34 @@
+name: phpstan
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  static-analysis:
+    name: Static analysis (PHPStan level max)
+    runs-on: ubuntu-latest
+    env:
+      # URL syntaxiquement valide : Doctrine reste paresseux (aucune connexion),
+      # serverVersion évite que DBAL tente de détecter la version → pas besoin de DB.
+      DATABASE_URL: "mysql://root:@127.0.0.1:3306/mangashare?serverVersion=8.0.32&charset=utf8mb4"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Warm up container (génère le XML pour phpstan-symfony)
+        run: php bin/console cache:warmup --env=dev
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --no-progress

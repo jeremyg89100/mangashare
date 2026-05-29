@@ -40,3 +40,37 @@ php-docker 'composer cs:fix'
 ```
 
 > Le cache est écrit dans `var/.php-cs-fixer.cache` (gitignoré).
+
+---
+
+## PHPStan
+
+Analyse statique au niveau le plus strict, avec les extensions Symfony et Doctrine.
+
+- **Configuration** : [`phpstan.dist.neon`](../phpstan.dist.neon)
+- **Niveau** : `max` (analysé pour PHP 8.4 via `phpVersion`)
+- **Extensions** (auto-enregistrées par `phpstan/extension-installer`) :
+  - `phpstan/phpstan-symfony` — connaît le conteneur de services (lit `var/cache/dev/App_KernelDevDebugContainer.xml`)
+  - `phpstan/phpstan-doctrine` — analyse les entités/repositories (via `tests/object-manager.php`)
+  - `phpstan/phpstan-strict-rules` + `phpstan/phpstan-deprecation-rules`
+- **CI** : [`.github/workflows/phpstan.yml`](../.github/workflows/phpstan.yml)
+
+### Pré-requis avant analyse
+
+PHPStan a besoin du **conteneur compilé** (extension Symfony). Il faut donc réchauffer
+le cache au préalable :
+
+```bash
+php-docker 'php bin/console cache:warmup --env=dev && composer stan'
+```
+
+> **Connexion DB** : l'analyse ne se connecte à aucune base (Doctrine est paresseux).
+> Le `DATABASE_URL` doit seulement être *syntaxiquement* valide avec un `serverVersion`
+> pour éviter que DBAL tente de détecter la version du serveur.
+
+### Note sur les entités
+
+L'option `doctrine.allowNullablePropertyForRequiredField: true` est activée : les entités
+suivent le pattern `make:entity` (propriétés `?Type $x = null` pour l'hydratation, colonnes
+NOT NULL). C'est une option **officielle** de l'extension, pas une suppression d'erreurs.
+
