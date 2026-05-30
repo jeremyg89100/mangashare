@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Lire Manga
+{% endblock %}
+
+{% block stylesheets%}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}">
+{% endblock%}
+
+{% block javascripts %}
+    {{ importmap([ 'readManga']) }}
+{% endblock %}
+
+{% block body %}
+    <span id="page-counter">1 / {{ chapter.pages|length }}</span>
+    <div class="page-render">
+        <button id="prev-btn"><</button>
+        {% for page in chapter.pages %}
+            <div class="page-slide {{loop.first ? 'active' : ''}}" data-index="{{loop.index0}}">
+                <img src="{{asset('uploads/pages/' ~ page.imageUrl)}}" alt="Page {{page.pageOrder}}">
+            </div>
+        {% endfor %}
+
+        <button id="next-btn">></button>
+    </div>
+{% endblock %}

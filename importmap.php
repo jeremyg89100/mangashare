@@ -28,6 +28,10 @@ return [
         'path' => './assets/newProject.js',
         'entrypoint' => true,
     ],
+     'readManga' => [
+        'path' => './assets/MangaReader.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

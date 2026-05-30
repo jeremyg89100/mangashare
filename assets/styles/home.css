@@ -555,6 +555,83 @@ body {
     flex-direction: column;
 }
 
+.page-slide {
+    display: none;
+}
+
+.page-slide.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-slide img {
+    width: 95vw;
+    height: 90vh;
+    object-fit: contain;
+}
+
+#prev-btn,
+#next-btn {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 40%;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    z-index: 10;
+    color: transparent;
+    transition: background-color 0.2s ease;
+}
+
+#prev-btn {
+    left: 0;
+}
+
+#next-btn {
+    right: 0;
+}
+
+#prev-btn:hover {
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.05),
+        transparent
+    );
+}
+
+#next-btn:hover {
+    background: linear-gradient(
+        to left,
+        rgba(255, 255, 255, 0.05),
+        transparent
+    );
+}
+
+.page-render {
+    position: relative;
+    width: 100vw;
+    height: 95vh;
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: #0c0c0c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#page-counter {
+    display: block;
+    padding: 20px 0;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    background-color: #0c0c0c;
+}
+
 .new-project-top-left,
 .new-article-top-left {
     display: flex;
