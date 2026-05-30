@@ -15,31 +15,31 @@ class Reporting
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $reason = null;
+    private string $reason;
 
     #[ORM\Column]
-    private ?bool $treated = null;
+    private bool $treated;
 
     #[ORM\Column(length: 50)]
-    private ?string $type = null;
+    private string $type;
 
     #[ORM\Column]
-    private ?\DateTime $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(inversedBy: 'reportingsSent')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $author = null;
+    private User $author;
 
     #[ORM\ManyToOne(inversedBy: 'reportingsReceived')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $target = null;
+    private User $target;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getReason(): ?string
+    public function getReason(): string
     {
         return $this->reason;
     }
@@ -51,7 +51,7 @@ class Reporting
         return $this;
     }
 
-    public function isTreated(): ?bool
+    public function isTreated(): bool
     {
         return $this->treated;
     }
@@ -63,7 +63,7 @@ class Reporting
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -75,36 +75,36 @@ class Reporting
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor(): User
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): static
+    public function setAuthor(User $author): static
     {
         $this->author = $author;
 
         return $this;
     }
 
-    public function getTarget(): ?User
+    public function getTarget(): User
     {
         return $this->target;
     }
 
-    public function setTarget(?User $target): static
+    public function setTarget(User $target): static
     {
         $this->target = $target;
 

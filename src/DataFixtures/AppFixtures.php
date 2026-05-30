@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
         $user->setEmail('test@test.com');
         $user->setPassword($this->hasher->hashPassword($user, 'password'));
         $user->setRoles([]);
-        $user->setCreatedAt(new \DateTime());
+        $user->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($user);
 
         // Create tests Manga
@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
             $manga->setTitle($title);
             $manga->setSynopsis('Synopsis of '.$title);
             $manga->setStatus('en cours');
-            $manga->setCreatedAt(new \DateTime());
+            $manga->setCreatedAt(new \DateTimeImmutable());
             $manga->setReadingDirection('JP');
             $manga->setViews(rand(0, 1000));
             $manga->setUser($user);
@@ -50,7 +50,7 @@ class AppFixtures extends Fixture
             $article->setCategory('Dessin & Anatomies');
             $article->setPublished(true);
             $article->setMiniature('astuces.png');
-            $article->setCreatedAt(new \DateTime());
+            $article->setCreatedAt(new \DateTimeImmutable());
             $article->setUser($user);
             $manager->persist($article);
         }
@@ -63,7 +63,7 @@ class AppFixtures extends Fixture
             $article->setCategory('Scenario & Storytelling');
             $article->setPublished(true);
             $article->setMiniature('astuces.png');
-            $article->setCreatedAt(new \DateTime());
+            $article->setCreatedAt(new \DateTimeImmutable());
             $article->setUser($user);
             $manager->persist($article);
         }
@@ -76,7 +76,7 @@ class AppFixtures extends Fixture
             $article->setCategory('Techniques & Logiciels');
             $article->setPublished(true);
             $article->setMiniature('astuces.png');
-            $article->setCreatedAt(new \DateTime());
+            $article->setCreatedAt(new \DateTimeImmutable());
             $article->setUser($user);
             $manager->persist($article);
         }
@@ -89,7 +89,7 @@ class AppFixtures extends Fixture
             $article->setCategory('Edition & Publication');
             $article->setPublished(true);
             $article->setMiniature('astuces.png');
-            $article->setCreatedAt(new \DateTime());
+            $article->setCreatedAt(new \DateTimeImmutable());
             $article->setUser($user);
             $manager->persist($article);
         }

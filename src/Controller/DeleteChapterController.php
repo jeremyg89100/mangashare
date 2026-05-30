@@ -14,13 +14,7 @@ final class DeleteChapterController extends AbstractController
     #[Route('/delete/chapter/{id}', name: 'app_delete_chapter')]
     public function index(Chapter $chapter, Request $request, EntityManagerInterface $em): Response
     {
-        $manga = $chapter->getManga();
-
-        if (null === $manga) {
-            throw $this->createNotFoundException();
-        }
-
-        $mangaId = $manga->getId();
+        $mangaId = $chapter->getManga()->getId();
 
         $em->remove($chapter);
         $em->flush();

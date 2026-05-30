@@ -16,20 +16,20 @@ class Chapter
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    private string $title;
 
     #[ORM\Column]
-    private ?int $number = null;
+    private int $number;
 
     #[ORM\Column]
-    private ?bool $published = null;
+    private bool $published;
 
     #[ORM\Column]
-    private ?\DateTime $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(inversedBy: 'chapters')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Manga $manga = null;
+    private Manga $manga;
 
     /**
      * @var Collection<int, Page>
@@ -47,7 +47,7 @@ class Chapter
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -59,7 +59,7 @@ class Chapter
         return $this;
     }
 
-    public function getNumber(): ?int
+    public function getNumber(): int
     {
         return $this->number;
     }
@@ -71,7 +71,7 @@ class Chapter
         return $this;
     }
 
-    public function isPublished(): ?bool
+    public function isPublished(): bool
     {
         return $this->published;
     }
@@ -83,24 +83,24 @@ class Chapter
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getManga(): ?Manga
+    public function getManga(): Manga
     {
         return $this->manga;
     }
 
-    public function setManga(?Manga $manga): static
+    public function setManga(Manga $manga): static
     {
         $this->manga = $manga;
 
@@ -127,12 +127,7 @@ class Chapter
 
     public function removePage(Page $page): static
     {
-        if ($this->pages->removeElement($page)) {
-            // set the owning side to null (unless already changed)
-            if ($page->getChapter() === $this) {
-                $page->setChapter(null);
-            }
-        }
+        $this->pages->removeElement($page);
 
         return $this;
     }

@@ -26,10 +26,6 @@ final class EditChapterController extends AbstractController
     ): Response {
         $manga = $chapter->getManga();
 
-        if (null === $manga) {
-            throw $this->createNotFoundException();
-        }
-
         if ($manga->getUser() !== $this->getUser()) {
             throw $this->createAccessDeniedException();
         }

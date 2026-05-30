@@ -11,7 +11,3 @@ parameters:
         containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
     doctrine:
         objectManagerLoader: tests/object-manager.php
-        # Les entités suivent le pattern make:entity (`?Type $x = null` pour
-        # l'hydratation) alors que la colonne est NOT NULL. Option officielle
-        # de phpstan-doctrine pour accepter ce pattern sans dé-nullifier le modèle.
-        allowNullablePropertyForRequiredField: true

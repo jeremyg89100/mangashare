@@ -32,7 +32,7 @@ final class NewArticleController extends AbstractController
             $article->setTitle($articleTitle);
             $article->setCategory($categories);
             $article->setPublished($published);
-            $article->setCreatedAt(new \DateTime());
+            $article->setCreatedAt(new \DateTimeImmutable());
             $article->setTextContent($articleContent);
 
             if ($miniatureFile instanceof UploadedFile) {

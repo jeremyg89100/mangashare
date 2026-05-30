@@ -14,21 +14,21 @@ class Page
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $imageUrl = null;
+    private string $imageUrl;
 
     #[ORM\Column]
-    private ?int $pageOrder = null;
+    private int $pageOrder;
 
     #[ORM\ManyToOne(inversedBy: 'pages')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Chapter $chapter = null;
+    private Chapter $chapter;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getImageUrl(): ?string
+    public function getImageUrl(): string
     {
         return $this->imageUrl;
     }
@@ -40,7 +40,7 @@ class Page
         return $this;
     }
 
-    public function getPageOrder(): ?int
+    public function getPageOrder(): int
     {
         return $this->pageOrder;
     }
@@ -52,12 +52,12 @@ class Page
         return $this;
     }
 
-    public function getChapter(): ?Chapter
+    public function getChapter(): Chapter
     {
         return $this->chapter;
     }
 
-    public function setChapter(?Chapter $chapter): static
+    public function setChapter(Chapter $chapter): static
     {
         $this->chapter = $chapter;
 

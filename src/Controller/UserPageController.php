@@ -38,7 +38,7 @@ final class UserPageController extends AbstractController
                 return $this->redirectToRoute('app_userpage');
             }
             if ('' !== $userBirthdate) {
-                $user->setBirthDate(new \DateTime($userBirthdate));
+                $user->setBirthDate(new \DateTimeImmutable($userBirthdate));
             }
             if ('' !== $username) {
                 $user->setPseudo($username);
