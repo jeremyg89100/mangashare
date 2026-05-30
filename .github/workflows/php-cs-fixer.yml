@@ -1,0 +1,29 @@
+name: php-cs-fixer
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  coding-standards:
+    name: Coding standards (php-cs-fixer)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Run php-cs-fixer (dry-run)
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff --verbose
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: 1

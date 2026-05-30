@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Manga;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\Manga;
-use Doctrine\ORM\EntityManagerInterface;
 
 final class DeleteMangaController extends AbstractController
 {
@@ -15,7 +15,9 @@ final class DeleteMangaController extends AbstractController
     {
         $em->remove($manga);
         $em->flush();
+
         return $this->redirectToRoute('app_projects');
+
         return $this->render('delete_manga/index.html.twig', [
             'controller_name' => 'DeleteMangaController',
         ]);

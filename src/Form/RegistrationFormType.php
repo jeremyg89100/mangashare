@@ -20,7 +20,7 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(message: 'Enter a username'),
                     new Length(min: 3, max: 50),
-                ]
+                ],
             ])
             ->add('email')
             ->add('plainPassword', PasswordType::class, [

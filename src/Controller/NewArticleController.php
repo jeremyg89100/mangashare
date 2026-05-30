@@ -2,19 +2,19 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Article;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class NewArticleController extends AbstractController
 {
     #[Route('/new/article', name: 'app_new_article')]
-    public function index(Request $request, SluggerInterface $slugger, EntityManagerInterface $em, #[AutoWire('%kernel.project_dir%/public/uploads/miniatureArticle')] string $miniatureDirectory,): Response
+    public function index(Request $request, SluggerInterface $slugger, EntityManagerInterface $em, #[Autowire('%kernel.project_dir%/public/uploads/miniatureArticle')] string $miniatureDirectory): Response
     {
         if ($request->isMethod('POST')) {
             $articleTitle = $request->request->get('articleTitle');
@@ -33,9 +33,9 @@ final class NewArticleController extends AbstractController
             $article->setTextContent($articleContent);
 
             if ($miniatureFile) {
-                $originalFileName = pathinfo($miniatureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalFileName = pathinfo($miniatureFile->getClientOriginalName(), \PATHINFO_FILENAME);
                 $safeFileName = $slugger->slug($originalFileName);
-                $newFileName = $safeFileName . '-' . uniqid() . '.' . $miniatureFile->guessExtension();
+                $newFileName = $safeFileName.'-'.uniqid().'.'.$miniatureFile->guessExtension();
 
                 $miniatureFile->move($miniatureDirectory, $newFileName);
 
@@ -44,8 +44,10 @@ final class NewArticleController extends AbstractController
 
             $em->persist($article);
             $em->flush();
+
             return $this->redirectToRoute('app_my_articles');
         }
+
         return $this->render('new_article/index.html.twig', []);
     }
 }
