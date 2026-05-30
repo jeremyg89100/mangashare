@@ -59,6 +59,9 @@ class Manga
     #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'manga')]
     private Collection $likes;
 
+    /**
+     * @var array<int, string>|null
+     */
     #[ORM\Column(length: 80)]
     private ?array $categories = null;
 
@@ -260,11 +263,17 @@ class Manga
         return $this;
     }
 
+    /**
+     * @return array<int, string>|null
+     */
     public function getCategories(): ?array
     {
         return $this->categories;
     }
 
+    /**
+     * @param array<int, string> $categories
+     */
     public function setCategories(array $categories): static
     {
         $this->categories = $categories;

@@ -6,6 +6,7 @@ use App\Entity\Article;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -27,14 +28,14 @@ final class EditArticlesController extends AbstractController
         }
 
         if ($request->isMethod('POST')) {
-            $article->setTitle($request->request->get('articleTitle'));
-            $article->setCategory($request->request->get('category'));
-            $article->setPublished($request->request->get('published'));
-            $article->setTextContent($request->request->get('article-content'));
+            $article->setTitle($request->request->getString('articleTitle'));
+            $article->setCategory($request->request->getString('category'));
+            $article->setPublished($request->request->getBoolean('published'));
+            $article->setTextContent($request->request->getString('article-content'));
 
             $miniatureFile = $request->files->get('miniature');
 
-            if ($miniatureFile) {
+            if ($miniatureFile instanceof UploadedFile) {
                 $originalFileName = pathinfo($miniatureFile->getClientOriginalName(), \PATHINFO_FILENAME);
                 $safeFileName = $slugger->slug($originalFileName);
                 $newFileName = $safeFileName.'-'.uniqid().'.'.$miniatureFile->guessExtension();

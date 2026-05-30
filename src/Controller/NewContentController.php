@@ -12,7 +12,7 @@ final class NewContentController extends AbstractController
     #[Route('/new/content', name: 'app_new_content')]
     public function index(MangaRepository $mangaRepository): Response
     {
-        $newContent = $mangaRepository->findBy([], ['createdAt' => 'DESC'], '6');
+        $newContent = $mangaRepository->findBy([], ['createdAt' => 'DESC'], 6);
 
         return $this->render('new_content/index.html.twig', [
             'newContent' => $newContent,
