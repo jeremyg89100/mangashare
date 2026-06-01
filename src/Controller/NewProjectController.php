@@ -79,7 +79,7 @@ final class NewProjectController extends AbstractController
             }
 
             $manga->addChapter($chapter);
-
+            $em->persist($chapter);
             $em->persist($manga);
             $em->flush();
             $this->addFlash('success', 'Le projet a bien été enregistré !');

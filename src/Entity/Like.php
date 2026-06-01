@@ -21,9 +21,10 @@ class Like
     #[ORM\JoinColumn(nullable: false)]
     private Manga $manga;
 
+
     #[ORM\ManyToOne(inversedBy: 'likes')]
     #[ORM\JoinColumn(nullable: false)]
-    private Article $article;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -54,14 +55,15 @@ class Like
         return $this;
     }
 
-    public function getArticle(): Article
+
+    public function getUser(): ?User
     {
-        return $this->article;
+        return $this->user;
     }
 
-    public function setArticle(Article $article): static
+    public function setUser(?User $user): static
     {
-        $this->article = $article;
+        $this->user = $user;
 
         return $this;
     }

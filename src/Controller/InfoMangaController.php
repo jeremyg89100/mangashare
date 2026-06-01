@@ -13,9 +13,11 @@ final class InfoMangaController extends AbstractController
     #[Route('/info/manga/{id}', name: 'app_info_manga')]
     public function index(Manga $manga): Response
     {
+        $user = $manga->getUser();
         return $this->render('info_manga/index.html.twig', [
             'manga' => $manga,
             'chapters' => $manga->getChapters(),
+            'user' => $user,
         ]);
     }
 }

@@ -39,6 +39,7 @@ class AppFixtures extends Fixture
             $manga->setReadingDirection('JP');
             $manga->setViews(rand(0, 1000));
             $manga->setUser($user);
+            $manga->setCategories(["Action"]);
             $manager->persist($manga);
         }
 

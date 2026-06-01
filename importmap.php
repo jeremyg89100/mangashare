@@ -28,6 +28,10 @@ return [
         'path' => './assets/newProject.js',
         'entrypoint' => true,
     ],
+    'mangaLike' => [
+        'path' => './assets/mangaLike.js',
+        'entrypoint' => true,
+    ],
      'readManga' => [
         'path' => './assets/MangaReader.js',
         'entrypoint' => true,

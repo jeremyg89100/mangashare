@@ -79,7 +79,7 @@ body {
 .manga-card-cover img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     background-color: black;
 }
 
@@ -167,7 +167,20 @@ body {
     grid-row: 1;
     margin-top: 0;
 }
+.like-follow {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin-bottom: 10px;
+}
 
+.like-follow button {
+    background-color: black;
+    color: white;
+    width: 50%;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
 #rules-in-article {
     grid-column: 1/4;
     grid-row: 2;
@@ -326,6 +339,7 @@ body {
     background: #fff;
     white-space: nowrap;
     transition: all 0.15s ease;
+    text-align: center;
 }
 
 .chip:hover {
@@ -608,6 +622,18 @@ body {
         rgba(255, 255, 255, 0.05),
         transparent
     );
+}
+
+.side-manga-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 80%;
+    overflow: hidden;
+}
+.flex-column {
+    display: flex;
+    flex-direction: row;
 }
 
 .page-render {
