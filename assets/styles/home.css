@@ -321,6 +321,20 @@ body {
     text-align: center;
 }
 
+/* Read Article */
+.read-article-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.read-article-top h3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Filter */
 .filter {
     display: flex;
@@ -422,6 +436,13 @@ body {
     flex-direction: row;
     justify-content: space-between;
     margin: 20px 0;
+}
+
+.container-info-manga {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    grid-column: 1 / -1;
 }
 
 .manga-author {

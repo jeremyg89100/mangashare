@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Lire Article
+{% endblock %}
+
+{%block stylesheets%}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}">
+{%endblock%}
+
+{%block javascripts%}
+    {{ importmap(['mangaLike', 'userFollow']) }}
+{%endblock%}
+
+{% block body %}
+    <div class="home-section">
+        <div class="read-article-top">
+            <h3> {{article.user.pseudo}} </h3>
+            <div class="like-follow">
+                <button class="ajax-btn like-btn" data-url="{{ path('app_article_like', { 'id' : article.id }) }}" data-csrf="{{ csrf_token('like')}}">
+                    {%if article.isLikedByUser(app.user)%}
+                        Je n'aime plus
+                    {%else%}
+                        J'aime
+                    {%endif%}
+                </button>
+                <button class="ajax-btn follow-btn" data-pseudo="{{article.user.pseudo}}" data-url="{{ path('app_user_follow', { 'id' : article.user.id }) }}" data-csrf="{{ csrf_token('follow')}}">
+                    {%if article.user.isFollowedBy(app.user)%}
+                        Ne plus suivre
+                    {%else%}
+                        Suivre {{article.user.pseudo}}
+                    {%endif%}
+                </button>
+
+                
+            </div>
+        </div>
+        <span class="article-content margin-top-class">{{article.textContent|raw}}</span>
+    </div>
+{% endblock %}

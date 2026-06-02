@@ -101,6 +101,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $likes;
 
+    /**
+     * @var Collection<int, LikeArticle>
+     */
+    #[ORM\OneToMany(targetEntity: LikeArticle::class, mappedBy: 'user')]
+    private Collection $likeArticles;
+
     public function __construct()
     {
         $this->mangas = new ArrayCollection();
@@ -112,6 +118,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reportingsReceived = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->likeArticles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -474,6 +481,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->likes->removeElement($like)) {
             if ($like->getUser() === $this) {
                 $this->likes->removeElement($like);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LikeArticle>
+     */
+    public function getLikeArticles(): Collection
+    {
+        return $this->likeArticles;
+    }
+
+    public function addLikeArticle(LikeArticle $likeArticle): static
+    {
+        if (!$this->likeArticles->contains($likeArticle)) {
+            $this->likeArticles->add($likeArticle);
+            $likeArticle->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikeArticle(LikeArticle $likeArticle): static
+    {
+        if ($this->likeArticles->removeElement($likeArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($likeArticle->getUser() === $this) {
+                $likeArticle->setUser(null);
             }
         }
 

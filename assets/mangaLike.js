@@ -21,7 +21,9 @@ if (likeBtn) {
 
             if (data.success) {
                 const mangaLikes = document.querySelector(".manga-likes");
-                mangaLikes.textContent = data.newLikeCount;
+                if (mangaLikes) {
+                    mangaLikes.textContent = data.newLikeCount;
+                }
 
                 if (data.isLiked) {
                     likeBtn.textContent = "Je n'aime plus";

@@ -45,15 +45,15 @@ class Article
     private Collection $comments;
 
     /**
-     * @var Collection<int, Like>
+     * @var Collection<int, LikeArticle>
      */
-    #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'article', orphanRemoval: true)]
-    private Collection $likes;
+    #[ORM\OneToMany(targetEntity: LikeArticle::class, mappedBy: 'article')]
+    private Collection $likeArticles;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->likes = new ArrayCollection();
+        $this->likeArticles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -173,5 +173,50 @@ class Article
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, LikeArticle>
+     */
+    public function getLikeArticles(): Collection
+    {
+        return $this->likeArticles;
+    }
+
+    public function addLikeArticle(LikeArticle $likeArticle): static
+    {
+        if (!$this->likeArticles->contains($likeArticle)) {
+            $this->likeArticles->add($likeArticle);
+            $likeArticle->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikeArticle(LikeArticle $likeArticle): static
+    {
+        if ($this->likeArticles->removeElement($likeArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($likeArticle->getArticle() === $this) {
+                $likeArticle->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isLikedByUser(?User $user): bool
+    {
+        if (null === $user) {
+            return false;
+        }
+
+        foreach ($this->likeArticles as $like) {
+            if ($like->getUser() === $user) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

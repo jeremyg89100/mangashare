@@ -17,12 +17,12 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return array<int, Article>
+     * @return Article[]
      */
     public function findMostPopular(int $limit): array
     {
         return $this->createQueryBuilder('article')
-            ->leftJoin('article.likes', 'likes')
+            ->leftJoin('article.likeArticles', 'likes')
             ->addSelect('COUNT(likes.id) as HIDDEN likeCount')
             ->groupBy('article.id')
             ->orderBy('likeCount', 'DESC')
@@ -32,12 +32,12 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return array<int, Article>
+     * @return Article[]
      */
     public function findMostPopularByCategory(string $category, int $limit): array
     {
         return $this->createQueryBuilder('article')
-            ->leftJoin('article.likes', 'likes')
+            ->leftJoin('article.likeArticles', 'likes')
             ->addSelect('COUNT(likes.id) as HIDDEN likeCount')
             ->where('article.category = :category')
             ->setParameter('category', $category)
