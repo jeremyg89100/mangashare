@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Manga;
-use App\Repository\ChapterRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,6 +13,7 @@ final class InfoMangaController extends AbstractController
     public function index(Manga $manga): Response
     {
         $user = $manga->getUser();
+
         return $this->render('info_manga/index.html.twig', [
             'manga' => $manga,
             'chapters' => $manga->getChapters(),

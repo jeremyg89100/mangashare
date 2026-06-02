@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Chapter;
+use App\Entity\Manga;
+use App\Repository\ChapterRepository;
+use App\Repository\MangaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\Manga;
-use App\Entity\Chapter;
-use App\Repository\ChapterRepository;
-use App\Repository\MangaRepository;
 
 final class ReadMangaController extends AbstractController
 {

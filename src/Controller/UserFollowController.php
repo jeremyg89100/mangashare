@@ -2,34 +2,34 @@
 
 namespace App\Controller;
 
+use App\Entity\Follow;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\Follow;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use App\Entity\User;
+use Symfony\Component\Routing\Attribute\Route;
 
 final class UserFollowController extends AbstractController
 {
-    #[Route('/user/{id}/follow', name: 'app_user_follow', methods:['POST'])]
+    #[Route('/user/{id}/follow', name: 'app_user_follow', methods: ['POST'])]
     public function index(User $targetUser, EntityManagerInterface $em, Request $request): JsonResponse
-    {   
+    {
         if (!$this->isCsrfTokenValid('follow', $request->headers->get('X-CSRF-TOKEN'))) {
             return $this->json(['error' => 'Token invalide'], 403);
         }
 
         $currentUser = $this->getUser();
 
-        if ($currentUser === null || $currentUser instanceof User) {
+        if (null === $currentUser || $currentUser instanceof User) {
             return $this->json(['error' => 'Vous devez être connecté pour aimer ce manga.'], 403);
         }
 
-         if ($currentUser === $targetUser) {
+        if ($currentUser === $targetUser) {
             return $this->json(['error' => 'Vous ne pouvez pas vous suivre vous-même'], 403);
         }
 
-        $followRepository = $em->getRepository(\App\Entity\Follow::class);
+        $followRepository = $em->getRepository(Follow::class);
         $existingFollow = $followRepository->findOneBy([
             'follower' => $currentUser,
             'following' => $targetUser,
@@ -38,10 +38,8 @@ final class UserFollowController extends AbstractController
         if ($existingFollow instanceof Follow) {
             $em->remove($existingFollow);
             $isFollowing = false;
-        }
-
-        else {
-            $follow = new Follow;
+        } else {
+            $follow = new Follow();
             $follow->setFollower($currentUser);
             $follow->setFollowing($targetUser);
             $follow->setCreatedAt(new \DateTimeImmutable());
@@ -53,7 +51,7 @@ final class UserFollowController extends AbstractController
         return $this->json([
             'success' => true,
             'isFollowing' => $isFollowing,
-            'followersCount' => count($targetUser->getFollowsAsFollowing()),
+            'followersCount' => \count($targetUser->getFollowsAsFollowing()),
         ]);
     }
 }

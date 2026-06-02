@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Like;
+use App\Entity\Manga;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\Manga;
-use App\Entity\Like;
-use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
 
 final class MangaLikeController extends AbstractController
 {
@@ -21,23 +21,22 @@ final class MangaLikeController extends AbstractController
         }
         $user = $this->getUser();
 
-        if ($user === null || !$user instanceof User) {
+        if (null === $user || !$user instanceof User) {
             return $this->json(['error' => 'Vous devez être connecté pour aimer ce manga.'], 403);
         }
 
-        $likeRepository = $em->getRepository(\App\Entity\Like::class);
+        $likeRepository = $em->getRepository(Like::class);
         $existingLike = $likeRepository->findOneBy([
             'user' => $user,
             'manga' => $manga,
         ]);
 
-        
         if ($existingLike) {
             $manga->removeLike($existingLike);
             $em->remove($existingLike);
             $liked = false;
         } else {
-            $like = new Like;
+            $like = new Like();
             $like->setUser($user);
             $like->setManga($manga);
             $like->setCreatedAt(new \DateTimeImmutable());
@@ -46,11 +45,11 @@ final class MangaLikeController extends AbstractController
             $liked = true;
         }
 
-
         $em->flush();
+
         return $this->json([
             'success' => true,
-            'newLikeCount' => count($manga->getLikes()),
+            'newLikeCount' => \count($manga->getLikes()),
             'isLiked' => $liked,
         ]);
     }

@@ -21,7 +21,6 @@ class Like
     #[ORM\JoinColumn(nullable: false)]
     private Manga $manga;
 
-
     #[ORM\ManyToOne(inversedBy: 'likes')]
     #[ORM\JoinColumn(nullable: false)]
     private User $user;
@@ -54,7 +53,6 @@ class Like
 
         return $this;
     }
-
 
     public function getUser(): ?User
     {
