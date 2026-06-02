@@ -32,6 +32,10 @@ return [
         'path' => './assets/mangaLike.js',
         'entrypoint' => true,
     ],
+    'userFollow' => [
+        'path' => './assets/userFollow.js',
+        'entrypoint' => true,
+    ],
      'readManga' => [
         'path' => './assets/MangaReader.js',
         'entrypoint' => true,

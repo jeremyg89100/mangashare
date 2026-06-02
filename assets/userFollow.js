@@ -1,8 +1,9 @@
-const likeBtn = document.querySelector(".like-btn");
+const followBtn = document.querySelector(".follow-btn");
 
-if (likeBtn) {
-    likeBtn.addEventListener("click", async function (e) {
+if (followBtn) {
+    followBtn.addEventListener("click", async function (e) {
         e.preventDefault();
+
         const targetUrl = this.dataset.url;
 
         try {
@@ -10,23 +11,23 @@ if (likeBtn) {
                 method: "POST",
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
-                    "X-CSRF-TOKEN": likeBtn.dataset.csrf,
+                    "X-CSRF-TOKEN": followBtn.dataset.csrf,
                 },
             });
 
             if (!response.ok) {
-                throw new Error(`Erreur serveur : {response.status}`);
+                throw new Error(`Erreur serveur : ${response.status}`);
             }
+
             const data = await response.json();
 
             if (data.success) {
-                const mangaLikes = document.querySelector(".manga-likes");
-                mangaLikes.textContent = data.newLikeCount;
+                const pseudo = this.dataset.pseudo;
 
-                if (data.isLiked) {
-                    likeBtn.textContent = "Je n'aime plus";
+                if (data.isFollowing) {
+                    followBtn.textContent = `Ne plus suivre`;
                 } else {
-                    likeBtn.textContent = "J'aime";
+                    followBtn.textContent = `Suivre ${pseudo}`;
                 }
             } else if (data.error) {
                 alert(data.error);

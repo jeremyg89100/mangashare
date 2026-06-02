@@ -9,7 +9,7 @@
 {%endblock%}
 
 {%block javascripts%}
-    {{ importmap(['mangaLike']) }}
+    {{ importmap(['mangaLike', 'userFollow']) }}
 {%endblock%}
 
 {% block body %}
@@ -42,7 +42,7 @@
                 <span class="manga-author">Crée par : {{ manga.user.pseudo }}</span>
                 <div class="like-follow">
                     <button class="ajax-btn like-btn" data-url="{{ path('app_manga_like', { 'id' : manga.id }) }}" data-csrf="{{ csrf_token('like')}}">J'aime</button>
-                    {# <button class="ajax-btn" data-url="{{ path('app_manga_follow', { 'id' : user.id }) }}">Suivre {{manga.user.pseudo}}</button> #}
+                    <button class="ajax-btn follow-btn" data-pseudo="{{manga.user.pseudo}}" data-url="{{ path('app_user_follow', { 'id' : user.id }) }}" data-csrf="{{ csrf_token('follow')}}">Suivre {{manga.user.pseudo}}</button>
                 </div>
                 <span>Synopsis : </span>
                 <span class="manga-synopsis margin-top-class">{{manga.synopsis|raw}}</span>

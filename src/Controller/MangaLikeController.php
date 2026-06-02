@@ -15,7 +15,7 @@ final class MangaLikeController extends AbstractController
     #[Route('/manga/{id}/like', name: 'app_manga_like', methods: ['POST'])]
     public function index(Manga $manga, EntityManagerInterface $em, Request $request): JsonResponse
     {
-        if (!$this->isCsrfTokenValid('like', $request->headers->get('X-CRSF-TOKEN'))) {
+        if (!$this->isCsrfTokenValid('like', $request->headers->get('X-CSRF-TOKEN'))) {
             return $this->json(['error' => 'Token invalide'], 403);
         }
         $user = $this->getUser();
