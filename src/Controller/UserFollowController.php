@@ -21,7 +21,7 @@ final class UserFollowController extends AbstractController
 
         $currentUser = $this->getUser();
 
-        if (!$currentUser) {
+        if ($currentUser === null || $currentUser instanceof User) {
             return $this->json(['error' => 'Vous devez être connecté pour aimer ce manga.'], 403);
         }
 
@@ -35,7 +35,7 @@ final class UserFollowController extends AbstractController
             'following' => $targetUser,
         ]);
 
-        if ($existingFollow) {
+        if ($existingFollow instanceof Follow) {
             $em->remove($existingFollow);
             $isFollowing = false;
         }

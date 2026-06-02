@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Manga;
+use App\Entity\Chapter;
 use App\Repository\ChapterRepository;
 use App\Repository\MangaRepository;
 
@@ -17,7 +18,7 @@ final class ReadMangaController extends AbstractController
         $manga = $mangaRepository->find($mangaId);
         $chapter = $chapterRepository->find($chapterId);
 
-        if (!$manga || !$chapter) {
+        if ($manga instanceof Manga || $chapter instanceof Chapter) {
             throw $this->createNotFoundException();
         }
 

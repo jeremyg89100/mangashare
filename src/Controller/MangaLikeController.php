@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Manga;
 use App\Entity\Like;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 
 final class MangaLikeController extends AbstractController
@@ -20,7 +21,7 @@ final class MangaLikeController extends AbstractController
         }
         $user = $this->getUser();
 
-        if (!$user) {
+        if ($user === null || !$user instanceof User) {
             return $this->json(['error' => 'Vous devez être connecté pour aimer ce manga.'], 403);
         }
 
@@ -30,7 +31,7 @@ final class MangaLikeController extends AbstractController
             'manga' => $manga,
         ]);
 
-
+        
         if ($existingLike) {
             $manga->removeLike($existingLike);
             $em->remove($existingLike);
@@ -44,6 +45,7 @@ final class MangaLikeController extends AbstractController
             $em->persist($like);
             $liked = true;
         }
+
 
         $em->flush();
         return $this->json([
