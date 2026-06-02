@@ -21,7 +21,7 @@ final class UserFollowController extends AbstractController
 
         $currentUser = $this->getUser();
 
-        if (null === $currentUser || $currentUser instanceof User) {
+        if (null === $currentUser || !$currentUser instanceof User) {
             return $this->json(['error' => 'Vous devez être connecté pour aimer ce manga.'], 403);
         }
 
