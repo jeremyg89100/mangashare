@@ -31,7 +31,7 @@ final class MangaLikeController extends AbstractController
             'manga' => $manga,
         ]);
 
-        if ($existingLike) {
+        if ($existingLike instanceof Like) {
             $manga->removeLike($existingLike);
             $em->remove($existingLike);
             $liked = false;
