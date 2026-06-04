@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ArticleCommentController extends AbstractController
 {
-    #[Route('/article/{id}/comment', name: 'app_article_comment')]
+    #[Route('/article/{id}/comment', name: 'app_article_comment', methods: ['POST'])]
     public function index(Article $article, EntityManagerInterface $em, Request $request): Response
     {
         $content = $request->request->get('comment-content');
