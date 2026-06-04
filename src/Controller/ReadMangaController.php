@@ -18,7 +18,7 @@ final class ReadMangaController extends AbstractController
         $manga = $mangaRepository->find($mangaId);
         $chapter = $chapterRepository->find($chapterId);
 
-        if ($manga instanceof Manga || $chapter instanceof Chapter) {
+        if (!$manga instanceof Manga || !$chapter instanceof Chapter) {
             throw $this->createNotFoundException();
         }
 

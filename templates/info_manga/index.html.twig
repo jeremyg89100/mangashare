@@ -9,7 +9,7 @@
 {%endblock%}
 
 {%block javascripts%}
-    {{ importmap(['mangaLike', 'userFollow']) }}
+    {{ importmap(['mangaLike', 'userFollow', 'comment']) }}
 {%endblock%}
 
 {% block body %}
@@ -62,56 +62,73 @@
             <div class="container-info-manga">
                 <div class="edit-btn">
                     <a href="{{path('app_read_manga', {'mangaId' : manga.id, 'chapterId' : manga.chapters.first.id })}}">Lire</a>
-                    <button type="button">Commentaire</button>
+                    <button class="comment-btn" type="button">Commentaire</button>
                 </div>
-                <h3 class="margin-top-class">Chapitres : </h3>
-                {% for chapter in manga.chapters %}
-                    <a href="{{ path('app_read_manga', {'mangaId': manga.id,'chapterId': chapter.id }) }}" class="chapter-card margin-top-class">
-                        <span> {{chapter.title}} </span>
-                        <span>#{{loop.index}}</span>
-                    </a>
-                {% endfor %}
-                <h3 class="margin-top-class">Autres projets de {{user.pseudo}}</h3>
-                {% for m in user.mangas %}
-                    {% if m.id != manga.id %}
-                        <div class="project-card">
-                            <div class="project-card-cover">
-                                <div class="manga-grid">
-                                    <a href="#" class="manga-card">
-                                        <div class="manga-card-cover">
-                                            {% if m.miniature %}
-                                                <img src="{{ asset('uploads/miniatures/' ~ manga.miniature) }}" alt="{{ manga.title }}">
-                                            {% else %}
-                                                <div class="manga-card-placeholder">
-                                                    <p> {{m.title}} </p>
-                                                </div>
-                                            {% endif %}
-                                        </div>
-                                    </a>
+                <form class="form-info-manga" action="{{path('app_manga_comment', {'id' : manga.id})}}"
+                    method="POST" data-miniature="{{app.user.avatar}}" data-user-pseudo="{{app.user.pseudo}}"  
+                    data-comment-id="comment.id" enctype="multipart/form-data"></form>
+                    <h3 class="margin-top-class">Chapitres : </h3>
+                    {% for chapter in manga.chapters %}
+                        <a href="{{ path('app_read_manga', {'mangaId': manga.id,'chapterId': chapter.id }) }}" class="chapter-card margin-top-class">
+                            <span> {{chapter.title}} </span>
+                            <span>#{{loop.index}}</span>
+                        </a>
+                    {% endfor %}
+                    <h3 class="margin-top-class">Autres projets de {{user.pseudo}}</h3>
+                    {% for m in user.mangas %}
+                        {% if m.id != manga.id %}
+                            <div class="project-card">
+                                <div class="project-card-cover">
+                                    <div class="manga-grid">
+                                        <a href="#" class="manga-card">
+                                            <div class="manga-card-cover">
+                                                {% if m.miniature %}
+                                                    <img src="{{ asset('uploads/miniatures/' ~ manga.miniature) }}" alt="{{ manga.title }}">
+                                                {% else %}
+                                                    <div class="manga-card-placeholder">
+                                                        <p> {{m.title}} </p>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="side-manga-info">
+                                    <span> {{m.title}} </span>
+                                    <span> {{m.status}} </span>
+                                    {%for category in m.categories%}
+                                        <span class="chip"> {{category}} </span>
+                                    {%endfor%}
                                 </div>
                             </div>
-
-                            <div class="side-manga-info">
-                                <span> {{m.title}} </span>
-                                <span> {{m.status}} </span>
-                                {%for category in m.categories%}
-                                    <span class="chip"> {{category}} </span>
-                                {%endfor%}
-                            </div>
-                        </div>
-                    {% endif %}
-                {%endfor%}
-                {%if manga.comments%}
-                    {% for comment in manga.comments %}
-                        <div class="manga-comment">
-                            <span>{{comment.user.miniature}}</span>
-                            <span>{{comment.user.pseudo}}</span>
-                            <span>{{comment.createdAt|date('d/m/Y')}}</span>
-                            <span> {{comment.content}} </span>
-                        </div>
+                        {% endif %}
                     {%endfor%}
-                {%endif%}
-            </div>
-        </section>
+                    {%if manga.comments%}
+                        {% for comment in manga.comments %}
+                            <div class="manga-comment-list">
+                                <div class="manga-comment">
+                                    <div class="comment-info">
+                                        <div class="comment-name-avatar">
+                                            <div class="nav-avatar">
+                                                {% if comment.user.avatar %}
+                                                    <img src="{{ asset('uploads/avatar/' ~ app.user.avatar) }}" alt="Avatar">
+                                                {% else %}
+                                                    {{ app.user.pseudo|slice(0,1)|upper }}
+                                                {% endif %}
+                                            </div>
+                                            <span class="comment-user-pseudo">{{comment.user.pseudo}}</span>
+                                        </div>
+                                        <span class="comment-date">{{comment.createdAt|date('d/m/Y')}}</span>
+                                    </div>
+                                    <div class="comment-content">
+                                        <span> {{comment.textContent}} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        {%endfor%}
+                    {%endif%}
+                </div>
+            </section>
 
-    {% endblock %}
+        {% endblock %}

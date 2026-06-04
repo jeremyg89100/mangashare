@@ -40,6 +40,10 @@ return [
         'path' => './assets/MangaReader.js',
         'entrypoint' => true,
     ],
+    'comment' => [
+        'path' => './assets/comment.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
