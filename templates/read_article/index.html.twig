@@ -9,7 +9,7 @@
 {%endblock%}
 
 {%block javascripts%}
-    {{ importmap(['mangaLike', 'userFollow']) }}
+    {{ importmap(['mangaLike', 'userFollow', 'comment']) }}
 {%endblock%}
 
 {% block body %}
@@ -31,10 +31,42 @@
                         Suivre {{article.user.pseudo}}
                     {%endif%}
                 </button>
-
-                
             </div>
         </div>
-        <span class="article-content margin-top-class">{{article.textContent|raw}}</span>
+        <span class="read-article-content margin-top-class">{{article.textContent|raw}}</span>
+        <div class="edit-btn">
+            <button class="comment-btn" type="button">Commentaire</button>
+        </div>
+        <form class="form-comment"
+            method="POST"
+            action="{{ path('app_article_comment', {'id': article.id}) }}"
+            data-user-pseudo="{{ app.user ? app.user.pseudo : 'Anonyme' }}"
+            data-miniature="{{ app.user ? app.user.avatar : '' }}">
+        </form>
+
+        <div class="comment-list">
+            {% if article.comments %}
+                {% for comment in article.comments %}
+                    <div class="manga-comment">
+                        <div class="comment-info">
+                            <div class="comment-name-avatar">
+                                <div class="nav-avatar">
+                                    {% if comment.user.avatar %}
+                                        <img src="{{ asset('uploads/miniatures/' ~ comment.user.avatar) }}" alt="Avatar">
+                                    {% else %}
+                                        {{ comment.user.pseudo|slice(0,1)|upper }}
+                                    {% endif %}
+                                </div>
+                                <span class="comment-user-pseudo">{{ comment.user.pseudo }}</span>
+                            </div>
+                            <span class="comment-date">{{ comment.createdAt|date('d/m/Y') }}</span>
+                        </div>
+                        <div class="comment-content">
+                            <span>{{ comment.textContent }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

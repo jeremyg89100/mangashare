@@ -64,8 +64,8 @@
                     <a href="{{path('app_read_manga', {'mangaId' : manga.id, 'chapterId' : manga.chapters.first.id })}}">Lire</a>
                     <button class="comment-btn" type="button">Commentaire</button>
                 </div>
-                <form class="form-info-manga" action="{{path('app_manga_comment', {'id' : manga.id})}}"
-                    method="POST" data-miniature="{{app.user.avatar}}" data-user-pseudo="{{app.user.pseudo}}"  
+                <form class="form-comment" action="{{path('app_manga_comment', {'id' : manga.id})}}"
+                    method="POST" data-miniature="{{app.user.avatar}}" data-user-pseudo="{{app.user.pseudo}}"
                     data-comment-id="comment.id" enctype="multipart/form-data"></form>
                     <h3 class="margin-top-class">Chapitres : </h3>
                     {% for chapter in manga.chapters %}
@@ -104,30 +104,30 @@
                             </div>
                         {% endif %}
                     {%endfor%}
-                    {%if manga.comments%}
-                        {% for comment in manga.comments %}
-                            <div class="manga-comment-list">
+                    <div class="comment-list">
+                        {%if manga.comments%}
+                            {% for comment in manga.comments %}
                                 <div class="manga-comment">
                                     <div class="comment-info">
                                         <div class="comment-name-avatar">
                                             <div class="nav-avatar">
                                                 {% if comment.user.avatar %}
-                                                    <img src="{{ asset('uploads/avatar/' ~ app.user.avatar) }}" alt="Avatar">
+                                                    <img src="{{ asset('uploads/miniatures/' ~ comment.user.avatar) }}" alt="Avatar">
                                                 {% else %}
-                                                    {{ app.user.pseudo|slice(0,1)|upper }}
+                                                    {{ comment.user.pseudo|slice(0,1)|upper }}
                                                 {% endif %}
                                             </div>
-                                            <span class="comment-user-pseudo">{{comment.user.pseudo}}</span>
+                                            <span class="comment-user-pseudo">{{ comment.user.pseudo }}</span>
                                         </div>
-                                        <span class="comment-date">{{comment.createdAt|date('d/m/Y')}}</span>
+                                        <span class="comment-date">{{ comment.createdAt|date('d/m/Y') }}</span>
                                     </div>
                                     <div class="comment-content">
-                                        <span> {{comment.textContent}} </span>
+                                        <span>{{ comment.textContent }}</span>
                                     </div>
                                 </div>
-                            </div>
-                        {%endfor%}
-                    {%endif%}
+                            {%endfor%}
+                        {%endif%}
+                    </div>
                 </div>
             </section>
 

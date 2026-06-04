@@ -148,6 +148,14 @@ body {
     transition: all 0.15s ease;
 }
 
+.input-comment {
+    margin: 20px 0;
+    width: 100%;
+    min-height: 100px;
+    border-radius: 8px;
+    padding: 8px;
+}
+
 .comment-form-btn button {
     width: 50%;
     color: white;
@@ -186,7 +194,7 @@ body {
     width: 100%;
     border: 1px black solid;
     border-radius: 8px;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 .comment-content span {
@@ -448,6 +456,16 @@ body {
 
 .article-likes {
     width: 40%;
+}
+
+.read-article-content {
+    display: block;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 8px;
+    width: 100%;
+    min-height: 200px;
+    margin: 20px 0;
 }
 
 .article-card-right {
@@ -837,6 +855,10 @@ body {
 .margin-bottom-span {
     margin-bottom: 20px;
     color: #555;
+}
+
+.margin-bottom-class {
+    margin-bottom: 20px;
 }
 
 .delete-btn-pages {
