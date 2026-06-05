@@ -23,7 +23,11 @@ final class NewProjectController extends AbstractController
         if ($request->isMethod('POST')) {
             $mangaTitle = $request->request->getString('mangaTitle');
             $user = $this->getUser();
-            \assert($user instanceof User);
+
+            if (!$user instanceof User) {
+                throw $this->createAccessDeniedException('Vous devez être connecté.');
+            }
+
             $publication = $request->request->getBoolean('published');
             $readingDirection = $request->request->getString('reading-direction');
             $pages = $request->files->all('pages');

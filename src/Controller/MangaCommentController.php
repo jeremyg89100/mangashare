@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Manga;
+use App\Entity\Notification;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,6 +30,19 @@ final class MangaCommentController extends AbstractController
             $comment->setTextContent((string) $content);
             $comment->setCreatedAt(new \DateTimeImmutable());
             $comment->setUser($user);
+
+            $url = $this->generateUrl('app_info_manga', [
+                'id' => $manga->getId(),
+            ]);
+
+            $notification = new Notification();
+            $notification->setCreatedAt(new \DateTimeImmutable());
+            $notification->setUser($user);
+            $notification->setHasBeenRead((bool) 0);
+            $notification->setLink($url);
+            $notification->setMessage("\"{$manga->getTitle()}\" a été commenté");
+
+            $em->persist($notification);
 
             $em->persist($comment);
             $em->flush();

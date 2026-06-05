@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\LikeArticle;
+use App\Entity\Notification;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,6 +43,19 @@ final class ArticleLikeController extends AbstractController
             $article->addLikeArticle($like);
             $em->persist($like);
             $liked = true;
+
+            $url = $this->generateUrl('app_read_article', [
+                'id' => $article->getId(),
+            ]);
+
+            $notification = new Notification();
+            $notification->setUser($article->getUser());
+            $notification->setCreatedAt(new \DateTimeImmutable());
+            $notification->setMessage("\"{$article->getTitle()}\" a été aimé");
+            $notification->setLink($url);
+            $notification->setHasBeenRead((bool) 0);
+
+            $em->persist($notification);
         }
 
         $em->flush();

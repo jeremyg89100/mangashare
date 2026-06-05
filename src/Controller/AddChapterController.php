@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Chapter;
 use App\Entity\Manga;
+use App\Entity\Notification;
 use App\Entity\Page;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -38,7 +40,7 @@ final class AddChapterController extends AbstractController
                 }
                 $originalPageName = pathinfo($pageFile->getClientOriginalName(), \PATHINFO_FILENAME);
                 $safePageName = $slugger->slug($originalPageName);
-                $newPageName = $safePageName.'-'.uniqid().'.'.$pageFile->guessExtension();
+                $newPageName = $safePageName . '-' . uniqid() . '.' . $pageFile->guessExtension();
 
                 $pageFile->move($pageDirectory, $newPageName);
 
@@ -52,6 +54,26 @@ final class AddChapterController extends AbstractController
             $manga->addChapter($chapter);
 
             $em->persist($manga);
+
+            $mangaLikes = $manga->getLikes();
+
+            $url = $this->generateUrl('app_info_manga', [
+                'id' => $manga->getId(),
+            ]);
+
+            foreach ($mangaLikes as $like) {
+                $follower = $like->getUser();
+
+                $notification = new Notification();
+                $notification->setCreatedAt(new \DateTimeImmutable());
+                $notification->setHasBeenRead((bool) 0);
+                $notification->setUser($follower);
+                $notification->setMessage("\"{$manga->getTitle()}\" a publié un nouveau chapître");
+                $notification->setLink($url);
+
+                $em->persist($notification);
+            }
+
             $em->flush();
             $this->addFlash('success', 'Le projet a bien été enregistré !');
 

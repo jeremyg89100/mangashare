@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Follow;
+use App\Entity\Notification;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,6 +46,14 @@ final class UserFollowController extends AbstractController
             $follow->setCreatedAt(new \DateTimeImmutable());
             $em->persist($follow);
             $isFollowing = true;
+
+            $notification = new Notification();
+            $notification->setCreatedAt(new \DateTimeImmutable());
+            $notification->setHasBeenRead((bool) 0);
+            $notification->setUser($targetUser);
+            $notification->setMessage("{{$currentUser->getPseudo()}} vous suit");
+
+            $em->persist($notification);
         }
         $em->flush();
 

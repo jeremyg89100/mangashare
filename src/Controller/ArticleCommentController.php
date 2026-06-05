@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\Notification;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,6 +32,20 @@ final class ArticleCommentController extends AbstractController
             $comment->setUser($user);
 
             $em->persist($comment);
+
+            $url = $this->generateUrl('app_read_article', [
+                'id' => $article->getId(),
+            ]);
+
+            $notification = new Notification();
+            $notification->setCreatedAt(new \DateTimeImmutable());
+            $notification->setUser($user);
+            $notification->setHasBeenRead((bool) 0);
+            $notification->setLink($url);
+            $notification->setMessage("\"{$article->getTitle()}\" a été commenté");
+
+            $em->persist($notification);
+
             $em->flush();
         }
 

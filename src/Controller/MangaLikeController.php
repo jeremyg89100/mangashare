@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Like;
 use App\Entity\Manga;
+use App\Entity\Notification;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,6 +44,19 @@ final class MangaLikeController extends AbstractController
             $manga->addLike($like);
             $em->persist($like);
             $liked = true;
+
+            $url = $this->generateUrl('app_info_manga', [
+                'id' => $manga->getId(),
+            ]);
+
+            $notification = new Notification();
+            $notification->setCreatedAt(new \DateTimeImmutable());
+            $notification->setUser($user);
+            $notification->setHasBeenRead((bool) 0);
+            $notification->setLink($url);
+            $notification->setMessage("\"{$manga->getTitle()}\" a été aimé");
+
+            $em->persist($notification);
         }
 
         $em->flush();
