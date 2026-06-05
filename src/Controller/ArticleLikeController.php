@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ArticleLikeController extends AbstractController
 {
-    #[Route('/article/{id}/like', name: 'app_article_like')]
+    #[Route('/article/{id}/like', name: 'app_article_like', methods: ['POST'])]
     public function index(Article $article, EntityManagerInterface $em, Request $request): JsonResponse
     {
         if (!$this->isCsrfTokenValid('like', $request->headers->get('X-CSRF-TOKEN'))) {
@@ -22,7 +22,7 @@ final class ArticleLikeController extends AbstractController
         $user = $this->getUser();
 
         if (!$user instanceof User) {
-            return $this->json(['error' => 'Vous devez être connecté pour aimer ce manga.'], 403);
+            return $this->json(['error' => 'Vous devez être connecté pour aimer cet article.'], 403);
         }
 
         $likeRepository = $em->getRepository(LikeArticle::class);

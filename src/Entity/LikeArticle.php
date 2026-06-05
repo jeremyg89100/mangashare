@@ -14,34 +14,36 @@ class LikeArticle
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'likeArticles')]
-    private ?User $user = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private User $user;
 
     #[ORM\ManyToOne(inversedBy: 'likeArticles')]
-    private ?Article $article = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private Article $article;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(User $user): static
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getArticle(): ?Article
+    public function getArticle(): Article
     {
         return $this->article;
     }
 
-    public function setArticle(?Article $article): static
+    public function setArticle(Article $article): static
     {
         $this->article = $article;
 

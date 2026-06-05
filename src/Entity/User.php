@@ -507,12 +507,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeLikeArticle(LikeArticle $likeArticle): static
     {
-        if ($this->likeArticles->removeElement($likeArticle)) {
-            // set the owning side to null (unless already changed)
-            if ($likeArticle->getUser() === $this) {
-                $likeArticle->setUser(null);
-            }
-        }
+        $this->likeArticles->removeElement($likeArticle);
 
         return $this;
     }

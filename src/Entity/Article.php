@@ -195,12 +195,7 @@ class Article
 
     public function removeLikeArticle(LikeArticle $likeArticle): static
     {
-        if ($this->likeArticles->removeElement($likeArticle)) {
-            // set the owning side to null (unless already changed)
-            if ($likeArticle->getArticle() === $this) {
-                $likeArticle->setArticle(null);
-            }
-        }
+        $this->likeArticles->removeElement($likeArticle);
 
         return $this;
     }
