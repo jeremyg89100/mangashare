@@ -21,7 +21,7 @@ final class ArticleLikeController extends AbstractController
         }
         $user = $this->getUser();
 
-        if (null === $user || !$user instanceof User) {
+        if (!$user instanceof User) {
             return $this->json(['error' => 'Vous devez être connecté pour aimer ce manga.'], 403);
         }
 
