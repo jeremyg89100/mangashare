@@ -6,7 +6,6 @@ use App\Entity\Chapter;
 use App\Entity\Manga;
 use App\Entity\Notification;
 use App\Entity\Page;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -40,7 +39,7 @@ final class AddChapterController extends AbstractController
                 }
                 $originalPageName = pathinfo($pageFile->getClientOriginalName(), \PATHINFO_FILENAME);
                 $safePageName = $slugger->slug($originalPageName);
-                $newPageName = $safePageName . '-' . uniqid() . '.' . $pageFile->guessExtension();
+                $newPageName = $safePageName.'-'.uniqid().'.'.$pageFile->guessExtension();
 
                 $pageFile->move($pageDirectory, $newPageName);
 

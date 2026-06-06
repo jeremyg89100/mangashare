@@ -9,6 +9,7 @@
 {%endblock%}
 
 {%block javascripts%}
+    {{ parent() }}
     {{ importmap(['mangaLike', 'userFollow', 'comment']) }}
 {%endblock%}
 
