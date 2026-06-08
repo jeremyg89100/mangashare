@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="{{asset('styles/home.css')}}" >
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
     <section class="home-section">
         <div class="project-header project-buttons">

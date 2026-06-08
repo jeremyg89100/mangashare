@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Infos Utilisateur
+{% endblock %}
+
+{%block stylesheets%}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}">
+{%endblock%}
+
+{%block javascripts%}
+    {{ parent() }}
+    {{ importmap(['mangaLike', 'userFollow', 'comment']) }}
+{%endblock%}
+
+{% block body %}
+    <section class="home-section">
+        <div class="manga-side-info">
+            <div class="user-follow">
+            <span class="userName margin-top-class margin-bottom-class"> {{ user.pseudo }}</span>
+                <button class="ajax-btn follow-btn margin-top-class margin-bottom-class" data-pseudo="{{user.pseudo}}" data-url="{{ path('app_user_follow', { 'id' : user.id }) }}" data-csrf="{{ csrf_token('follow')}}">
+                    {%if user.isFollowedBy(app.user)%}
+                        Ne plus suivre
+                    {%else%}
+                        Suivre {{user.pseudo}}
+                    {%endif%}
+                </button>
+            </div>
+        </div>
+
+        <h3 class="margin-top-class margin-bottom-class">Mangas de {{user.pseudo}}</h3>
+        {% for manga in user.mangas %}
+            <div class="project-card">
+
+                <a href="{{path('app_info_manga', {'id' : manga.id }) }}" class="manga-card">
+                    <div class="manga-card-cover">
+                        {% if manga.miniature %}
+                            <img src="{{ asset('uploads/miniatures/' ~ manga.miniature) }}" alt="{{ manga.title }}">
+                        {% else %}
+                            <div class="manga-card-placeholder">
+                                <p> {{ manga.title }} </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </a>
+
+                <div class="side-manga-info">
+                    <span> {{ manga.title }} </span>
+                    <span> {{ manga.status }} </span>
+                    {% for category in manga.categories %}
+                        <span class="chip"> {{ category }} </span>
+                    {% endfor %}
+                </div>
+
+            </div>
+        {% endfor %}
+
+        <h3 class="margin-top-class margin-bottom-class">Articles de {{user.pseudo}}</h3>
+        {% for article in user.articles %}
+            <div class="project-card">
+                <a href="{{ path('app_read_article' , {'id' : article.id }) }}" class="manga-card">
+                    <div class="manga-card-cover">
+                        {% if article.miniature %}
+                            <img src="{{ asset('uploads/miniatureArticle/' ~ article.miniature) }}" alt="{{ article.title }}">
+                        {% else %}
+                            <div class="manga-card-placeholder">
+                                <p> {{article.title}} </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </a>
+
+
+                <div class="side-manga-info">
+                    <span> {{article.title}} </span>
+                    <span class="chip"> {{article.category}} </span>
+                </div>
+            </div>
+        {%endfor%}
+    </section>
+{% endblock %}

@@ -40,16 +40,18 @@
                 </div>
             </a>
             <div class="manga-side-info">
-                <span class="manga-author">Crée par : {{ manga.user.pseudo }}</span>
+                <a href="{{path('app_user_info', {'id' : user.id }) }}">
+                    <span class="manga-author">Crée par : {{ manga.user.pseudo }}</span>
+                </a>
                 <div class="like-follow">
-                    <button class="ajax-btn like-btn" data-url="{{ path('app_manga_like', { 'id' : manga.id }) }}" data-csrf="{{ csrf_token('like')}}">
+                    <button class="ajax-btn like-btn margin-top-class" data-url="{{ path('app_manga_like', { 'id' : manga.id }) }}" data-csrf="{{ csrf_token('like')}}">
                         {%if manga.isLikedByUser(app.user)%}
                             Je n'aime plus
                         {%else%}
                             J'aime
                         {%endif%}
                     </button>
-                    <button class="ajax-btn follow-btn" data-pseudo="{{manga.user.pseudo}}" data-url="{{ path('app_user_follow', { 'id' : user.id }) }}" data-csrf="{{ csrf_token('follow')}}">
+                    <button class="ajax-btn follow-btn margin-top-class" data-pseudo="{{manga.user.pseudo}}" data-url="{{ path('app_user_follow', { 'id' : user.id }) }}" data-csrf="{{ csrf_token('follow')}}">
                         {%if user.isFollowedBy(app.user)%}
                             Ne plus suivre
                         {%else%}
@@ -75,36 +77,7 @@
                             <span>#{{loop.index}}</span>
                         </a>
                     {% endfor %}
-                    <h3 class="margin-top-class">Autres projets de {{user.pseudo}}</h3>
-                    {% for m in user.mangas %}
-                        {% if m.id != manga.id %}
-                            <div class="project-card">
-                                <div class="project-card-cover">
-                                    <div class="manga-grid">
-                                        <a href="#" class="manga-card">
-                                            <div class="manga-card-cover">
-                                                {% if m.miniature %}
-                                                    <img src="{{ asset('uploads/miniatures/' ~ manga.miniature) }}" alt="{{ manga.title }}">
-                                                {% else %}
-                                                    <div class="manga-card-placeholder">
-                                                        <p> {{m.title}} </p>
-                                                    </div>
-                                                {% endif %}
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
 
-                                <div class="side-manga-info">
-                                    <span> {{m.title}} </span>
-                                    <span> {{m.status}} </span>
-                                    {%for category in m.categories%}
-                                        <span class="chip"> {{category}} </span>
-                                    {%endfor%}
-                                </div>
-                            </div>
-                        {% endif %}
-                    {%endfor%}
                     <div class="comment-list">
                         {%if manga.comments%}
                             {% for comment in manga.comments %}

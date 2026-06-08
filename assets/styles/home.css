@@ -79,7 +79,7 @@ body {
 .manga-card-cover img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     background-color: black;
 }
 
@@ -226,7 +226,22 @@ body {
     margin-bottom: 10px;
 }
 
-.like-follow button {
+.user-follow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.userName {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: black;
+}
+
+.like-follow button,
+.user-follow button {
     background-color: black;
     color: white;
     width: 50%;
@@ -509,7 +524,7 @@ body {
 
 .manga-author {
     font-size: 24px;
-    margin-bottom: 10px;
+    color: black;
 }
 .manga-side-info {
     display: flex;
