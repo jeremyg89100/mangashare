@@ -995,6 +995,31 @@ body {
     background-color: black;
     padding: 8px 20px;
 }
+
+.following-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px 0;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.following-card button {
+    color: white;
+    background-color: black;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.following-avatar-pseudo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
 @media (min-width: 768px) {
     .home-phrase {
         padding: 56px 24px;

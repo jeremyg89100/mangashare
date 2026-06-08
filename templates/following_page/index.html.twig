@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Hello FollowingPageController!
+{% endblock %}
+
+{% block stylesheets%}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}">
+{% endblock%}
+
+{% block body %}
+    <section class="home-section margin-top-class">
+        <h3>Utilisateurs suivis : </h3>
+        {% for follow in follows %}
+            <div class="following-card">
+                <div class="following-avatar-pseudo">
+                    <div class="nav-avatar">
+                        {% if follow.following.avatar %}
+                            <img src="{{ asset('uploads/miniatures/' ~ follow.following.avatar) }}" alt="Avatar">
+                        {% else %}
+                            {{ follow.following.pseudo|slice(0,1)|upper }}
+                        {% endif %}
+                    </div>
+                    <span>{{ follow.following.pseudo }}</span>
+                </div>
+                <button>Se désabonner</button>
+            </div>
+        {% else %}
+            <p>Vous ne suivez aucun utilisateur pour le moment.</p>
+        {% endfor %}
+    </section>
+{% endblock %}
