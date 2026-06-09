@@ -44,6 +44,10 @@ return [
         'path' => './assets/comment.js',
         'entrypoint' => true,
     ],
+    'searchbar' => [
+        'path' => './assets/SearchBar.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

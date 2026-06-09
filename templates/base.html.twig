@@ -8,7 +8,7 @@
         {% block stylesheets %}
         {% endblock %}
         {% block javascripts %}
-            {{ importmap(['app', 'dropdown']) }}
+            {{ importmap(['app', 'dropdown', 'searchbar']) }}
         {% endblock %}
         <script>
 
@@ -32,7 +32,9 @@
             </div>
 
             <div class="nav-mobile-search">
-                <input type="text" placeholder="Rechercher…" autocomplete="off">
+                <input type="text"  name="q" placeholder="Rechercher…" autocomplete="off">
+
+                <div class="search-dropdown"></div>
             </div>
 
             <div class="nav-right-part">
