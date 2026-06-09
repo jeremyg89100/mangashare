@@ -19,7 +19,6 @@ final class SearchController extends AbstractController
         ArticleRepository $articleRepository,
         UserRepository $userRepository
     ): JsonResponse {
-
         $query = $request->query->get('q', '');
 
         if (\strlen($query) < 2) {
@@ -31,16 +30,16 @@ final class SearchController extends AbstractController
         $users = $userRepository->search($query, 5);
 
         return $this->json([
-            'mangas' => array_map(fn($m) => [
+            'mangas' => array_map(static fn (\App\Entity\Manga $m) => [
                 'id' => $m->getId(),
                 'title' => $m->getTitle(),
                 'miniature' => $m->getMiniature(),
             ], $mangas),
-            'articles' => array_map(fn($a) => [
+            'articles' => array_map(static fn (\App\Entity\Article $a) => [
                 'id' => $a->getId(),
                 'title' => $a->getTitle(),
             ], $articles),
-            'users' => array_map(fn($u) => [
+            'users' => array_map(static fn (\App\Entity\User $u) => [
                 'id' => $u->getId(),
                 'pseudo' => $u->getPseudo(),
                 'avatar' => $u->getAvatar(),

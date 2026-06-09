@@ -48,10 +48,14 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function search(string $query, int $maxResult): array {
+    /**
+     * @return array<int, Article>
+     */
+    public function search(string $query, int $maxResult): array
+    {
         return $this->createQueryBuilder('a')
             ->where('a.title LIKE :query')
-            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('query', '%'.$query.'%')
             ->setMaxResults($maxResult)
             ->getQuery()
             ->getResult();

@@ -31,10 +31,14 @@ class MangaRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function search(string $query, int $maxResult) :array {
+    /**
+     * @return array<int, Manga>
+     */
+    public function search(string $query, int $maxResult): array
+    {
         return $this->createQueryBuilder('m')
             ->where('m.title LIKE :query')
-            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('query', '%'.$query.'%')
             ->setMaxResults($maxResult)
             ->getQuery()
             ->getResult();
