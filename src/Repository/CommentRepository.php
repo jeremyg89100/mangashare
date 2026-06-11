@@ -31,8 +31,6 @@ class CommentRepository extends ServiceEntityRepository
 
         if ('manga' === $type) {
             $qb->andWhere('comment.manga = :id');
-        } else {
-            $qb->andWhere('comment.article = :id');
         }
 
         $qb->setParameter('id', $contentId);

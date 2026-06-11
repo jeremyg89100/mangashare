@@ -72,13 +72,13 @@ class Dashboard {
                     {
                         label: data.metric,
                         data: data.values,
-                        borderColor: "#111111", // Ligne noire
-                        backgroundColor: "rgba(17,17,17,0.1)", // Fond légèrement gris
-                        pointBackgroundColor: "#111111", // Points noirs
-                        pointBorderColor: "#ffffff", // Bordure blanche sur les points
-                        pointRadius: 5, // Taille des points
-                        pointHoverRadius: 7, // Taille au survol
-                        borderWidth: 2, // Épaisseur de la ligne
+                        borderColor: "#111111",
+                        backgroundColor: "rgba(17,17,17,0.1)",
+                        pointBackgroundColor: "#111111",
+                        pointBorderColor: "#ffffff",
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        borderWidth: 2,
                         tension: 0.3,
                         fill: true,
                     },
@@ -95,15 +95,15 @@ class Dashboard {
                         ticks: {
                             stepSize: 1,
                             precision: 0,
-                            color: "#111111", // Couleur des chiffres Y
+                            color: "#111111",
                         },
                         grid: {
-                            color: "rgba(0,0,0,0.08)", // Grille plus visible
+                            color: "rgba(0,0,0,0.08)",
                         },
                     },
                     x: {
                         ticks: {
-                            color: "#111111", // Couleur des dates X
+                            color: "#111111",
                         },
                         grid: {
                             color: "rgba(0,0,0,0.08)",
