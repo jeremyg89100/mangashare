@@ -29,10 +29,11 @@ class LikeRepository extends ServiceEntityRepository
             ->setParameter('end', $end);
 
         if ('manga' === $type) {
-            $qb->andWhere('userLike.manga = :id');
+            $qb->andWhere('userLike.manga = :id')->setParameter('id', $contentId);
         }
-
-        $qb->setParameter('id', $contentId);
+        // NOTE design : l'entité Like ne porte que les likes de manga.
+        // Les likes d'articles vivent dans LikeArticle → le cas 'article'
+        // doit être routé vers son repository (à traiter dans DashboardController).
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }

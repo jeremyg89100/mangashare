@@ -84,8 +84,6 @@ final class DashboardController extends AbstractController
 
     private function getMetricValue(string $type, int $id, string $metric, \DateTimeImmutable $date, EntityManagerInterface $em): int
     {
-        dump($type, $id, $metric, $date->format('Y-m-d'));
-
         return match ($metric) {
             'likes' => $em->getRepository(\App\Entity\Like::class)->countByDay($id, $type, $date),
             'comments' => $em->getRepository(\App\Entity\Comment::class)->countByDay($id, $type, $date),

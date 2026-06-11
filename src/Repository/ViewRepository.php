@@ -29,10 +29,10 @@ class ViewRepository extends ServiceEntityRepository
             ->setParameter('end', $end);
 
         if ('manga' === $type) {
-            $qb->andWhere('view.manga = :id');
+            $qb->andWhere('view.manga = :id')->setParameter('id', $contentId);
+        } elseif ('article' === $type) {
+            $qb->andWhere('view.article = :id')->setParameter('id', $contentId);
         }
-
-        $qb->setParameter('id', $contentId);
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
