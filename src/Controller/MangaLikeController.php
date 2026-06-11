@@ -11,10 +11,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class MangaLikeController extends AbstractController
 {
     #[Route('/manga/{id}/like', name: 'app_manga_like', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function index(Manga $manga, EntityManagerInterface $em, Request $request): JsonResponse
     {
         if (!$this->isCsrfTokenValid('like', $request->headers->get('X-CSRF-TOKEN'))) {
@@ -23,7 +25,7 @@ final class MangaLikeController extends AbstractController
         $user = $this->getUser();
 
         if (!$user instanceof User) {
-            return $this->json(['error' => 'Vous devez être connecté pour aimer ce manga.'], 403);
+            return $this->json(['error' => "L'utilisateur n'est pas connecté"], 404);
         }
 
         $likeRepository = $em->getRepository(Like::class);

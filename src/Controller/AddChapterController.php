@@ -13,11 +13,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class AddChapterController extends AbstractController
 {
     #[Route('/add/chapter/{id}', name: 'app_add_chapter')]
+    #[IsGranted('ROLE_USER')]
     public function index(Request $request, SluggerInterface $slugger, Manga $manga, EntityManagerInterface $em, #[Autowire('%kernel.project_dir%/public/uploads/miniatures')] string $miniatureDirectory, #[Autowire('%kernel.project_dir%/public/uploads/pages')] string $pageDirectory): Response
     {
         if ($request->isMethod('POST')) {

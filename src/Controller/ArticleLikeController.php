@@ -11,10 +11,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class ArticleLikeController extends AbstractController
 {
     #[Route('/article/{id}/like', name: 'app_article_like', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function index(Article $article, EntityManagerInterface $em, Request $request): JsonResponse
     {
         if (!$this->isCsrfTokenValid('like', $request->headers->get('X-CSRF-TOKEN'))) {

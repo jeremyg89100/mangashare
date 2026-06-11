@@ -9,13 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class NotificationsController extends AbstractController
 {
     #[Route('/notifications', name: 'app_notifications')]
+    #[IsGranted('ROLE_USER')]
     public function index(NotificationRepository $notificationRepository, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
+
         if (!$user instanceof User) {
             return $this->redirectToRoute('app_login');
         }

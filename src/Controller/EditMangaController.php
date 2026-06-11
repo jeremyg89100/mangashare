@@ -6,10 +6,12 @@ use App\Entity\Manga;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class EditMangaController extends AbstractController
 {
     #[Route('/edit/manga/{id}', name: 'app_edit_manga')]
+    #[IsGranted('ROLE_USER')]
     public function index(Manga $manga): Response
     {
         if ($manga->getUser() !== $this->getUser()) {

@@ -11,17 +11,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class MangaCommentController extends AbstractController
 {
     #[Route('/manga/{id}/comment', name: 'app_manga_comment', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function index(Manga $manga, EntityManagerInterface $em, Request $request): Response
     {
         $content = $request->request->get('comment-content');
         $user = $this->getUser();
 
         if (!$user instanceof User) {
-            throw $this->createAccessDeniedException('Vous devez être connecté pour commenter.');
+            return $this->redirectToRoute('app_login');
         }
 
         if (null !== $content && '' !== trim((string) $content)) {

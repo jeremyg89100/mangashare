@@ -10,10 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class UserFollowController extends AbstractController
 {
     #[Route('/user/{id}/follow', name: 'app_user_follow', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function index(User $targetUser, EntityManagerInterface $em, Request $request): JsonResponse
     {
         if (!$this->isCsrfTokenValid('follow', $request->headers->get('X-CSRF-TOKEN'))) {
