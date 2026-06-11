@@ -25,15 +25,14 @@ class CommentRepository extends ServiceEntityRepository
             ->select('COUNT(comment.id)')
             ->andWhere('comment.createdAt >= :start')
             ->andWhere('comment.createdAt <= :end')
-            ->setParameter('id', $contentId)
             ->setParameter('start', $start)
             ->setParameter('end', $end);
 
         if ('manga' === $type) {
-            $qb->andWhere('comment.manga = :id');
+            $qb->andWhere('comment.manga = :id')->setParameter('id', $contentId);
+        } elseif ('article' === $type) {
+            $qb->andWhere('comment.article = :id')->setParameter('id', $contentId);
         }
-
-        $qb->setParameter('id', $contentId);
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }

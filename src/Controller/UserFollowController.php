@@ -51,9 +51,9 @@ final class UserFollowController extends AbstractController
 
             $notification = new Notification();
             $notification->setCreatedAt(new \DateTimeImmutable());
-            $notification->setHasBeenRead((bool) 0);
+            $notification->setHasBeenRead(false);
             $notification->setUser($targetUser);
-            $notification->setMessage("{{$currentUser->getPseudo()}} vous suit");
+            $notification->setMessage("{$currentUser->getPseudo()} vous suit");
 
             $em->persist($notification);
         }

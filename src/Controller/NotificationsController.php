@@ -31,7 +31,7 @@ final class NotificationsController extends AbstractController
 
         if ($unreadCount > 0) {
             foreach ($notifications as $notification) {
-                if ($notification->hasBeenRead()) {
+                if (!$notification->hasBeenRead()) {
                     $notification->setHasBeenRead(true);
                 }
             }
