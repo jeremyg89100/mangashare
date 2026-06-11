@@ -1020,6 +1020,61 @@ body {
     justify-content: center;
     gap: 10px;
 }
+
+/* Dashboard */
+
+.manga-card-dashboard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: solid black 1px;
+    border-radius: 8px;
+    width: 100%;
+    background-color: #444;
+    padding: 8px 12px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.manga-card-dashboard button {
+    background-color: black;
+    padding: 5px 8px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+#dashboard-panel {
+    background: #ffffff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-top: 16px;
+}
+
+.metric-selector {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 10px;
+}
+
+.metric-btn {
+    color: white;
+    background-color: black;
+    padding: 8px 12px;
+    width: 33%;
+    border-radius: 8px;
+}
+
+.metric-btn.active {
+    color: gold;
+    background-color: black;
+    padding: 8px 12px;
+    width: 33%;
+    border-radius: 8px;
+}
 @media (min-width: 768px) {
     .home-phrase {
         padding: 56px 24px;

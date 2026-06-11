@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{%block stylesheets%}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}">
+{%endblock%}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {{ importmap(['dashboard']) }}
+{% endblock %}
+
+{% block body %}
+    <section class="home-section">
+        <h3 class="margin-bottom-class margin-top-class">Mes Mangas</h3>
+        {% for manga in mangas %}
+            <div class="manga-card-dashboard">
+                <span>{{ manga.title }}</span>
+                <button type="button" class="dashboard-btn" data-type="manga" data-id="{{ manga.id }}">Voir Dashboard</button>
+            </div>
+        {% endfor %}
+
+        <div class="metric-selector">
+            <button class="metric-btn active" data-metric="likes">Likes</button>
+            <button class="metric-btn" data-metric="comments">Commentaires</button>
+            <button class="metric-btn" data-metric="views">Vues</button>
+        </div>
+
+        <div id="dashboard-panel"></div>
+    </section>
+
+{% endblock %}

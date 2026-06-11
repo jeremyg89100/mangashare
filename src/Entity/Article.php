@@ -50,10 +50,17 @@ class Article
     #[ORM\OneToMany(targetEntity: LikeArticle::class, mappedBy: 'article')]
     private Collection $likeArticles;
 
+    /**
+     * @var Collection<int, View>
+     */
+    #[ORM\OneToMany(targetEntity: View::class, mappedBy: 'article')]
+    private Collection $views;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->likeArticles = new ArrayCollection();
+        $this->views = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -213,5 +220,35 @@ class Article
         }
 
         return false;
+    }
+
+    /**
+     * @return Collection<int, View>
+     */
+    public function getViews(): Collection
+    {
+        return $this->views;
+    }
+
+    public function addView(View $view): static
+    {
+        if (!$this->views->contains($view)) {
+            $this->views->add($view);
+            $view->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeView(View $view): static
+    {
+        if ($this->views->removeElement($view)) {
+            // set the owning side to null (unless already changed)
+            if ($view->getArticle() === $this) {
+                $view->setArticle(null);
+            }
+        }
+
+        return $this;
     }
 }

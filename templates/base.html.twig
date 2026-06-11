@@ -81,7 +81,7 @@
                                 <a href="{{path('app_user_page')}}">Mon profil</a>
                                 <a href="{{path('app_projects')}}">Mes Projets</a>
                                 <a href=" {{path('app_my_articles')}} ">Mes Astuces</a>
-                                <a href="#">Dashboard</a>
+                                <a href="{{path('app_dashboard')}}">Dashboard</a>
                                 <a href="{{path('app_following_page')}}">Mes Abonnements</a>
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <a href="#">Administration</a>

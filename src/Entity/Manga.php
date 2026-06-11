@@ -65,11 +65,18 @@ class Manga
     #[ORM\Column(length: 80)]
     private array $categories = [];
 
+    /**
+     * @var Collection<int, View>
+     */
+    #[ORM\OneToMany(targetEntity: View::class, mappedBy: 'manga')]
+    private Collection $mangaViews;
+
     public function __construct()
     {
         $this->chapters = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->mangaViews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -282,6 +289,36 @@ class Manga
     public function setCategories(array $categories): static
     {
         $this->categories = $categories;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, View>
+     */
+    public function getMangaViews(): Collection
+    {
+        return $this->mangaViews;
+    }
+
+    public function addMangaView(View $mangaView): static
+    {
+        if (!$this->mangaViews->contains($mangaView)) {
+            $this->mangaViews->add($mangaView);
+            $mangaView->setManga($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMangaView(View $mangaView): static
+    {
+        if ($this->mangaViews->removeElement($mangaView)) {
+            // set the owning side to null (unless already changed)
+            if ($mangaView->getManga() === $this) {
+                $mangaView->setManga(null);
+            }
+        }
 
         return $this;
     }

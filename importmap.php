@@ -48,6 +48,10 @@ return [
         'path' => './assets/SearchBar.js',
         'entrypoint' => true,
     ],
+    'dashboard' => [
+        'path' => './assets/Dashboard.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

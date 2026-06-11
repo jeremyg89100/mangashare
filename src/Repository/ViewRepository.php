@@ -2,18 +2,18 @@
 
 namespace App\Repository;
 
-use App\Entity\Comment;
+use App\Entity\View;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Comment>
+ * @extends ServiceEntityRepository<View>
  */
-class CommentRepository extends ServiceEntityRepository
+class ViewRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Comment::class);
+        parent::__construct($registry, View::class);
     }
 
     public function countByDay(int $contentId, string $type, \DateTimeImmutable $date): int
@@ -21,43 +21,41 @@ class CommentRepository extends ServiceEntityRepository
         $start = $date->setTime(0, 0, 0);
         $end = $date->setTime(23, 59, 59);
 
-        $qb = $this->createQueryBuilder('comment')
-            ->select('COUNT(comment.id)')
-            ->andWhere('comment.createdAt >= :start')
-            ->andWhere('comment.createdAt <= :end')
-            ->setParameter('id', $contentId)
+        $qb = $this->createQueryBuilder('view')
+            ->select('COUNT(view.id)')
+            ->andWhere('view.createdAt >= :start')
+            ->andWhere('view.createdAt <= :end')
             ->setParameter('start', $start)
             ->setParameter('end', $end);
 
         if ('manga' === $type) {
-            $qb->andWhere('comment.manga = :id');
-        } else {
-            $qb->andWhere('comment.article = :id');
+            $qb->andWhere('view.manga = :id');
         }
 
         $qb->setParameter('id', $contentId);
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
+
     //    /**
-    //     * @return Comment[] Returns an array of Comment objects
+    //     * @return View[] Returns an array of View objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
+    //        return $this->createQueryBuilder('v')
+    //            ->andWhere('v.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
+    //            ->orderBy('v.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Comment
+    //    public function findOneBySomeField($value): ?View
     //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
+    //        return $this->createQueryBuilder('v')
+    //            ->andWhere('v.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()
