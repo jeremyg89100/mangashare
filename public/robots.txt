@@ -1,0 +1,13 @@
+# www.robotstxt.org
+
+User-agent: *
+Allow: /
+
+# Zones privées / techniques à ne pas indexer
+Disallow: /dashboard
+Disallow: /login
+Disallow: /register
+Disallow: /_profiler
+Disallow: /_wdt
+
+# Sitemap: https://mangashare.example/sitemap.xml

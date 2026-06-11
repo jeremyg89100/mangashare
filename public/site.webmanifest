@@ -1,0 +1,24 @@
+{
+    "name": "MangaShare",
+    "short_name": "MangaShare",
+    "description": "Plateforme communautaire de partage et de lecture de mangas.",
+    "lang": "fr",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "theme_color": "#111827",
+    "background_color": "#111827",
+    "icons": [
+        {
+            "src": "/favicon.svg",
+            "type": "image/svg+xml",
+            "sizes": "any",
+            "purpose": "any"
+        },
+        {
+            "src": "/favicon.ico",
+            "type": "image/x-icon",
+            "sizes": "16x16 32x32 48x48"
+        }
+    ]
+}
