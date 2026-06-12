@@ -22,26 +22,31 @@
         <div class="chapter-section">
             <h2>Vos chapîtres</h2>
             {% for chapter in manga.chapters %}
-                <div class="chapter-title">
-                    <div class="chapter-text-group">
-                        <span>Chapitre {{loop.index}} :</span>
-                        <h3>{{chapter.title}}</h3>
+                <div class="chapter-block">
+
+                    <div class="chapter-title">
+                        <div class="chapter-text-group">
+                            <span>Chapitre {{ loop.index }} :</span>
+                            <h3>{{ chapter.title }}</h3>
+                        </div>
+
+                        <div class="chapter-publish">
+                            {% if chapter.published == 1 %}
+                                <span>Publié</span>
+                            {% else %}
+                                <span>Non publié</span>
+                            {% endif %}
+                        </div>
                     </div>
 
-                    <div class="chapter-publish">
-                        {% if chapter.published == 1 %}
-                            <span>Publié</span>
-                        {% else %}
-                            <span>Non publié</span>
-                        {% endif %}
+                    <div class="edit-btn">
+                        <a href="{{ path('app_edit_chapter', {'id' : chapter.id }) }}">Editer</a>
+                        <form action="{{ path('app_delete_chapter', {'id': chapter.id}) }}" method="POST" onsubmit="return confirm('Supprimer ce chapître ?')">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete ~ chapter.id') }}">
+                            <button type="submit">Supprimer</button>
+                        </form>
                     </div>
-                </div>
-                <div class="edit-btn">
-                    <a href="{{path('app_edit_chapter', {'id' : chapter.id })}}">Editer</a>
-                    <form action="{{path('app_delete_chapter', {'id': chapter.id})}}" method="POST" onsubmit="return confirm('Supprimer ce chapître ?')">
-                        <input type="hidden" name="_token" value="{{csrf_token('delete ~ chapter.id')}}">
-                        <button type="submit">Supprimer</button>
-                    </form>
+
                 </div>
             {% endfor %}
         </div>

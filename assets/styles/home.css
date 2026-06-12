@@ -355,16 +355,24 @@ body {
     border-radius: 8px;
 }
 
+.chapter-block {
+    margin-bottom: 30px;
+    width: 100%;
+}
+
 .chapter-title {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     margin-bottom: 20px;
 }
+
 .chapter-text-group {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
     gap: 8px;
 }
@@ -376,6 +384,7 @@ body {
     color: white;
     padding: 5px 12px;
 }
+
 .project-buttons button,
 .project-buttons a,
 .edit-btn button,

@@ -25,10 +25,6 @@ final class EditArticlesController extends AbstractController
         #[Autowire('%kernel.project_dir%/public/uploads/miniatureArticle')]
         string $miniatureDirectory
     ): Response {
-        if ($article->getUser() !== $this->getUser()) {
-            throw $this->createAccessDeniedException();
-        }
-
         if ($request->isMethod('POST')) {
             $article->setTitle($request->request->getString('articleTitle'));
             $article->setCategory($request->request->getString('category'));
