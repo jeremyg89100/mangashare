@@ -9,7 +9,7 @@ when@dev:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
-                channels: ["!event"]
+                channels: ["!event", "!deprecation"]
             console:
                 type: console
                 process_psr_3_messages: false
@@ -52,4 +52,5 @@ when@prod:
                 type: stream
                 channels: [deprecation]
                 path: php://stderr
+                level: error
                 formatter: monolog.formatter.json
