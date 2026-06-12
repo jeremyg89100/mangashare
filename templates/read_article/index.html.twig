@@ -34,7 +34,7 @@
                 </button>
             </div>
         </div>
-        <span class="read-article-content margin-top-class">{{article.textContent|raw}}</span>
+        <span class="read-article-content margin-top-class">{{article.textContent|sanitize_html}}</span>
         <div class="edit-btn">
             <button class="comment-btn" type="button">Commentaire</button>
         </div>

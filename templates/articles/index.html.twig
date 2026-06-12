@@ -50,7 +50,7 @@
                             <div class="article-card-right">
                                 <div class="article-content">
                                     <h3> {{article.title}} </h3>
-                                    <p> {{article.textContent|raw}} </p>
+                                    <p> {{article.textContent|sanitize_html}} </p>
                                 </div>
                             </div>
                         </div>

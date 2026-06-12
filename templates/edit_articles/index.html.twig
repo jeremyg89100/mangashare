@@ -27,7 +27,7 @@
                 <span class="span-color">Contenu :</span>
                 <div id="editor-wrap">
                     <div id="editor-article"></div>
-                    <textarea type="text" placeholder="Contenu de l'article" name="article-content" id="article-content-hidden" style="display:none" class="article-synopsis">{{article.textContent|raw}}</textarea>
+                    <textarea type="text" placeholder="Contenu de l'article" name="article-content" id="article-content-hidden" style="display:none" class="article-synopsis">{{article.textContent|sanitize_html}}</textarea>
                 </div>
             </div>
             <div class="new-project-right">

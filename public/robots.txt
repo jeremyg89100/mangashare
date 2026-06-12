@@ -1,0 +1,19 @@
+User-agent: *
+
+# Blocage des routes de gestion
+Disallow: /admin/
+Disallow: /edit/
+Disallow: /add/
+Disallow: /delete/
+
+# Blocage des pages d'authentification
+Disallow: /login
+Disallow: /register
+
+# Blocage des dossiers internes de Symfony en production
+Disallow: /_profiler/
+Disallow: /_wdt/
+Disallow: /_error/
+
+# Autorise l'indexation de tout le reste du catalogue public
+Allow: /
