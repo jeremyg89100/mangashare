@@ -10,7 +10,7 @@
 
 {%block javascripts%}
     {{ parent() }}
-    {{ importmap(['mangaLike', 'userFollow', 'comment']) }}
+    {{ importmap(['mangaLike', 'userFollow', 'comment', 'report']) }}
 {%endblock%}
 
 {% block body %}
@@ -93,7 +93,29 @@
                                             </div>
                                             <span class="comment-user-pseudo">{{ comment.user.pseudo }}</span>
                                         </div>
-                                        <span class="comment-date">{{ comment.createdAt|date('d/m/Y') }}</span>
+                                        <div class="date-signal-btn">
+                                            <span class="comment-date">{{ comment.createdAt|date('d/m/Y') }}</span>
+                                            {% if ['ROLE_USER']%}
+                                                <button type="button" class="btn btn-sm btn-report signal-btn" data-comment-id=" {{ comment.id }} ">Signaler</button>
+                                                <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Signaler ce commentaire ?</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Êtes-vous sûr de vouloir signaler ce commentaire à l'équipe de modération ?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-light text-dark" data-bs-dismiss="modal">Annuler</button>
+                                                                <button type="button" class="btn btn-danger text-white" id="confirmReportBtn">Confirmer le signalement</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                     <div class="comment-content">
                                         <span>{{ comment.textContent }}</span>

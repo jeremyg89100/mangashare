@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Modération - Commentaires
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/home.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="admin-wrapper">
+        <h1 class="admin-title">Commentaires signalés</h1>
+
+        <div class="custom-table">
+
+            <div class="table-header">
+                <div class="col-auteur">Auteur</div>
+                <div class="col-contenu">Contenu</div>
+                <div class="col-actions">Action</div>
+            </div>
+
+            {% for comment in comments %}
+                <div class="table-row">
+                    <div class="col-auteur-data">
+                        <strong>{{ comment.user.pseudo }}</strong>
+                    </div>
+
+                    <div class="col-contenu-data">
+                        {{ comment.textContent }}
+                    </div>
+
+                    <div class="col-actions-data">
+                        {% if comment.manga is not null %}
+                            <a href="{{ path('app_info_manga', { id: comment.manga.id }) }}#comment-{{ comment.id }}" class="btn-action btn-view">Voir</a>
+                        {% elseif comment.article is not null %}
+                            <a href="{{ path('app_article_show', { id: comment.article.id }) }}#comment-{{ comment.id }}" class="btn-action btn-view">Voir</a>
+                        {% endif %}
+
+                        <button class="btn-action btn-resolve">Désignaler</button>
+                    </div>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    Aucun commentaire signalé pour le moment.
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}

@@ -32,6 +32,7 @@ final class ArticleCommentController extends AbstractController
             $comment->setTextContent((string) $content);
             $comment->setCreatedAt(new \DateTimeImmutable());
             $comment->setUser($user);
+            
 
             $em->persist($comment);
 

@@ -52,6 +52,11 @@ return [
         'path' => './assets/Dashboard.js',
         'entrypoint' => true,
     ],
+    'report' => [
+        'path' => './assets/report.js',
+        'entrypoint' => true,
+    ],
+    
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

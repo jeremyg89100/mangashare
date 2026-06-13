@@ -23,9 +23,17 @@ class AppFixtures extends Fixture
         $user->setPseudo('TestUser');
         $user->setEmail('test@test.com');
         $user->setPassword($this->hasher->hashPassword($user, 'password'));
-        $user->setRoles([]);
+        $user->setRoles(['ROLE_USER']);
         $user->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($user);
+
+        $admin = new User();
+        $admin->setPseudo('adminServer');
+        $admin->setEmail('admin@test.fr');
+        $admin->setPassword($this->hasher->hashPassword($admin, 'adminpassword45'));
+        $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setCreatedAt(new \DateTimeImmutable());
+        $manager->persist($admin);
 
         // Create tests Manga
 

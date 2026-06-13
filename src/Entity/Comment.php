@@ -30,6 +30,9 @@ class Comment
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?Article $article = null;
 
+    #[ORM\Column(options: ["default" => false])]
+    private bool $isReported = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +94,18 @@ class Comment
     public function setArticle(?Article $article): static
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function isReported(): bool
+    {
+        return $this->isReported;
+    }
+
+    public function setIsReported(bool $isReported): static
+    {
+        $this->isReported = $isReported;
 
         return $this;
     }
