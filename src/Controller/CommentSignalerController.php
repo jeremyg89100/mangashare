@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\User;
 
 final class CommentSignalerController extends AbstractController
 {
@@ -18,7 +19,9 @@ final class CommentSignalerController extends AbstractController
         $comment->setIsReported(true);
         $em->flush();
 
+        /** @var User[] $admins */
         $admins = $userRepository->findByRole('ROLE_ADMIN');
+
 
         foreach ($admins as $admin) {
             $notification = new Notification();
@@ -27,10 +30,15 @@ final class CommentSignalerController extends AbstractController
             $notification->setHasBeenRead(false);
             $notification->setLink($this->generateUrl('app_admin'));
 
-            if ($comment->getManga() !== null) {
-                $notification->setMessage("Nouveau signalement sur le manga : " . $comment->getManga()->getTitle());
+            if (null !== $comment->getManga()) {
+                $notification->setMessage('Nouveau signalement sur le manga : ' . $comment->getManga()->getTitle());
             } else {
-                $notification->setMessage("Nouveau signalement sur l'article : " . $comment->getArticle()->getTitle());
+                $article = $comment->getArticle();
+                if (null !== $article) {
+                    $notification->setMessage("Nouveau signalement sur l'article : " . $article->getTitle());
+                } else {
+                    $notification->setMessage("Nouveau signalement sur un contenu inconnu");
+                }
             }
 
             $em->persist($notification);
@@ -40,7 +48,7 @@ final class CommentSignalerController extends AbstractController
 
         return new JsonResponse([
             'success' => true,
-            'message' => 'Le commentaire #' . $comment->getId() . 'a été signalé.'
+            'message' => 'Le commentaire #' . $comment->getId() . 'a été signalé.',
         ]);
     }
 }

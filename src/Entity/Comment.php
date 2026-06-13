@@ -30,7 +30,7 @@ class Comment
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?Article $article = null;
 
-    #[ORM\Column(options: ["default" => false])]
+    #[ORM\Column(options: ['default' => false])]
     private bool $isReported = false;
 
     public function getId(): ?int
