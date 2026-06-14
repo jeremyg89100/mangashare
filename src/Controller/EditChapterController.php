@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Chapter;
 use App\Entity\Page;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -22,46 +24,67 @@ final class EditChapterController extends AbstractController
         Chapter $chapter,
         Request $request,
         EntityManagerInterface $em,
+        LoggerInterface $logger,
         SluggerInterface $slugger,
         #[Autowire('%kernel.project_dir%/public/uploads/pages')]
         string $pageDirectory
     ): Response {
         $manga = $chapter->getManga();
+        $mangaId = $chapter->getManga()->getId();
+        $chapterId = $chapter->getId();
+
+        $user = $this->getUser();
+        $pseudo = ($user instanceof User) ? $user->getPseudo() : 'Inconnu';
 
         if ($manga->getUser() !== $this->getUser()) {
             throw $this->createAccessDeniedException();
         }
 
         if ($request->isMethod('POST')) {
-            $chapter->setTitle($request->request->getString('chapterTitle'));
+            try {
+                $chapter->setTitle($request->request->getString('chapterTitle'));
 
-            $uploadFiles = $request->files->all('pages');
+                $uploadFiles = $request->files->all('pages');
 
-            $pageOrder = 1;
+                $pageOrder = 1;
 
-            foreach ($uploadFiles as $file) {
-                if (!$file instanceof UploadedFile) {
-                    continue;
+                foreach ($uploadFiles as $file) {
+                    if (!$file instanceof UploadedFile) {
+                        continue;
+                    }
+                    $originalFilename = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+                    $file->move($pageDirectory, $newFilename);
+
+                    $page = new Page();
+                    $page->setImageUrl($newFilename);
+                    $page->setPageOrder($pageOrder);
+
+                    ++$pageOrder;
+
+                    $chapter->addPage($page);
+                    $em->persist($page);
                 }
-                $originalFilename = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
-                $file->move($pageDirectory, $newFilename);
+                $em->flush();
+                $logger->info(\sprintf(
+                    'EDIT CHAPTER : Le chapitre #%d du manga #%d a été modifié avec succès par l\'utilisateur %s',
+                    $chapterId,
+                    $mangaId,
+                    $pseudo,
+                ));
 
-                $page = new Page();
-                $page->setImageUrl($newFilename);
-                $page->setPageOrder($pageOrder);
-
-                ++$pageOrder;
-
-                $chapter->addPage($page);
-                $em->persist($page);
+                return $this->redirectToRoute('app_edit_manga', ['id' => $manga->getId()]);
+            } catch (\Exception $e) {
+                $logger->error(\sprintf(
+                    'EDIT CHAPTER ERREUR : L\'édition  du chapitre #%d au manga #%d a échoué par l\'utilisateur %s',
+                    $chapterId,
+                    $mangaId,
+                    $pseudo,
+                ), ['exception' => $e]);
             }
-
-            $em->flush();
-
-            return $this->redirectToRoute('app_edit_manga', ['id' => $manga->getId()]);
         }
 
         return $this->render('edit_chapter/index.html.twig', [
