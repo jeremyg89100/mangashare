@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const reportButtons = document.querySelectorAll(".btn-report");
+    const reportButtons = document.querySelectorAll(".btn-confirm-report");
     const confirmBtn = document.querySelector("#confirmReportBtn");
     const myModal = new bootstrap.Modal(document.querySelector("#reportModal"));
     let currentCommentId = null;

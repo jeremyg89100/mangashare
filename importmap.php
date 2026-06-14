@@ -56,6 +56,14 @@ return [
         'path' => './assets/report.js',
         'entrypoint' => true,
     ],
+    'deleteReport' => [
+        'path' => './assets/deleteReport.js',
+        'entrypoint' => true,
+    ],
+    'deleteComment' => [
+        'path' => './assets/deleteComment.js',
+        'entrypoint' => true,
+    ],
     
     '@hotwired/stimulus' => [
         'version' => '3.2.2',

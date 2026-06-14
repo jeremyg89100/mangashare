@@ -10,7 +10,7 @@
 
 {%block javascripts%}
     {{ parent() }}
-    {{ importmap(['mangaLike', 'userFollow', 'comment', 'report']) }}
+    {{ importmap(['mangaLike', 'userFollow', 'comment', 'report', 'deleteComment']) }}
 {%endblock%}
 
 {% block body %}
@@ -95,8 +95,10 @@
                                         </div>
                                         <div class="date-signal-btn">
                                             <span class="comment-date">{{ comment.createdAt|date('d/m/Y') }}</span>
-                                            {% if ['ROLE_USER']%}
-                                                <button type="button" class="btn btn-sm btn-report signal-btn" data-comment-id=" {{ comment.id }} ">Signaler</button>
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                <button type="button" class="btn btn-sm btn-report signal-btn btn-delete-comment" data-comment-id="{{ comment.id }} ">Supprimer</button>
+                                            {% elseif is_granted('ROLE_USER') %}
+                                                <button type="button" class="btn btn-sm btn-report signal-btn btn-confirm-report" data-comment-id="{{ comment.id }} ">Signaler</button>
                                                 <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">

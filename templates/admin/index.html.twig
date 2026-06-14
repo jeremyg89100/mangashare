@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="{{ asset('styles/home.css') }}">
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ importmap([ 'deleteReport']) }}
+{% endblock %}
+
 {% block body %}
     <div class="admin-wrapper">
         <h1 class="admin-title">Commentaires signalés</h1>
@@ -36,8 +41,7 @@
                         {% elseif comment.article is not null %}
                             <a href="{{ path('app_article_show', { id: comment.article.id }) }}#comment-{{ comment.id }}" class="btn-action btn-view">Voir</a>
                         {% endif %}
-
-                        <button class="btn-action btn-resolve">Désignaler</button>
+                        <button class="btn-action btn-resolve" data-comment-id="{{ comment.id }} ">Désignaler</button>
                     </div>
                 </div>
             {% else %}
