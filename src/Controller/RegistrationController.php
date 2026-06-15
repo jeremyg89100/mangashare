@@ -30,7 +30,7 @@ class RegistrationController extends AbstractController
                 // encode the plain password
                 $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
-                $user->setRoles([]);
+                $user->setRoles(['ROLE_USER']);
 
                 $user->setCreatedAt(new \DateTimeImmutable());
 

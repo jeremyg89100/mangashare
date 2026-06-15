@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Tableau Admin - Utilisateurs
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/home.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ importmap([ 'adminBanDeleteUser']) }}
+{% endblock %}
+
+{% block body %}
+    <div class="home-section">
+        <div class="admin-user-container">
+            <div class="admin-user-info">
+                <span>Pseudo</span>
+                <span>ID</span>
+                <span>Action</span>
+                <span>Action</span>
+            </div>
+            {% for user in users %}
+                <div class="admin-user-action">
+                    <span> {{user.pseudo}} </span>
+                    <span> {{user.id}} </span>
+                    {% if user.isEnabled === true %}
+                        <button class="ban-btn" data-id="{{ user.id }}" data-token="{{ csrf_token('ban') }}" type="button">Bannir</button>
+                    {% else %}
+                        <button class="ban-btn" data-id="{{ user.id }}" data-token="{{ csrf_token('ban') }}" type="button">Débannir</button>
+                    {% endif %}
+                    <button class="delete-btn" data-id="{{ user.id }}" data-token="{{ csrf_token('delete') }}" type="button">Supprimer</button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1129,7 +1129,7 @@ body {
 .admin-title {
     font-size: 1.6rem;
     color: #1e293b;
-    margin-bottom: 24px;
+    margin: 20px 0;
     font-family: sans-serif;
 }
 
@@ -1226,6 +1226,53 @@ body {
     color: #94a3b8;
     font-style: italic;
     background-color: #ffffff;
+}
+
+.a-btn {
+    color: white;
+    background-color: lightblue;
+    padding: 8px 12px;
+    border: #2563eb 1px solid;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.admin-user-action {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    border-bottom: 1px solid #555;
+}
+
+.admin-user-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    border-bottom: 1px solid #555;
+}
+
+.admin-user-action button {
+    padding: 5px 10px;
+    color: white;
+    background-color: rgb(143, 47, 47);
+    border-radius: 8px;
+}
+
+.admin-user-container {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    border-radius: 1px solid #444444;
+    background-color: #e2dada;
+    border-radius: 8px;
+    margin-top: 20px;
 }
 
 @media (min-width: 768px) {

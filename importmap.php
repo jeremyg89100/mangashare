@@ -64,6 +64,10 @@ return [
         'path' => './assets/deleteComment.js',
         'entrypoint' => true,
     ],
+    'adminBanDeleteUser' => [
+        'path' => './assets/adminBanDeleteUser.js',
+        'entrypoint' => true,
+    ],
     
     '@hotwired/stimulus' => [
         'version' => '3.2.2',

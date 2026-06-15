@@ -50,68 +50,71 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Manga>
      */
-    #[ORM\OneToMany(targetEntity: Manga::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Manga::class, cascade: ['remove'], mappedBy: 'user')]
     private Collection $mangas;
 
     /**
      * @var Collection<int, Article>
      */
-    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Article::class, cascade: ['remove'], mappedBy: 'user')]
     private Collection $articles;
 
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Comment::class, cascade: ['remove'], mappedBy: 'user')]
     private Collection $comments;
 
     /**
      * @var Collection<int, Follow>
      */
-    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'follower')]
+    #[ORM\OneToMany(targetEntity: Follow::class, cascade: ['remove'], mappedBy: 'follower')]
     private Collection $followsAsFollower;
 
     /**
      * @var Collection<int, Follow>
      */
-    #[ORM\OneToMany(targetEntity: Follow::class, mappedBy: 'following')]
+    #[ORM\OneToMany(targetEntity: Follow::class, cascade: ['remove'], mappedBy: 'following')]
     private Collection $followsAsFollowing;
 
     /**
      * @var Collection<int, Reporting>
      */
-    #[ORM\OneToMany(targetEntity: Reporting::class, mappedBy: 'author', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Reporting::class, cascade: ['remove'], mappedBy: 'author', orphanRemoval: true)]
     private Collection $reportingsSent;
 
     /**
      * @var Collection<int, Reporting>
      */
-    #[ORM\OneToMany(targetEntity: Reporting::class, mappedBy: 'target', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Reporting::class, cascade: ['remove'], mappedBy: 'target', orphanRemoval: true)]
     private Collection $reportingsReceived;
 
     /**
      * @var Collection<int, Notification>
      */
-    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Notification::class, cascade: ['remove'], mappedBy: 'user')]
     private Collection $notifications;
 
     /**
      * @var Collection<int, Like>
      */
-    #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'user', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Like::class, cascade: ['remove'], mappedBy: 'user', orphanRemoval: true)]
     private Collection $likes;
 
     /**
      * @var Collection<int, LikeArticle>
      */
-    #[ORM\OneToMany(targetEntity: LikeArticle::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: LikeArticle::class, cascade: ['remove'], mappedBy: 'user')]
     private Collection $likeArticles;
 
     /**
      * @var Collection<int, View>
      */
-    #[ORM\OneToMany(targetEntity: View::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: View::class, cascade: ['remove'], mappedBy: 'user')]
     private Collection $views;
+
+    #[ORM\Column]
+    private bool $enabled = true;
 
     public function __construct()
     {
@@ -545,6 +548,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $view->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): static
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }
