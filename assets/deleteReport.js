@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            fetch(`/admin/delete/report/comment/${commentId}`, {
+            fetch(`/admin/delete/report/${commentId}`, {
                 method: "POST",
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",

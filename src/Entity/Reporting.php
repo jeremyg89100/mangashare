@@ -18,7 +18,7 @@ class Reporting
     private string $reason;
 
     #[ORM\Column]
-    private bool $treated;
+    private bool $treated = false;
 
     #[ORM\Column(length: 50)]
     private string $type;

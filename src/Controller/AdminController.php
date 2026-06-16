@@ -12,10 +12,10 @@ final class AdminController extends AbstractController
     #[Route('/admin', name: 'app_admin')]
     public function index(CommentRepository $commentRepository): Response
     {
-        $reported = $commentRepository->findBy(['isReported' => true]);
+        $comments = $commentRepository->findBy(['isReported' => true]);
 
         return $this->render('admin/index.html.twig', [
-            'comments' => $reported,
+            'comments' => $comments,
         ]);
     }
 }
