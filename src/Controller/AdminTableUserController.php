@@ -126,4 +126,42 @@ final class AdminTableUserController extends AbstractController
             'message' => 'Une erreur lors de la suppression de l\'utilisateur est survenue',
         ]);
     }
+
+    #[Route('/admin/user/{id}/comments', name: 'app_admin_user_comments')]
+    public function getComments(User $user): JsonResponse
+    {
+        $comments = [];
+
+        foreach ($user->getComments() as $comment) {
+            $commentData = [
+                'id' => $comment->getId(),
+                'content' => $comment->getTextContent(),
+                'date' => $comment->getCreatedAt()->format('d/m/Y'),
+                'mangaId' => null,
+                'mangaLink' => null,
+                'articleId' => null,
+                'articleLink' => null,
+            ];
+
+            if (null !== $comment->getManga()) {
+                $commentData['mangaId'] = $comment->getManga()->getId();
+                $commentData['mangaLink'] = $this->generateUrl('app_info_manga', [
+                    'id' => $comment->getManga()->getId(),
+                ]);
+            }
+
+            if (null !== $comment->getArticle()) {
+                $commentData['articleId'] = $comment->getArticle()->getId();
+                $commentData['articleLink'] = $this->generateUrl('app_read_article', [
+                    'id' => $comment->getArticle()->getId(),
+                ]);
+            }
+            $comments[] = $commentData;
+        }
+
+        return $this->json([
+            'success' => true,
+            'comments' => $comments,
+        ]);
+    }
 }

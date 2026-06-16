@@ -36,7 +36,7 @@ return [
         'path' => './assets/userFollow.js',
         'entrypoint' => true,
     ],
-     'readManga' => [
+    'readManga' => [
         'path' => './assets/MangaReader.js',
         'entrypoint' => true,
     ],
@@ -68,7 +68,15 @@ return [
         'path' => './assets/adminBanDeleteUser.js',
         'entrypoint' => true,
     ],
-    
+    'adminGetComment' => [
+        'path' => './assets/adminGetComment.js',
+        'entrypoint' => true,
+    ],
+    'adminSearchUser' => [
+        'path' => './assets/adminSearchUser.js',
+        'entrypoint' => true,
+    ],
+
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

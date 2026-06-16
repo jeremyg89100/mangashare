@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (data.isEnabled === true) {
                                 button.textContent = "Bannir";
                             } else if (data.isEnabled === false) {
-                                button.textContent = "Débannir";
+                                button.textContent = "Déban";
                             } else {
                                 alert("Une erreur est survenue");
                             }

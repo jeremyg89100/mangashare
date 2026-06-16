@@ -10,28 +10,41 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {{ importmap([ 'adminBanDeleteUser']) }}
+    {{ importmap([ 'adminBanDeleteUser', 'adminGetComment', 'deleteComment', 'adminSearchUser']) }}
 {% endblock %}
 
 {% block body %}
     <div class="home-section">
+        <div class="admin-tools">
+            <a class="a-btn" href="{{path('app_admin')}}">Signalement</a>
+            <div class="admin-search-box">
+                <input type="text" id="admin-user-search" placeholder="Rechercher un utilisateur par son pseudo...">
+            </div>
+        </div>
         <div class="admin-user-container">
             <div class="admin-user-info">
-                <span>Pseudo</span>
-                <span>ID</span>
-                <span>Action</span>
-                <span>Action</span>
+                <span class="col-pseudo">Pseudo</span>
+                <span class="col-id">ID</span>
+                <span class="col-actions">Actions</span>
             </div>
             {% for user in users %}
                 <div class="admin-user-action">
-                    <span> {{user.pseudo}} </span>
-                    <span> {{user.id}} </span>
-                    {% if user.isEnabled === true %}
-                        <button class="ban-btn" data-id="{{ user.id }}" data-token="{{ csrf_token('ban') }}" type="button">Bannir</button>
-                    {% else %}
-                        <button class="ban-btn" data-id="{{ user.id }}" data-token="{{ csrf_token('ban') }}" type="button">Débannir</button>
-                    {% endif %}
-                    <button class="delete-btn" data-id="{{ user.id }}" data-token="{{ csrf_token('delete') }}" type="button">Supprimer</button>
+                    <div class="admin-user-content">
+                        <span class="col-pseudo"> {{user.pseudo}} </span>
+                        <span class="col-id"> {{user.id}} </span>
+
+                        <div class="col-actions-comment">
+                            <button class="comment-btn" data-id="{{ user.id }}" type="button">Afficher les commentaires</button>
+                            {% if user.isEnabled == true %}
+                                <button class="ban-btn" data-id="{{ user.id }}" data-token="{{ csrf_token('ban') }}" type="button">Bannir</button>
+                            {% else %}
+                                <button class="ban-btn" data-id="{{ user.id }}" data-token="{{ csrf_token('ban') }}" type="button">Déban</button>
+                            {% endif %}
+                            <button class="delete-btn" data-id="{{ user.id }}" data-token="{{ csrf_token('delete') }}" type="button">Supprimer</button>
+                        </div>
+                    </div>
+
+                    <div class="user-comments-list hidden"></div>
                 </div>
             {% endfor %}
         </div>
