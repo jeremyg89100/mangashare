@@ -43,7 +43,7 @@ final class UserSignalerController extends AbstractController
                 $notification->setUser($admin);
                 $notification->setHasBeenRead(false);
                 $notification->setLink($this->generateUrl('app_admin'));
-                $notification->setMessage('Nouveau signalement sur le user : '.$userPseudo);
+                $notification->setMessage('Nouveau signalement sur l\'utilisateur : '.$userPseudo);
 
                 $em->persist($notification);
             }
