@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("turbo:load", () => {
     document.querySelectorAll(".ban-btn").forEach((button) => {
         button.addEventListener("click", () => {
             const userId = button.getAttribute("data-id");

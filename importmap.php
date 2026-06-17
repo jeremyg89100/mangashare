@@ -56,8 +56,16 @@ return [
         'path' => './assets/report.js',
         'entrypoint' => true,
     ],
+    'reportUser' => [
+        'path' => './assets/reportUser.js',
+        'entrypoint' => true,
+    ],
     'deleteReport' => [
         'path' => './assets/deleteReport.js',
+        'entrypoint' => true,
+    ],
+    'deleteReportUser' => [
+        'path' => './assets/deleteReportUser.js',
         'entrypoint' => true,
     ],
     'deleteComment' => [

@@ -10,17 +10,14 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {{ importmap([ 'adminBanDeleteUser', 'adminGetComment', 'deleteComment', 'adminSearchUser']) }}
+    {{ importmap([ 'adminBanDeleteUser', 'deleteReportUser']) }}
 {% endblock %}
 
 {% block body %}
     <div class="home-section">
         <div class="admin-tools">
-            <a class="a-btn" href="{{path('app_admin')}}">Commentaires</a>
-            <a class="a-btn" href="{{path('app_admin_user_report')}}">Utilisateurs</a>
-            <div class="admin-search-box">
-                <input type="text" id="admin-user-search" placeholder="Rechercher un utilisateur par son pseudo...">
-            </div>
+            <a class="a-btn" href="{{path('app_admin')}}">Signalement</a>
+            <a class="a-btn" href="{{path('app_admin_table_user')}}">Utilisateurs</a>
         </div>
         <div class="admin-user-container">
             <div class="admin-user-info">
@@ -28,26 +25,29 @@
                 <span class="col-id">ID</span>
                 <span class="col-actions">Actions</span>
             </div>
-            {% for user in users %}
+            {% for user in reportedUsers %}
                 <div class="admin-user-action">
                     <div class="admin-user-content">
+
                         <span class="col-pseudo"> {{user.pseudo}} </span>
                         <span class="col-id"> {{user.id}} </span>
 
                         <div class="col-actions-comment">
-                            <button class="comment-btn" data-id="{{ user.id }}" type="button">Afficher les commentaires</button>
                             {% if user.isEnabled == true %}
                                 <button class="ban-btn" data-id="{{ user.id }}" data-token="{{ csrf_token('ban') }}" type="button">Bannir</button>
                             {% else %}
                                 <button class="ban-btn" data-id="{{ user.id }}" data-token="{{ csrf_token('ban') }}" type="button">Déban</button>
                             {% endif %}
-                            <button class="delete-btn" data-id="{{ user.id }}" data-token="{{ csrf_token('delete') }}" type="button">Supprimer</button>
+                            <a href="{{ path('app_user_info', {'id' : user.id}) }}">Voir</a>
+                            <button class="btn-action btn-resolve btn-erase-report-user" data-user-id="{{ user.id }}">Désignaler</button>
                         </div>
                     </div>
-
-                    <div class="user-comments-list hidden"></div>
+                    <div class="col-reason">
+                            <strong>Raison :</strong> {{ user.reportReason|default('Aucune raison spécifiée') }}
+                    </div>
                 </div>
             {% endfor %}
         </div>
     </div>
 {% endblock %}
+

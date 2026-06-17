@@ -10,14 +10,14 @@
 
 {%block javascripts%}
     {{ parent() }}
-    {{ importmap(['mangaLike', 'userFollow', 'comment']) }}
+    {{ importmap(['mangaLike', 'userFollow', 'comment', 'reportUser']) }}
 {%endblock%}
 
 {% block body %}
     <section class="home-section">
         <div class="manga-side-info">
             <div class="user-follow">
-            <span class="userName margin-top-class margin-bottom-class"> {{ user.pseudo }}</span>
+                <span class="userName margin-top-class margin-bottom-class"> {{ user.pseudo }}</span>
                 <button class="ajax-btn follow-btn margin-top-class margin-bottom-class" data-pseudo="{{user.pseudo}}" data-url="{{ path('app_user_follow', { 'id' : user.id }) }}" data-csrf="{{ csrf_token('follow')}}">
                     {%if user.isFollowedBy(app.user)%}
                         Ne plus suivre
@@ -25,6 +25,26 @@
                         Suivre {{user.pseudo}}
                     {%endif%}
                 </button>
+                {% if is_granted('ROLE_USER') %}
+                    <button type="button" class="btn btn-sm btn-report signal-btn btn-confirm-report btn-user-report" data-user-id="{{ user.id }}">Signaler</button>
+                    <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Signaler cet utilisateur ?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <textarea id="reportReason" class="form-control" rows="3" placeholder="Pour quelle raison voulez-vous signaler cette utilisateur ?"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light text-dark" data-bs-dismiss="modal">Annuler</button>
+                                    <button type="button" class="btn btn-danger text-white" id="confirmReportBtn">Confirmer le signalement</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
 

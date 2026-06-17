@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".btn-erase-report-comment").forEach((button) => {
+    document.querySelectorAll(".btn-erase-report-user").forEach((button) => {
         button.addEventListener("click", function () {
-            const row = this.closest(".table-row");
+            const row = this.closest(".admin-user-action");
 
-            const commentId = this.getAttribute("data-comment-id");
+            const userId = this.getAttribute("data-user-id");
 
-            if (!commentId) {
+            if (!userId) {
                 console.error("ID du commentaire introuvable sur le bouton.");
                 return;
             }
 
-            fetch(`/admin/delete/report/${commentId}`, {
+            fetch(`/admin/delete/report/user/${userId}`, {
                 method: "POST",
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",

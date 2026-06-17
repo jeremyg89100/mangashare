@@ -98,7 +98,7 @@
                                             {% if is_granted('ROLE_ADMIN') %}
                                                 <button type="button" class="btn btn-sm btn-report signal-btn btn-delete-comment" data-comment-id="{{ comment.id }} ">Supprimer</button>
                                             {% elseif is_granted('ROLE_USER') %}
-                                                <button type="button" class="btn btn-sm btn-report signal-btn btn-confirm-report" data-comment-id="{{ comment.id }} ">Signaler</button>
+                                                <button type="button" class="btn btn-sm btn-report signal-btn btn-confirm-report btn-comment-report" data-comment-id="{{ comment.id }} ">Signaler</button>
                                                 <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("turbo:load", () => {
     document.querySelectorAll(".admin-user-action").forEach((userRow) => {
         const commentBtn = userRow.querySelector(".comment-btn");
         const commentsListContainer = userRow.querySelector(

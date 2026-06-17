@@ -16,7 +16,7 @@
 {% block body %}
 
     <div class="admin-wrapper">
-        <a class="a-btn" href="{{path('app_admin_table_user')}}">Utilisateurs</a>
+        <a class="a-btn" href="{{path('app_admin_user_report')}}">Utilisateurs</a>
 
         <h1 class="admin-title">Commentaires signalés</h1>
 
@@ -44,7 +44,7 @@
                         {% elseif comment.article is not null %}
                             <a href="{{ path('app_article_show', { id: comment.article.id }) }}#comment-{{ comment.id }}" class="btn-action btn-view">Voir</a>
                         {% endif %}
-                        <button class="btn-action btn-resolve" data-comment-id="{{ comment.id }} ">Désignaler</button>
+                        <button class="btn-action btn-resolve btn-erase-report-comment" data-comment-id="{{ comment.id }} ">Désignaler</button>
                     </div>
                 </div>
             {% else %}

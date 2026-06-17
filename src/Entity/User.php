@@ -116,6 +116,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $enabled = true;
 
+    #[ORM\Column]
+    private bool $isReported = false;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $reportReason = null;
+
     public function __construct()
     {
         $this->mangas = new ArrayCollection();
@@ -560,6 +566,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEnabled(bool $enabled): static
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function isReported(): bool
+    {
+        return $this->isReported;
+    }
+
+    public function setIsReported(bool $isReported): static
+    {
+        $this->isReported = $isReported;
+
+        return $this;
+    }
+
+    public function getReportReason(): ?string
+    {
+        return $this->reportReason;
+    }
+
+    public function setReportReason(?string $reportReason): static
+    {
+        $this->reportReason = $reportReason;
 
         return $this;
     }
