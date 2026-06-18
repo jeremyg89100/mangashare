@@ -91,7 +91,13 @@
         ],
         "cs": "vendor/bin/php-cs-fixer fix --dry-run --diff",
         "cs:fix": "vendor/bin/php-cs-fixer fix",
-        "stan": "vendor/bin/phpstan analyse"
+        "stan": "vendor/bin/phpstan analyse",
+        "test": "bin/phpunit",
+        "test-db-reset": [
+            "bin/console doctrine:database:drop --force --env=test --if-exists",
+            "bin/console doctrine:database:create --env=test",
+            "bin/console doctrine:schema:create --env=test"
+        ]
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -103,6 +109,7 @@
         }
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^8.6",
         "doctrine/doctrine-fixtures-bundle": "^4.3",
         "friendsofphp/php-cs-fixer": "^3.95",
         "phpstan/extension-installer": "^1.4",
@@ -116,7 +123,9 @@
         "symfony/css-selector": "8.0.*",
         "symfony/debug-bundle": "8.0.*",
         "symfony/maker-bundle": "^1.0",
+        "symfony/panther": "^2.4",
         "symfony/stopwatch": "8.0.*",
-        "symfony/web-profiler-bundle": "8.0.*"
+        "symfony/web-profiler-bundle": "8.0.*",
+        "zenstruck/foundry": "^2.10"
     }
 }

@@ -18,8 +18,17 @@
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+        <!-- Tests unitaires : logique pure, sans kernel ni base de données (rapides). -->
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <!-- Tests fonctionnels : controllers HTTP et repositories sur la base de test. -->
+        <testsuite name="Functional">
+            <directory>tests/Functional</directory>
+        </testsuite>
+        <!-- Tests d'interface : navigateur réel (Panther/Chromium headless). -->
+        <testsuite name="Interface">
+            <directory>tests/Interface</directory>
         </testsuite>
     </testsuites>
 
@@ -40,5 +49,9 @@
     </source>
 
     <extensions>
+        <!-- dama : enveloppe chaque test dans une transaction puis rollback => base propre entre tests. -->
+        <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
+        <bootstrap class="Zenstruck\Foundry\PHPUnit\FoundryExtension" />
+        <bootstrap class="Symfony\Component\Panther\ServerExtension" />
     </extensions>
 </phpunit>

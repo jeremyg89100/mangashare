@@ -6,6 +6,21 @@ services:
       - "5432"
 ###< doctrine/doctrine-bundle ###
 
+###> app/tests ###
+  # Conteneur outillage pour lancer la suite de tests (PHPUnit + Panther).
+  # Usage : docker compose run --rm php bin/phpunit
+  php:
+    build: docker/php
+    working_dir: /app
+    volumes:
+      - ".:/app"
+    environment:
+      APP_ENV: test
+    depends_on:
+      database:
+        condition: service_healthy
+###< app/tests ###
+
 ###> symfony/mailer ###
   mailer:
     image: axllent/mailpit
