@@ -36,7 +36,7 @@ final class DeleteReportUserController extends AbstractController
             ]);
         } catch (\Exception $e) {
             $logger->error(\sprintf(
-                'ERREUR SIGNALEMENT RETIRE :  Le signalement du commentaire #%s n\'a pas pu être retiré par l\'administrateur %s ',
+                'ERREUR SIGNALEMENT RETIRE :  Le signalement de l\'utilisateur #%s n\'a pas pu être retiré par l\'administrateur %s ',
                 $userPseudo,
                 $adminPseudo,
             ), ['exception' => $e]);

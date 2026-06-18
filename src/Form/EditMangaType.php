@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * @extends AbstractType<Manga>
@@ -24,6 +25,13 @@ class EditMangaType extends AbstractType
             ->add('miniatureFile', FileType::class, [
                 'mapped' => false,
                 'required' => false,
+                'constraints' => [
+                    new File(
+                        maxSize: '2M',
+                        mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
+                        mimeTypesMessage: 'Merci de fournir une image valide (PNG, JPEG ou WebP).',
+                    ),
+                ],
             ])
             ->add('readingDirection', ChoiceType::class, [
                 'choices' => ['JP' => 'JP', 'FR' => 'FR'],

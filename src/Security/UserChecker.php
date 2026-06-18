@@ -4,7 +4,7 @@ namespace App\Security;
 
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -17,7 +17,7 @@ class UserChecker implements UserCheckerInterface
         }
 
         if (!$user->isEnabled()) {
-            throw new CustomUserMessageAuthenticationException('Votre compte a été suspendu ou banni');
+            throw new CustomUserMessageAccountStatusException('Votre compte a été suspendu ou banni');
         }
     }
 
