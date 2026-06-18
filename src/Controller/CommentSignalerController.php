@@ -62,7 +62,7 @@ final class CommentSignalerController extends AbstractController
 
         return new JsonResponse([
             'success' => true,
-            'message' => 'Le commentaire #'.$commentId.'a été signalé.',
+            'message' => 'Le commentaire #'.$commentId.' a été signalé.',
         ]);
     }
 }

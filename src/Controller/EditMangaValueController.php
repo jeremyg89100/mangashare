@@ -18,7 +18,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class EditMangaValueController extends AbstractController
 {
-    #[Route('/edit/manga/{id}/value', name: 'app_edit_manga_value')]
+    #[Route('/edit/manga/{id}/value', name: 'app_edit_manga_value', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function index(Request $request, Manga $manga, SluggerInterface $slugger, LoggerInterface $logger, EntityManagerInterface $em, #[Autowire('%kernel.project_dir%/public/uploads/miniatures')] string $miniatureDirectory): Response
     {
@@ -43,9 +43,19 @@ final class EditMangaValueController extends AbstractController
                 $miniature = $form->get('miniatureFile')->getData();
 
                 if ($miniature instanceof UploadedFile) {
+                    $oldMiniature = $manga->getMiniature();
+
                     $newMiniatureName = $slugger->slug(pathinfo($miniature->getClientOriginalName(), \PATHINFO_FILENAME)).'-'.uniqid().'.'.$miniature->guessExtension();
                     $miniature->move($miniatureDirectory, $newMiniatureName);
                     $manga->setMiniature($newMiniatureName);
+
+                    // Supprime l'ancien fichier du disque pour éviter l'accumulation d'orphelins.
+                    if (null !== $oldMiniature) {
+                        $oldMiniaturePath = $miniatureDirectory.'/'.$oldMiniature;
+                        if (is_file($oldMiniaturePath)) {
+                            unlink($oldMiniaturePath);
+                        }
+                    }
                 }
                 $em->flush();
 

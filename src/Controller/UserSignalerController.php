@@ -59,14 +59,14 @@ final class UserSignalerController extends AbstractController
             ));
         } catch (\Exception $e) {
             $logger->error(\sprintf(
-                'Le commentaire %d a échoué à être signalé',
+                'L\'utilisateur %s a échoué à être signalé',
                 $userPseudo
             ), ['exception' => $e]);
         }
 
         return new JsonResponse([
             'success' => true,
-            'message' => 'L\'utilisateur #'.$userPseudo.'a été signalé.',
+            'message' => 'L\'utilisateur #'.$userPseudo.' a été signalé.',
         ]);
     }
 }

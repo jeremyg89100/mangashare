@@ -548,12 +548,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeView(View $view): static
     {
-        if ($this->views->removeElement($view)) {
-            // set the owning side to null (unless already changed)
-            if ($view->getUser() === $this) {
-                $view->setUser(null);
-            }
-        }
+        // user est non-nullable côté View : on se contente de détacher la vue
+        // de la collection (cf. removeLikeArticle, même contrainte).
+        $this->views->removeElement($view);
 
         return $this;
     }

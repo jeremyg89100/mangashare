@@ -7,13 +7,21 @@ class Dashboard {
     }
 
     getCurrentWeek() {
+        // Semaine ISO 8601 (lundi → dimanche), alignée sur setISODate() côté PHP.
         const now = new Date();
-        const year = now.getFullYear();
-        const oneJan = new Date(year, 0, 1);
-        const week = Math.ceil(
-            ((now - oneJan) / 86400000 + oneJan.getDay() + 1) / 7,
+        const target = new Date(
+            Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()),
         );
-        return `${year}-W${String(week).padStart(2, "0")}`;
+        // Jeudi de la semaine courante : il porte l'année ISO.
+        const dayNr = (target.getUTCDay() + 6) % 7;
+        target.setUTCDate(target.getUTCDate() - dayNr + 3);
+        const isoYear = target.getUTCFullYear();
+        // Jeudi de la semaine 1 (celle qui contient le 4 janvier).
+        const firstThursday = new Date(Date.UTC(isoYear, 0, 4));
+        const firstDayNr = (firstThursday.getUTCDay() + 6) % 7;
+        firstThursday.setUTCDate(firstThursday.getUTCDate() - firstDayNr + 3);
+        const week = 1 + Math.round((target - firstThursday) / (7 * 86400000));
+        return `${isoYear}-W${String(week).padStart(2, "0")}`;
     }
 
     init() {
