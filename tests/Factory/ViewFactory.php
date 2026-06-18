@@ -18,8 +18,8 @@ final class ViewFactory extends PersistentObjectFactory
     }
 
     /**
-     * Seul createdAt est NON-NULLABLE ; manga/article/user sont optionnels.
-     * Par défaut on rattache la vue à un manga.
+     * Côté entité, seul createdAt est NON-NULLABLE (manga/article/user sont optionnels).
+     * Par défaut on crée une vue réaliste : un manga consulté par un utilisateur.
      *
      * @return array<string, mixed>
      */
@@ -28,6 +28,7 @@ final class ViewFactory extends PersistentObjectFactory
         return [
             'createdAt' => new \DateTimeImmutable(),
             'manga' => MangaFactory::new(),
+            'user' => UserFactory::new(),
         ];
     }
 }
