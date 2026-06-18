@@ -26,7 +26,7 @@ final class AdminTableUserController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/user/{id}/ban', name: 'app_admin_user_ban')]
+    #[Route('/admin/user/{id}/ban', name: 'app_admin_user_ban', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function banUser(User $targetUser, Request $request, LoggerInterface $logger, EntityManagerInterface $em): JsonResponse
     {
@@ -61,7 +61,7 @@ final class AdminTableUserController extends AbstractController
             }
 
             $logger->info(\sprintf(
-                'INFO BAN : L\'utilisateur %s n\'a été %s par l\'administrateur %s',
+                'INFO BAN : L\'utilisateur %s a été %s par l\'administrateur %s',
                 $userPseudo,
                 $accountState,
                 $adminPseudo,
@@ -86,7 +86,7 @@ final class AdminTableUserController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/user/{id}/delete', name: 'app_admin_user_delete')]
+    #[Route('/admin/user/{id}/delete', name: 'app_admin_user_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function deleteUser(User $targetUser, Request $request, LoggerInterface $logger, EntityManagerInterface $em): JsonResponse
     {
@@ -127,7 +127,8 @@ final class AdminTableUserController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/user/{id}/comments', name: 'app_admin_user_comments')]
+    #[Route('/admin/user/{id}/comments', name: 'app_admin_user_comments', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function getComments(User $user): JsonResponse
     {
         $comments = [];

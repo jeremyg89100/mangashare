@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class DeleteCommentController extends AbstractController
 {
-    #[Route('/admin/delete/comment/{id}', name: 'app_delete_comment')]
+    #[Route('/admin/delete/comment/{id}', name: 'app_delete_comment', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function index(Comment $comment, EntityManagerInterface $em, LoggerInterface $logger): JsonResponse
     {
@@ -42,13 +42,13 @@ final class DeleteCommentController extends AbstractController
             $logger->error(\sprintf(
                 '##ACTION ADMIN ## Erreur lors de la suppression du commentaire #%d (Auteur : %s) par l\'administrateur %s.',
                 $commentId,
+                $author,
                 $adminIdentifier,
-                $e->getMessage(),
             ), ['exception' => $e]);
 
             return new JsonResponse([
-                'success' => true,
-                'message' => 'Le commentaire #'.$commentId.' a bien été supprimé.',
+                'success' => false,
+                'message' => 'La suppression du commentaire #'.$commentId.' a échoué.',
             ]);
         }
     }

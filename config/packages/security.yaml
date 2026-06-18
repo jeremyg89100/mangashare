@@ -36,7 +36,10 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # Le préfixe ^/admin couvre le back-office (AdminController, etc.).
+        # IMPORTANT : exclure les routes /admin/* destinées aux utilisateurs
+        # (ex. signalement) en les déplaçant hors de ce préfixe — voir app_user_signaler.
+        - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
