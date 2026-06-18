@@ -11,10 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class UserSignalerController extends AbstractController
 {
-    #[Route('/admin/user/{id}/signaler', name: 'app_user_signaler', methods: ['POST'])]
+    // Route hors du préfixe ^/admin : signaler est une action UTILISATEUR,
+    // pas une action d'administration (sinon bloquée par l'access_control ROLE_ADMIN).
+    #[Route('/user/{id}/signaler', name: 'app_user_signaler', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function index(LoggerInterface $logger, User $user, EntityManagerInterface $em, UserRepository $userRepository, Request $request): JsonResponse
     {
         $userPseudo = $user->getPseudo();

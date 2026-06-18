@@ -11,10 +11,12 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class CommentSignalerController extends AbstractController
 {
     #[Route('/comment/{id}/signaler', name: 'app_comment_signaler', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function index(Comment $comment, EntityManagerInterface $em, UserRepository $userRepository, LoggerInterface $logger): JsonResponse
     {
         $commentId = $comment->getId();

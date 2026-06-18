@@ -24,7 +24,7 @@ document.addEventListener("turbo:load", () => {
 
         const cleanId = currentUserId.trim();
 
-        fetch(`/admin/user/${cleanId}/signaler`, {
+        fetch(`/user/${cleanId}/signaler`, {
             method: "POST",
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
