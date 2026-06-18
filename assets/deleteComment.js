@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("turbo:load", () => {
     document.querySelectorAll(".btn-delete-comment").forEach((button) => {
         button.addEventListener("click", function () {
             const comment = this.closest(".manga-comment");

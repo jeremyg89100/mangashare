@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("turbo:load", () => {
     const searchInput = document.getElementById("admin-user-search");
 
     if (!searchInput) return;

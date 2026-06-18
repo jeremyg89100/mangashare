@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("turbo:load", () => {
     const reportButtons = document.querySelectorAll(".btn-comment-report");
     const confirmBtn = document.querySelector("#confirmReportBtn");
     const myModal = new bootstrap.Modal(document.querySelector("#reportModal"));

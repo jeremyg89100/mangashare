@@ -148,7 +148,7 @@ document.addEventListener("turbo:load", () => {
 });
 
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", bootSearch);
+    document.addEventListener("turbo:load", bootSearch);
 } else {
     bootSearch();
 }

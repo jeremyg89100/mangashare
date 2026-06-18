@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Repository\ArticleRepository;
 use App\Repository\MangaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -24,17 +24,15 @@ final class DashboardController extends AbstractController
         }
 
         $mangas = $user->getMangas();
-        $articles = $user->getArticles();
 
         return $this->render('dashboard/index.html.twig', [
             'user' => $user,
             'mangas' => $mangas,
-            'articles' => $articles,
         ]);
     }
 
     #[Route('/dashboard/data/{type}/{id}/{metric}', name: 'app_dashboard_data', methods: ['GET'])]
-    public function getData(string $type, int $id, string $metric, MangaRepository $mangaRepository, ArticleRepository $articleRepository, EntityManagerInterface $em): Response
+    public function getData(string $type, int $id, string $metric, Request $request, MangaRepository $mangaRepository, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
 
@@ -54,21 +52,16 @@ final class DashboardController extends AbstractController
             }
         }
 
-        if ('article' === $type) {
-            $content = $articleRepository->find($id);
-
-            if (null === $content) {
-                return $this->json(['error' => 'Article introuvable'], 404);
-            }
-
-            if ($content->getUser() !== $user) {
-                return $this->json(['error' => 'Accès refusé'], 403);
-            }
+        $weekParam = $request->query->get('week');
+        if (null !== $weekParam) {
+            [$year, $week] = explode('-W', $weekParam);
+            $startOfWeek = new \DateTimeImmutable()->setISODate((int) $year, (int) $week, 1);
+        } else {
+            $startOfWeek = new \DateTimeImmutable('monday this week');
         }
-
         $data = [];
-        for ($i = 6; $i >= 0; --$i) {
-            $date = new \DateTimeImmutable("-{$i} days");
+        for ($i = 0; $i < 7; ++$i) {
+            $date = $startOfWeek->modify("+{$i} days");
             $label = $date->format('d/m');
 
             $data[] = [

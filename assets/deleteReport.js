@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("turbo:load", () => {
     document.querySelectorAll(".btn-erase-report-comment").forEach((button) => {
         button.addEventListener("click", function () {
             const row = this.closest(".table-row");

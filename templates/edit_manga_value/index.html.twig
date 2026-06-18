@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Edit Manga
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}" >
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ importmap([ 'app','mangaPage']) }}
+{% endblock %}
+
+{% block body %}
+    {{form_start(form)}}
+    <section class="home-section">
+        <div class="new-project-left">
+            <h1>Edites ton Manga :</h1>
+            <div class="new-project-top-left">
+                <span class="span-color">Titre du Manga :</span>
+                {{ form_widget(form.title, {'attr' : {'placeholder' : 'Titre du manga'} }) }}
+
+                <span class="span-color">Sens de Lecture :</span>
+                <div class="reading-direction">
+                    {% for child in form.readingDirection %}
+                        <label class="reading-direction-btn">
+                            {{ form_widget(child) }}
+                            <span class="btn-text">{{ child.vars.label }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+            <span class="span-color">Synopsis :</span>
+            {{ form_widget(form.synopsis, {'attr': {'class' : 'project-synopsis', 'placeholder' : 'Synopsis'} }) }}
+        </div>
+        <div class="new-project-right">
+            <span  class="span-color">Miniature :</span>
+            <div id="upload-miniature" class="upload-miniature-container">
+                <div class="new-project-middle">
+                    <span class="delete-btn-pages" style="display: {{ form.vars.data.miniature ? 'block' : 'none' }}">&times;</span>
+
+                    {{ form_widget(form.miniatureFile, {
+                    'id': 'file-miniature',
+                    'attr': {
+                    'class': 'file-input-miniature',
+                    'accept': 'image/png, image/jpeg'
+                    }
+                    }) }}
+
+                    <label for="file-miniature" class="upload-file">
+                        <span class="plus-icon" style="display: {{ form.vars.data.miniature ? 'none' : 'block' }}">+</span>
+                        <img class="image-preview" src="{{ form.vars.data.miniature ? asset('uploads/miniatures/' ~ form.vars.data.miniature) : '' }}" alt="Aperçu" style="display: {{ form.vars.data.miniature ? 'block' : 'none' }};">
+                    </label>
+                </div>
+            </div>
+            <span  class="span-color">Catégories :</span>
+            <div class="categories-section">
+                {% for child in form.categories %}
+                    <label class="category-btn">
+                        {{ form_widget(child) }}
+                        <span class="btn-text">{{ child.vars.label }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+            <span class="span-color">Statut :</span>
+            <div class="status-section">
+                {% for child in form.status %}
+                    <label class="status-btn">
+                        {{ form_widget(child) }}
+                        <span class="btn-text">{{ child.vars.label }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+
+            <div class="userpage-buttons-save">
+                <button type="submit">Editer le manga</button>
+                <button type="button">Annuler</button>
+            </div>
+
+        </section>
+        {{ form_end(form) }}
+    {% endblock %}

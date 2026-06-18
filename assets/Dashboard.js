@@ -2,7 +2,18 @@ class Dashboard {
     constructor() {
         this.currentChart = null;
         this.currentMetric = "likes";
+        this.currentWeek = this.getCurrentWeek();
         this.init();
+    }
+
+    getCurrentWeek() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const oneJan = new Date(year, 0, 1);
+        const week = Math.ceil(
+            ((now - oneJan) / 86400000 + oneJan.getDay() + 1) / 7,
+        );
+        return `${year}-W${String(week).padStart(2, "0")}`;
     }
 
     init() {
@@ -21,19 +32,27 @@ class Dashboard {
                     .querySelectorAll(".metric-btn")
                     .forEach((b) => b.classList.remove("active"));
                 btn.classList.add("active");
-
-                const activeContent = document.querySelector(
-                    "#dashboard-panel.active",
-                );
-
-                if (activeContent) {
-                    this.showDashboard(
-                        activeContent.dataset.type,
-                        activeContent.dataset.id,
-                    );
-                }
+                this.refreshDashboard();
             });
         });
+        const weekPicker = document.querySelector("#week-picker");
+        if (weekPicker) {
+            weekPicker.value = this.currentWeek;
+            weekPicker.addEventListener("change", (e) => {
+                this.currentWeek = e.target.value;
+                this.refreshDashboard();
+            });
+        }
+    }
+
+    refreshDashboard() {
+        const activeContent = document.querySelector("#dashboard-panel.active");
+        if (activeContent) {
+            this.showDashboard(
+                activeContent.dataset.type,
+                activeContent.dataset.id,
+            );
+        }
     }
 
     async showDashboard(type, id) {
@@ -47,7 +66,9 @@ class Dashboard {
     }
 
     async fetchData(type, id, metric) {
-        const response = await fetch(`/dashboard/data/${type}/${id}/${metric}`);
+        const response = await fetch(
+            `/dashboard/data/${type}/${id}/${metric}?week=${this.currentWeek}`,
+        );
         return await response.json();
     }
 
