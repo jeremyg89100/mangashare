@@ -1,0 +1,67 @@
+name: phpunit
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  tests:
+    name: Tests (PHPUnit)
+    runs-on: ubuntu-latest
+    env:
+      APP_ENV: test
+      # Base de test : le service postgres ci-dessous est exposé sur 127.0.0.1.
+      # Le suffixe "_test" est ajouté par config/packages/doctrine.yaml -> "app_test".
+      DATABASE_URL: "postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8"
+
+    services:
+      database:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: app
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: "!ChangeMe!"
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U app -d app"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_pgsql, intl
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      # Chrome + chromedriver pour les tests d'interface (Panther).
+      - name: Setup Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          install-chromedriver: true
+
+      - name: Expose Chrome/chromedriver paths to Panther
+        run: |
+          echo "PANTHER_CHROME_BINARY=$(command -v chrome || command -v google-chrome || command -v chromium)" >> "$GITHUB_ENV"
+          echo "PANTHER_CHROME_DRIVER_BINARY=$(command -v chromedriver)" >> "$GITHUB_ENV"
+          echo "PANTHER_NO_SANDBOX=1" >> "$GITHUB_ENV"
+
+      - name: Create test database schema
+        run: |
+          php bin/console doctrine:database:create --env=test --if-not-exists
+          php bin/console doctrine:schema:create --env=test
+
+      - name: Run PHPUnit
+        run: bin/phpunit
