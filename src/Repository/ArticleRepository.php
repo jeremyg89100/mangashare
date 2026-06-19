@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -43,6 +44,36 @@ class ArticleRepository extends ServiceEntityRepository
             ->setParameter('category', $category)
             ->groupBy('article.id')
             ->orderBy('likeCount', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function findByUser(User $user, int $limit = 12): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('a.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function findByUserAndCategory(User $user, string $category, int $limit = 12): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.user = :user')
+            ->andWhere('a.category = :category')
+            ->setParameter('user', $user)
+            ->setParameter('category', $category)
+            ->orderBy('a.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();

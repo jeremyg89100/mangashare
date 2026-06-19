@@ -74,7 +74,7 @@
                     </label>
                 </div>
             </div>
-            <span  class="span-color">Catégories :</span>
+            <span  class="span-color margin-top-class">Catégories :</span>
             <div class="categories-section">
                 {% for child in form.categories %}
                     <label class="category-btn">
@@ -102,7 +102,7 @@
                 </div>
                 <div class="userpage-buttons-save">
                     <button type="submit">Créer le manga</button>
-                    <button type="button">Annuler</button>
+                    <button type="button" onclick="window.history.back();">Annuler</button>
                 </div>
             </div>
         </section>

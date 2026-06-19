@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,12 @@ final class MyArticlesController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function index(Request $request, ArticleRepository $articleRepository): Response
     {
+        $user = $this->getUser();
+
+        if (!$user instanceof User) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $category = $request->query->getString('category');
         $categories = [
             'Dessin & Anatomies',
@@ -24,9 +31,9 @@ final class MyArticlesController extends AbstractController
         ];
 
         if ('' !== $category && \in_array($category, $categories, true)) {
-            $articles = $articleRepository->findMostPopularByCategory($category, 12);
+            $articles = $articleRepository->findByUserAndCategory($user, $category, 12);
         } else {
-            $articles = $articleRepository->findMostPopular(12);
+            $articles = $articleRepository->findByUser($user, 12);
             $category = null;
         }
 

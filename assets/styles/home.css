@@ -106,9 +106,9 @@ a:hover {
 
 .manga-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 16px;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 30px;
+    margin: 30px 0;
 }
 
 /* Manga card */
@@ -125,13 +125,14 @@ a:hover {
 }
 
 .manga-card-cover {
-    width: 100%;
+    width: 80%;
     aspect-ratio: 3/4;
     border-radius: 4px;
     overflow: hidden;
     margin-bottom: 8px;
     position: relative;
     box-shadow: 0 6px 16px rgba(24, 23, 28, 0.12);
+    margin: 8px auto;
 }
 
 .manga-card-cover img {
@@ -156,13 +157,17 @@ a:hover {
 }
 
 .manga-card-info {
+    width: 80%;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 6px;
 }
 
 .manga-card-title {
     font-family: var(--font-display);
+    display: block;
+    width: 100%;
     font-size: 14px;
     font-weight: 600;
     color: var(--text-main);
@@ -177,12 +182,17 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
+    margin: 0;
 }
 
 .manga-card-author {
     font-size: 12px;
     color: var(--text-muted);
     max-width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .manga-card-likes {
@@ -295,18 +305,34 @@ a:hover {
 }
 
 .rules-article {
-    margin: 0px 32px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: auto auto;
-    gap: 16px;
-    margin-bottom: 32px;
+    margin: 0 16px 32px;
 }
 
 .rules-article h2 {
-    grid-column: 1/4;
-    grid-row: 1;
     margin-top: 0;
+}
+
+.rules-text {
+    background-color: var(--color-light-muted);
+    border: 1px solid var(--color-light-border);
+    border-radius: 6px;
+    padding: 20px;
+    line-height: 1.7;
+    color: #353340;
+}
+
+.img-rules {
+    background-color: var(--color-dark);
+    border-radius: 6px;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-rules span {
+    color: var(--text-muted);
+    font-size: 14px;
 }
 
 .like-follow {
@@ -599,12 +625,13 @@ a:hover {
 .article-card {
     display: flex;
     flex-direction: row;
+    gap: 24px;
 }
 
 .article-content {
     overflow: hidden;
     position: relative;
-    max-height: 130px;
+    max-height: 150px;
     height: 100%;
 }
 
@@ -617,8 +644,9 @@ a:hover {
 .article-card-left {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 180px;
     margin-bottom: 20px;
+    flex-shrink: 0;
 }
 
 .article-infos {
@@ -630,7 +658,6 @@ a:hover {
 }
 
 .article-likes {
-    width: 40%;
     font-weight: 500;
     color: var(--accent-hover);
 }
@@ -650,16 +677,17 @@ a:hover {
 .article-card-right {
     display: flex;
     flex-direction: column;
-    width: 50%;
-    gap: 12px;
+    justify-content: space-between;
+    flex-grow: 1;
     margin-bottom: 20px;
 }
 
 .article-img img {
-    width: 150px;
+    width: 100%;
     object-fit: cover;
     height: 150px;
     border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 .article-card-right p {
@@ -1683,7 +1711,8 @@ a:hover {
 
     .manga-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
+        gap: 50px;
+        margin: 40px 0;
     }
 
     .projects-grid {
@@ -1695,6 +1724,36 @@ a:hover {
     .project-card-cover {
         width: 130px;
         height: 180px;
+    }
+    .rules-article {
+        margin: 0 60px 40px;
+    }
+
+    .rules-text {
+        padding: 40px;
+    }
+
+    .articles-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 60px;
+    }
+
+    .article-img img {
+        width: 100%;
+        height: 160px;
+    }
+
+    .col-actions-comment {
+        width: 60%;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .admin-user-content button {
+        font-size: 16px;
+        padding: 8px 20px;
     }
 }
 
@@ -1719,33 +1778,27 @@ a:hover {
 
     .manga-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
+        gap: 80px;
+        margin: 60px 0;
     }
 
     .rules-article {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: auto auto;
-        gap: 32px;
-        margin-bottom: 32px;
+        margin: 0 auto 60px;
+        padding: 0 40px;
+        max-width: 750px;
+    }
+
+    .rules-text {
+        padding: 40px;
+        font-size: 16px;
+        margin: 60px 0;
     }
 
     .rules-article h2 {
-        grid-column: 1/3;
-        grid-row: 1;
-        margin-top: 0;
+        margin-top: 60px;
     }
 
-    #rules-in-article {
-        grid-column: 1/3;
-        grid-row: 2;
-    }
-
-    .img-rules {
-        grid-column: 3/5;
-        background-color: var(--color-dark);
-        grid-row: 1 / 3;
+    .admin-user-content button {
+        padding: 8px 30px;
     }
 }
