@@ -94,4 +94,59 @@ final class UserFollowController extends AbstractController
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    #[Route('/user/{id}/unfollow', name: 'app_user_unfollow', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function unfollow(User $targetUser, EntityManagerInterface $em, Request $request, LoggerInterface $logger): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('unfollow', $request->headers->get('X-CSRF-TOKEN'))) {
+            return $this->json(['error' => 'Token invalide'], 403);
+        }
+
+        $currentUser = $this->getUser();
+
+        if (!$currentUser instanceof User) {
+            return $this->json(['error' => 'Vous devez être connecté pour te désabonner d\'un utilisateur.'], 403);
+        }
+        $pseudoCurrentUser = $currentUser->getPseudo();
+        $pseudoTargetUser = $targetUser->getPseudo();
+
+        $followRepository = $em->getRepository(Follow::class);
+        $existingFollow = $followRepository->findOneBy([
+            'follower' => $currentUser,
+            'following' => $targetUser,
+        ]);
+
+        $isFollowing = false;
+
+        try {
+            if ($existingFollow instanceof Follow) {
+                $em->remove($existingFollow);
+                $logger->info(\sprintf(
+                    'UNFOLLOW D\'UTILISATEUR : L\'utilisateur %s ne suit plus l\'utilisateur %s',
+                    $pseudoCurrentUser,
+                    $pseudoTargetUser
+                ));
+            }
+
+            $em->flush();
+
+            return $this->json([
+                'success' => true,
+                'isFollowing' => $isFollowing,
+                'followersCount' => \count($targetUser->getFollowsAsFollowing()),
+            ]);
+        } catch (\Exception $e) {
+            $logger->error(\sprintf(
+                'ERREUR DE FOLLOW D\'UTILISATEUR : L\'utilisateur %s a échoué à unfollow  l\'utilisateur %s',
+                $pseudoCurrentUser,
+                $pseudoTargetUser,
+            ), ['exception' => $e]);
+
+            return $this->json([
+                'success' => false,
+                'error' => 'Une erreur interne est survenue.',
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

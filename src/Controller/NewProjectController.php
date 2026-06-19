@@ -85,7 +85,7 @@ final class NewProjectController extends AbstractController
 
                 $this->addFlash('success', 'Le projet a été enregistré');
 
-                return $this->redirectToRoute('app_new_project');
+                return $this->redirectToRoute('app_projects');
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Une erreur a été rencontré lors de la création du projet');
                 $logger->error(\sprintf(

@@ -36,6 +36,10 @@ return [
         'path' => './assets/userFollow.js',
         'entrypoint' => true,
     ],
+    'unfollow' => [
+        'path' => './assets/unfollow.js',
+        'entrypoint' => true,
+    ],
     'readManga' => [
         'path' => './assets/MangaReader.js',
         'entrypoint' => true,

@@ -1,12 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Hello FollowingPageController!
+    Utilisateurs suivis
 {% endblock %}
 
 {% block stylesheets%}
     <link rel="stylesheet" href="{{asset('styles/home.css')}}">
 {% endblock%}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ importmap(['unfollow']) }}
+{% endblock %}
 
 {% block body %}
     <section class="home-section margin-top-class">
@@ -23,7 +28,9 @@
                     </div>
                     <span>{{ follow.following.pseudo }}</span>
                 </div>
-                <button>Se désabonner</button>
+                <button class="ajax-btn unfollow-btn margin-top-class margin-bottom-class" data-pseudo="{{follow.following.pseudo}}" data-url="{{ path('app_user_unfollow', { 'id' : follow.following.id }) }}" data-csrf="{{ csrf_token('unfollow')}}">
+                Se désabonner
+                </button>
             </div>
         {% else %}
             <p>Vous ne suivez aucun utilisateur pour le moment.</p>

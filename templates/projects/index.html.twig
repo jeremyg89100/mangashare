@@ -18,31 +18,35 @@
             <h1>Partages tes projets avec la communauté !</h1>
             <a class="add-project-button" href="{{path('app_new_project')}}">Ajouter un nouveau projet</a>
         </div>
+
         <div class="project-section">
-            <h3>Your Projects</h3>
-            {% for manga in user.mangas %}
-                <div class="project-card">
-                    <div class="project-card-cover">
-                        {% if manga.miniature %}
-                            <img src="{{ asset('uploads/miniatures/' ~ manga.miniature) }}" alt="{{ manga.title }}">
-                        {% else %}
-                            <div class="project-card-placeholder">
-                                <p> {{manga.title}} </p>
+            <h3>Vos Projets</h3>
+
+            <div class="projects-grid">
+                {% for manga in user.mangas %}
+                    <div class="project-card">
+                        <div class="project-card-cover">
+                            {% if manga.miniature %}
+                                <img src="{{ asset('uploads/miniatures/' ~ manga.miniature) }}" alt="{{ manga.title }}">
+                            {% else %}
+                                <div class="project-card-placeholder">
+                                    <p> {{manga.title}} </p>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="project-side-info">
+                            <span> {{manga.title}} </span>
+                            <div class="project-buttons">
+                                <a href="{{path('app_edit_manga', {'id' : manga.id})}}">Editer</a>
+                                <form action="{{path('app_delete_manga', {'id': manga.id})}}" method="POST" onsubmit="return confirm('Supprimer ce manga ?')">
+                                    <input type="hidden" name="_token" value="{{csrf_token('delete ~ manga.id')}}">
+                                    <button type="submit">Supprimer</button>
+                                </form>
                             </div>
-                        {% endif %}
-                    </div>
-                    <div class="project-side-info">
-                        <span> {{manga.title}} </span>
-                        <div class="project-buttons">
-                            <a href="{{path('app_edit_manga', {'id' : manga.id})}}">Editer</a>
-                            <form action="{{path('app_delete_manga', {'id': manga.id})}}" method="POST" onsubmit="return confirm('Supprimer ce manga ?')">
-                                <input type="hidden" name="_token" value="{{csrf_token('delete ~ manga.id')}}">
-                                <button type="submit">Supprimer</button>
-                            </form>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </section>
 {% endblock %}
