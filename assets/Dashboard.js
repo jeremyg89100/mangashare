@@ -7,16 +7,13 @@ class Dashboard {
     }
 
     getCurrentWeek() {
-        // Semaine ISO 8601 (lundi → dimanche), alignée sur setISODate() côté PHP.
         const now = new Date();
         const target = new Date(
             Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()),
         );
-        // Jeudi de la semaine courante : il porte l'année ISO.
         const dayNr = (target.getUTCDay() + 6) % 7;
         target.setUTCDate(target.getUTCDate() - dayNr + 3);
         const isoYear = target.getUTCFullYear();
-        // Jeudi de la semaine 1 (celle qui contient le 4 janvier).
         const firstThursday = new Date(Date.UTC(isoYear, 0, 4));
         const firstDayNr = (firstThursday.getUTCDay() + 6) % 7;
         firstThursday.setUTCDate(firstThursday.getUTCDate() - firstDayNr + 3);
@@ -101,9 +98,8 @@ class Dashboard {
                     {
                         label: data.metric,
                         data: data.values,
-                        borderColor: "#111111",
-                        backgroundColor: "rgba(17,17,17,0.1)",
-                        pointBackgroundColor: "#111111",
+                        borderColor: "#FFFFFF",
+                        pointBackgroundColor: "#b8902f",
                         pointBorderColor: "#ffffff",
                         pointRadius: 5,
                         pointHoverRadius: 7,
@@ -124,18 +120,18 @@ class Dashboard {
                         ticks: {
                             stepSize: 1,
                             precision: 0,
-                            color: "#111111",
+                            color: "#aaaaaa",
                         },
                         grid: {
-                            color: "rgba(0,0,0,0.08)",
+                            color: "rgba(255, 255, 255, 0.08)",
                         },
                     },
                     x: {
                         ticks: {
-                            color: "#111111",
+                            color: "#aaaaaa",
                         },
                         grid: {
-                            color: "rgba(0,0,0,0.08)",
+                            color: "rgba(255, 255, 255, 0.05)",
                         },
                     },
                 },

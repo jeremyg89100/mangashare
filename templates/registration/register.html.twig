@@ -1,21 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}
+    Inscription
+{% endblock %}
+
+{% block stylesheets%}
+    <link rel="stylesheet" href="{{asset('styles/home.css')}}">
+{% endblock%}
 
 {% block body %}
-    <h1>Register</h1>
+    <div class="login-page">
+        <div class="login-container">
 
-    {{ form_errors(registrationForm) }}
+            <h1 class="login-title">Inscription</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.pseudo, {
-            label: 'Username'
-        }) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
+            {% if form_errors(registrationForm) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(registrationForm) }}
+                </div>
+            {% endif %}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            {{ form_start(registrationForm, {'attr' : {'class' : 'login-form'} }) }}
+            <div class="form-group">
+                {{ form_row(registrationForm.pseudo, {
+                label: 'Pseudo',
+                'attr' : {'class' : 'form-input', 'placeholder' : 'Votre pseudo'}
+                }) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(registrationForm.email,{
+                label: 'Email',
+                'attr' : {'class' : 'form-input', 'placeholder' : 'Votre email'}
+                }) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(registrationForm.plainPassword, {
+                label: 'Mot de passe',
+                'attr' : {'class' : 'form-input', 'placeholder' : 'Votre mot de passe'}
+                }) }}
+            </div>
+
+            <button type="submit" class="btn-login">S'inscrire</button>
+
+            <div class="form-footer">
+                <a href="{{ path('app_login') }}" class="register-link">Déjà un compte ? Se connecter</a>
+            </div>
+
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
 {% endblock %}

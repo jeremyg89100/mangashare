@@ -50,13 +50,13 @@ class Manga
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'manga')]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'manga', orphanRemoval: true, cascade: ['remove'])]
     private Collection $comments;
 
     /**
      * @var Collection<int, Like>
      */
-    #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'manga')]
+    #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'manga', orphanRemoval: true, cascade: ['remove'])]
     private Collection $likes;
 
     /**

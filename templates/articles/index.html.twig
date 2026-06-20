@@ -27,7 +27,7 @@
                 <section class="articles-section">
                     <div class="articles-grid">
                         {% for article in articles %}
-                            <div class="article-card">
+                            <div class="article-card margin-bottom-class">
                                 <div class="article-card-left">
                                     <a href="{{path('app_read_article', {'id' : article.id })}}" class="article-img">
                                         {% if article.miniature %}

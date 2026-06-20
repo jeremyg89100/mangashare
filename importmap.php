@@ -76,6 +76,10 @@ return [
         'path' => './assets/deleteComment.js',
         'entrypoint' => true,
     ],
+    'deleteManga' => [
+        'path' => './assets/deleteManga.js',
+        'entrypoint' => true,
+    ],
     'adminBanDeleteUser' => [
         'path' => './assets/adminBanDeleteUser.js',
         'entrypoint' => true,
