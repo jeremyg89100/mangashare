@@ -55,10 +55,6 @@ class MangaType extends AbstractType
                     return ['style' => 'display: none;'];
                 },
             ])
-            ->add('miniatureFile', FileType::class, [
-                'mapped' => false,
-                'required' => true,
-            ])
             ->add('firstChapter', ChapterType::class, [
                 'mapped' => false,
             ])
