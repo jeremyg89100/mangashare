@@ -6,13 +6,14 @@ Application Symfony 8 / PHP 8.4 de partage de mangas et d'articles.
 
 - Symfony 8.0 · PHP 8.4 · Doctrine ORM 3
 - Asset Mapper · Stimulus · Turbo · Twig
-- PostgreSQL + Mailpit via Docker Compose
+- **Base de données :** MySQL 8.0 (Environnement local) / PostgreSQL 16 ready (Docker)
+- **Services tiers :** Mailpit via Docker Compose
 
 ## Démarrage
 
 ```bash
 docker compose up -d           # PostgreSQL + Mailpit
-symfony serve                  # ou le serveur PHP de votre choix
+symfony server:start           # ou le serveur PHP de votre choix
 ```
 
 ## Qualité de code
