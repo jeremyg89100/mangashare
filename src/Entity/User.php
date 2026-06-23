@@ -79,7 +79,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Follow::class, cascade: ['remove'], mappedBy: 'following')]
     private Collection $followsAsFollowing;
 
-
     /**
      * @var Collection<int, Notification>
      */
