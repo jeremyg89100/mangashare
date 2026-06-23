@@ -27,9 +27,11 @@
                 </svg>
             </div>
         </div>
-        <div class="manga-grid">
+
+        {# 🎯 Grille alignant uniquement l'image et le bloc d'infos #}
+        <div class="info-manga-grid">
             <a href="{{path('app_info_manga', {'id' : manga.id })}}" class="manga-card">
-                <div class="manga-card-cover">
+                <div class="info-manga-card-cover">
                     {% if manga.miniature %}
                         <img src="{{ asset('uploads/miniatures/' ~ manga.miniature) }}" alt="{{ manga.title }}">
                     {% else %}
@@ -39,8 +41,9 @@
                     {% endif %}
                 </div>
             </a>
+
             <div class="manga-side-info">
-                <a href="{{path('app_user_info', {'id' : user.id }) }}">
+                <a href="{{path('app_user_info', {'id' : manga.user.id }) }}">
                     <span class="manga-author">Crée par : {{ manga.user.pseudo }}</span>
                 </a>
                 <div class="like-follow">
@@ -51,82 +54,89 @@
                             J'aime
                         {%endif%}
                     </button>
-                    <button class="ajax-btn follow-btn margin-top-class" data-pseudo="{{manga.user.pseudo}}" data-url="{{ path('app_user_follow', { 'id' : user.id }) }}" data-csrf="{{ csrf_token('follow')}}">
-                        {%if user.isFollowedBy(app.user)%}
+                    <button class="ajax-btn follow-btn margin-top-class" data-pseudo="{{manga.user.pseudo}}" data-url="{{ path('app_user_follow', { 'id' : manga.user.id }) }}" data-csrf="{{ csrf_token('follow')}}">
+                        {%if manga.user.isFollowedBy(app.user)%}
                             Ne plus suivre
                         {%else%}
                             Suivre {{manga.user.pseudo}}
                         {%endif%}
                     </button>
                 </div>
-                <span>Synopsis : </span>
-                <span class="manga-synopsis margin-top-class">{{manga.synopsis|sanitize_html}}</span>
-            </div>
-            <div class="container-info-manga">
-                <div class="edit-btn">
-                    <a href="{{path('app_read_manga', {'mangaId' : manga.id, 'chapterId' : manga.chapters.first.id })}}">Lire</a>
-                    <button class="comment-btn" type="button">Commentaire</button>
+                <div class="synopsis-block">
+                    <span>Synopsis : </span>
+                    <span class="manga-synopsis margin-top-class">{{manga.synopsis|sanitize_html}}</span>
                 </div>
-                <form class="form-comment" action="{{path('app_manga_comment', {'id' : manga.id})}}"
-                    method="POST" data-miniature="{{app.user.avatar}}" data-user-pseudo="{{app.user.pseudo}}"
-                    data-comment-id="comment.id" enctype="multipart/form-data"></form>
-                    <h3 class="margin-top-class">Chapitres : </h3>
-                    {% for chapter in manga.chapters %}
-                        <a href="{{ path('app_read_manga', {'mangaId': manga.id,'chapterId': chapter.id }) }}" class="chapter-card margin-top-class">
-                            <span> {{chapter.title}} </span>
-                            <span>#{{loop.index}}</span>
-                        </a>
-                    {% endfor %}
+            </div>
+        </div> {# 👈 FIX : Fermeture de la div .manga-grid ici pour séparer le haut du bas ! #}
 
-                    <div class="comment-list">
-                        {%if manga.comments%}
-                            {% for comment in manga.comments %}
-                                <div class="manga-comment">
-                                    <div class="comment-info">
-                                        <div class="comment-name-avatar">
-                                            <div class="nav-avatar">
-                                                {% if comment.user.avatar %}
-                                                    <img src="{{ asset('uploads/miniatures/' ~ comment.user.avatar) }}" alt="Avatar">
-                                                {% else %}
-                                                    {{ comment.user.pseudo|slice(0,1)|upper }}
-                                                {% endif %}
-                                            </div>
-                                            <span class="comment-user-pseudo">{{ comment.user.pseudo }}</span>
+        {# 🎯 Ce bloc se placera maintenant parfaitement en dessous sur toute la largeur #}
+        <div class="container-info-manga">
+            <div class="edit-btn">
+                <a href="{{path('app_read_manga', {'mangaId' : manga.id, 'chapterId' : manga.chapters.first.id })}}">Lire</a>
+                <button class="comment-btn" type="button">Commentaire</button>
+            </div>
+
+            <form class="form-comment" action="{{path('app_manga_comment', {'id' : manga.id})}}"
+                method="POST" data-miniature="{{app.user.avatar}}" data-user-pseudo="{{app.user.pseudo}}"
+                data-comment-id="comment.id" enctype="multipart/form-data"></form>
+
+                <h3 class="margin-top-class">Chapitres : </h3>
+                {% for chapter in manga.chapters %}
+                    <a href="{{ path('app_read_manga', {'mangaId': manga.id,'chapterId': chapter.id }) }}" class="chapter-card margin-top-class">
+                        <span> {{chapter.title}} </span>
+                        <span>#{{loop.index}}</span>
+                    </a>
+                {% endfor %}
+
+                <div class="comment-list">
+                    {%if manga.comments%}
+                        {% for comment in manga.comments %}
+                            <div class="manga-comment">
+                                <div class="comment-info">
+                                    <div class="comment-name-avatar">
+                                        <div class="nav-avatar">
+                                            {% if comment.user.avatar %}
+                                                <img src="{{ asset('uploads/miniatures/' ~ comment.user.avatar) }}" alt="Avatar">
+                                            {% else %}
+                                                {{ comment.user.pseudo|slice(0,1)|upper }}
+                                            {% endif %}
                                         </div>
-                                        <div class="date-signal-btn">
-                                            <span class="comment-date">{{ comment.createdAt|date('d/m/Y') }}</span>
-                                            {% if is_granted('ROLE_ADMIN') %}
-                                                <button type="button" class="btn btn-sm btn-report signal-btn btn-delete-comment" data-comment-id="{{ comment.id }} ">Supprimer</button>
-                                            {% elseif is_granted('ROLE_USER') %}
-                                                <button type="button" class="btn btn-sm btn-report signal-btn btn-confirm-report btn-comment-report" data-comment-id="{{ comment.id }} ">Signaler</button>
-                                                <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Signaler ce commentaire ?</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Êtes-vous sûr de vouloir signaler ce commentaire à l'équipe de modération ?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-light text-dark" data-bs-dismiss="modal">Annuler</button>
-                                                                <button type="button" class="btn btn-danger text-white" id="confirmReportBtn">Confirmer le signalement</button>
-                                                            </div>
+                                        <span class="comment-user-pseudo">{{ comment.user.pseudo }}</span>
+                                    </div>
+                                    <div class="date-signal-btn">
+                                        <span class="comment-date">{{ comment.createdAt|date('d/m/Y') }}</span>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <button type="button" class="btn btn-sm btn-report signal-btn btn-delete-comment" data-comment-id="{{ comment.id }} ">Supprimer</button>
+                                        {% elseif is_granted('ROLE_USER') %}
+                                            <button type="button" class="btn btn-sm btn-report signal-btn btn-confirm-report btn-comment-report" data-comment-id="{{ comment.id }} ">Signaler</button>
+                                            <div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Signaler ce commentaire ?</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Êtes-vous sûr de vouloir signaler ce commentaire à l'équipe de modération ?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-light text-dark" data-bs-dismiss="modal">Annuler</button>
+                                                            <button type="button" class="btn btn-danger text-white" id="confirmReportBtn">Confirmer le signalement</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="comment-content">
-                                        <span>{{ comment.textContent }}</span>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </div>
-                            {%endfor%}
-                        {%endif%}
-                    </div>
+                                <div class="comment-content">
+                                    <span>{{ comment.textContent }}</span>
+                                </div>
+                            </div>
+                        {%endfor%}
+                    {%endif%}
                 </div>
-            </section>
+            </div>
+        </section>
 
-        {% endblock %}
+    {% endblock %}

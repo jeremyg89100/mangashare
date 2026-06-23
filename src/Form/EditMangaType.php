@@ -19,16 +19,16 @@ class EditMangaType extends AbstractType
         $builder->remove('firstChapter');
 
         $builder->add('miniatureFile', FileType::class, [
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File(
-                        maxSize: '2M',
-                        mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
-                        mimeTypesMessage: 'Merci de fournir une image valide (PNG, JPEG ou WebP).',
-                    ),
-                ],
-            ])
+            'mapped' => false,
+            'required' => false,
+            'constraints' => [
+                new File(
+                    maxSize: '2M',
+                    mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
+                    mimeTypesMessage: 'Merci de fournir une image valide (PNG, JPEG ou WebP).',
+                ),
+            ],
+        ])
         ;
     }
 

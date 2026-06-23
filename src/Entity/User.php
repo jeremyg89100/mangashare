@@ -79,17 +79,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Follow::class, cascade: ['remove'], mappedBy: 'following')]
     private Collection $followsAsFollowing;
 
-    /**
-     * @var Collection<int, Reporting>
-     */
-    #[ORM\OneToMany(targetEntity: Reporting::class, cascade: ['remove'], mappedBy: 'author', orphanRemoval: true)]
-    private Collection $reportingsSent;
-
-    /**
-     * @var Collection<int, Reporting>
-     */
-    #[ORM\OneToMany(targetEntity: Reporting::class, cascade: ['remove'], mappedBy: 'target', orphanRemoval: true)]
-    private Collection $reportingsReceived;
 
     /**
      * @var Collection<int, Notification>
@@ -131,8 +120,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->comments = new ArrayCollection();
         $this->followsAsFollower = new ArrayCollection();
         $this->followsAsFollowing = new ArrayCollection();
-        $this->reportingsSent = new ArrayCollection();
-        $this->reportingsReceived = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->likeArticles = new ArrayCollection();
@@ -387,56 +374,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return false;
-    }
-
-    /**
-     * @return Collection<int, Reporting>
-     */
-    public function getReportingsSent(): Collection
-    {
-        return $this->reportingsSent;
-    }
-
-    public function addReportingsSent(Reporting $reporting): static
-    {
-        if (!$this->reportingsSent->contains($reporting)) {
-            $this->reportingsSent->add($reporting);
-            $reporting->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReportingsSent(Reporting $reporting): static
-    {
-        $this->reportingsSent->removeElement($reporting);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Reporting>
-     */
-    public function getReportingsReceived(): Collection
-    {
-        return $this->reportingsReceived;
-    }
-
-    public function addReportingsReceived(Reporting $reporting): static
-    {
-        if (!$this->reportingsReceived->contains($reporting)) {
-            $this->reportingsReceived->add($reporting);
-            $reporting->setTarget($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReportingsReceived(Reporting $reporting): static
-    {
-        $this->reportingsReceived->removeElement($reporting);
-
-        return $this;
     }
 
     /**
