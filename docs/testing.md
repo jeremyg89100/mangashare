@@ -1,13 +1,13 @@
 # Tests
 
 La suite de tests est organisée en **trois niveaux**, chacun exposé comme une
-*testsuite* PHPUnit distincte (voir `phpunit.dist.xml`).
+_testsuite_ PHPUnit distincte (voir `phpunit.dist.xml`).
 
-| Niveau | Dossier | Outils | Besoin DB / navigateur |
-|---|---|---|---|
-| **Unitaire** | `tests/Unit` | PHPUnit `TestCase` | Aucun (logique pure) |
-| **Fonctionnel** | `tests/Functional` | `WebTestCase` / `KernelTestCase` + Foundry | Base de test |
-| **Interface** | `tests/Interface` | Panther (Chromium headless) | Base + navigateur |
+| Niveau          | Dossier            | Outils                                     | Besoin DB / navigateur |
+| --------------- | ------------------ | ------------------------------------------ | ---------------------- |
+| **Unitaire**    | `tests/Unit`       | PHPUnit `TestCase`                         | Aucun (logique pure)   |
+| **Fonctionnel** | `tests/Functional` | `WebTestCase` / `KernelTestCase` + Foundry | Base de test           |
+| **Interface**   | `tests/Interface`  | Panther (Chromium headless)                | Base + navigateur      |
 
 ## Pré-requis : tout passe par Docker
 
@@ -32,17 +32,17 @@ docker compose run --rm php composer test-db-reset
 
 ```bash
 # Toute la suite
-docker compose run --rm php bin/phpunit
+docker-compose run --rm php bin/phpunit
 # ou
-docker compose run --rm php composer test
+docker-compose run --rm php composer test
 
 # Un seul niveau
-docker compose run --rm php bin/phpunit --testsuite=Unit
-docker compose run --rm php bin/phpunit --testsuite=Functional
-docker compose run --rm php bin/phpunit --testsuite=Interface
+docker-compose run --rm php bin/phpunit --testsuite=Unit
+docker-compose run --rm php bin/phpunit --testsuite=Functional
+docker-compose run --rm php bin/phpunit --testsuite=Interface
 
 # Un seul fichier
-docker compose run --rm php bin/phpunit tests/Unit/Entity/MangaTest.php
+docker-compose run --rm php bin/phpunit tests/Unit/Entity/MangaTest.php
 ```
 
 ## Quel niveau pour quoi ?
@@ -62,12 +62,12 @@ annulée à la fin → la base reste propre entre les tests, sans recharger de f
 
 ⚠️ **Panther fait exception** : il lance un serveur web dans un **process séparé**, qui
 ne voit pas la transaction du test. Les tests d'interface qui dépendent de données
-doivent donc *committer* leurs données puis nettoyer manuellement (`tearDown`). Les
+doivent donc _committer_ leurs données puis nettoyer manuellement (`tearDown`). Les
 exemples d'interface fournis n'assertent que du contenu statique pour rester simples.
 
 ## Données de test : Foundry
 
-Les entités de test sont créées via des *factories* dans `tests/Factory`. Chaque
+Les entités de test sont créées via des _factories_ dans `tests/Factory`. Chaque
 factory définit des valeurs par défaut pour **tous les champs non-nullables** de
 l'entité (sinon l'insert échoue).
 

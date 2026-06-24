@@ -51,7 +51,9 @@
     <extensions>
         <!-- dama : enveloppe chaque test dans une transaction puis rollback => base propre entre tests. -->
         <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
-        <bootstrap class="Zenstruck\Foundry\PHPUnit\FoundryExtension" />
+        <bootstrap class="Zenstruck\Foundry\PHPUnit\FoundryExtension">
+            <parameter name="enabled-auto-reset" value="true"/>
+        </bootstrap>
         <bootstrap class="Symfony\Component\Panther\ServerExtension" />
     </extensions>
 </phpunit>
