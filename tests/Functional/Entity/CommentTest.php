@@ -11,8 +11,8 @@ use Zenstruck\Foundry\Test\ResetDatabase;
 
 class CommentTest extends KernelTestCase
 {
-    // ResetDatabase vide la base Postgres entre chaque scénario pour qu'elle reste propre
-    use ResetDatabase, Factories;
+    use Factories; // ResetDatabase vide la base Postgres entre chaque scénario pour qu'elle reste propre
+    use ResetDatabase;
 
     public function testCommentCreationAndRelations(): void
     {
@@ -24,13 +24,14 @@ class CommentTest extends KernelTestCase
         $comment = CommentFactory::createOne([
             'textContent' => 'Ce chapitre est incroyable !',
             'user' => $user,
-            'manga' => $manga
+            'manga' => $manga,
         ]);
 
-        $this->assertNotNull($comment->getId(), "Le commentaire aurait dû être enregistré en base de données avec un ID.");
-        $this->assertSame('Ce chapitre est incroyable !', $comment->getTextContent());
-        $this->assertSame('TestCommentFactory', $comment->getUser()->getPseudo(), "Le commentaire n'est pas relié au bon utilisateur.");
-        $this->assertSame('Chainsaw Man', $comment->getManga()->getTitle(), "Le commentaire n'est pas lié au bon Manga.");
-        $this->assertFalse($comment->isReported(), "Par défaut, un commentaire ne devrait pas être signalé.");
+        self::assertNotNull($comment->getId(), 'Le commentaire aurait dû être enregistré en base de données avec un ID.');
+        self::assertSame('Ce chapitre est incroyable !', $comment->getTextContent());
+        self::assertSame('TestCommentFactory', $comment->getUser()->getPseudo(), "Le commentaire n'est pas relié au bon utilisateur.");
+        self::assertNotNull($comment->getManga());
+        self::assertSame('Chainsaw Man', $comment->getManga()->getTitle(), "Le commentaire n'est pas lié au bon Manga.");
+        self::assertFalse($comment->isReported(), 'Par défaut, un commentaire ne devrait pas être signalé.');
     }
 }
