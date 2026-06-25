@@ -18,7 +18,7 @@ final class MangaFactory extends PersistentObjectFactory
     }
 
     /**
-     * Champs NON-NULLABLES de Manga : title, readingDirection, status, views,
+     * Champs NON-NULLABLES de Manga : title, readingDirection, status,
      * createdAt et la relation user (JoinColumn nullable: false).
      *
      * @return array<string, mixed>
@@ -30,7 +30,6 @@ final class MangaFactory extends PersistentObjectFactory
             'synopsis' => self::faker()->paragraph(),
             'readingDirection' => 'ltr',
             'status' => 'ongoing',
-            'views' => 0,
             'categories' => [],
             'createdAt' => new \DateTimeImmutable(),
             // Une factory en valeur => Foundry crée le User lié automatiquement.
