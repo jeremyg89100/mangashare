@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,8 +18,16 @@ final class DeleteMangaController extends AbstractController
 {
     #[Route('/delete/manga/{id}', name: 'app_delete_manga', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function index(Manga $manga, EntityManagerInterface $em, LoggerInterface $logger, Request $request): Response
-    {
+    public function index(
+        Manga $manga,
+        EntityManagerInterface $em,
+        LoggerInterface $logger,
+        Request $request,
+        #[Autowire('%kernel.project_dir%/public/uploads/miniatures')]
+        string $miniatureDirectory,
+        #[Autowire('%kernel.project_dir%/public/uploads/pages')]
+        string $pageDirectory,
+    ): Response {
         $mangaId = $manga->getId();
         $user = $this->getUser();
         $pseudo = ($user instanceof User) ? $user->getPseudo() : 'Inconnu';
@@ -31,9 +40,34 @@ final class DeleteMangaController extends AbstractController
             throw $this->createAccessDeniedException('Token CSRF invalide.');
         }
 
+        if ($manga->getUser() !== $user) {
+            if ($request->isXmlHttpRequest()) {
+                return new JsonResponse(['success' => false, 'message' => 'Accès refusé.'], 403);
+            }
+            throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer le manga d\'un autre utilisateur.');
+        }
+
+        // On collecte les fichiers (miniature + pages de tous les chapitres) avant la suppression
+        // en base pour pouvoir les effacer du disque ensuite et eviter les orphelins.
+        $filesToDelete = [];
+        if (null !== $manga->getMiniature()) {
+            $filesToDelete[] = $miniatureDirectory.'/'.$manga->getMiniature();
+        }
+        foreach ($manga->getChapters() as $chapter) {
+            foreach ($chapter->getPages() as $page) {
+                $filesToDelete[] = $pageDirectory.'/'.$page->getImageUrl();
+            }
+        }
+
         try {
             $em->remove($manga);
             $em->flush();
+
+            foreach ($filesToDelete as $path) {
+                if (is_file($path)) {
+                    unlink($path);
+                }
+            }
 
             $logger->info(\sprintf(
                 'SUPPRESSION MANGA : Le manga %d a été supprimé avec succès par l\'utilisateur %s',
