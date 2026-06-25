@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block body %}
-    {{form_start(form)}}
+    {{form_start(form, {'attr' : {'data-turbo' : 'false'} } )}}
     <section class="home-section">
         <div class="new-project-left">
             <h1>Nouveau Manga :</h1>
@@ -39,6 +39,7 @@
                     {{ form_widget(form.firstChapter.pagesFiles, {
                     'id': 'file-upload',
                     'attr': {
+                    'multiple' : 'multiple',
                     'class': 'file-input',
                     'accept': 'image/png, image/jpeg'
                     }

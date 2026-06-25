@@ -656,6 +656,12 @@ a:hover {
     gap: 8px;
 }
 
+.edit-btn-articles {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 .chapter-card {
     display: flex;
     flex-direction: row;
@@ -703,7 +709,9 @@ a:hover {
 .project-buttons button,
 .project-buttons a,
 .edit-btn button,
-.edit-btn a {
+.edit-btn a,
+.edit-btn-articles button,
+.edit-btn-articles a {
     background-color: var(--color-dark);
     color: white;
     padding: 9px;
@@ -718,7 +726,9 @@ a:hover {
 .project-buttons button:hover,
 .project-buttons a:hover,
 .edit-btn button:hover,
-.edit-btn a:hover {
+.edit-btn a:hover,
+.edit-btn-articles button:hover,
+.edit-btn-articles a:hover {
     background-color: var(--accent-color);
 }
 
@@ -2205,7 +2215,8 @@ button:hover,
     border-color: var(--text-muted);
 }
 
-.edit-btn form button {
+.edit-btn form button,
+.edit-btn-articles form button {
     background-color: rgba(214, 72, 63, 0.1);
     border: 1px solid rgba(214, 72, 63, 0.3);
     color: #d6483f;
@@ -2290,6 +2301,12 @@ button:hover,
         object-fit: cover;
         display: block;
         border-radius: 6px;
+    }
+
+    .edit-btn-articles {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
     }
 }
 

@@ -5,6 +5,10 @@ document.addEventListener("turbo:load", () => {
 
             const commentId = this.getAttribute("data-comment-id");
 
+            if (!confirm("Supprimer ce commentaire ?")) {
+                return;
+            }
+
             if (!commentId) {
                 console.error("ID du commentaire introuvable sur le bouton.");
                 return;

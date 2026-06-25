@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Manga;
+use App\Form\EditMangaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,9 +18,11 @@ final class EditMangaController extends AbstractController
         if ($manga->getUser() !== $this->getUser()) {
             throw $this->createAccessDeniedException();
         }
+        $form = $this->createForm(EditMangaType::class, $manga);
 
         return $this->render('edit_manga/index.html.twig', [
             'manga' => $manga,
+            'form' => $form,
         ]);
     }
 }

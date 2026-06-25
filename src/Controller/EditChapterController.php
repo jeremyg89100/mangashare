@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Chapter;
 use App\Entity\Page;
 use App\Entity\User;
+use App\Form\ChapterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,36 +37,40 @@ final class EditChapterController extends AbstractController
         $user = $this->getUser();
         $pseudo = ($user instanceof User) ? $user->getPseudo() : 'Inconnu';
 
+        $form = $this->createForm(ChapterType::class, $chapter);
+        $form->handleRequest($request);
+
         if ($manga->getUser() !== $this->getUser()) {
             throw $this->createAccessDeniedException();
         }
 
-        if ($request->isMethod('POST')) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!$user instanceof User) {
+                return $this->redirectToRoute('app_login');
+            }
             try {
-                $chapter->setTitle($request->request->getString('chapterTitle'));
+                $pageFiles = $form->get('pagesFiles')->getData();
+                $pageOrder = \count($chapter->getPages()) + 1;
 
-                $uploadFiles = $request->files->all('pages');
+                if (\is_array($pageFiles)) {
+                    foreach ($pageFiles as $file) {
+                        if (!$file instanceof UploadedFile) {
+                            continue;
+                        }
+                        $originalFilename = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME);
+                        $safeFilename = $slugger->slug($originalFilename);
+                        $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
-                $pageOrder = 1;
+                        $file->move($pageDirectory, $newFilename);
 
-                foreach ($uploadFiles as $file) {
-                    if (!$file instanceof UploadedFile) {
-                        continue;
+                        $page = new Page();
+                        $page->setImageUrl($newFilename);
+                        $page->setPageOrder($pageOrder);
+                        ++$pageOrder;
+
+                        $chapter->addPage($page);
+                        $em->persist($page);
                     }
-                    $originalFilename = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-
-                    $file->move($pageDirectory, $newFilename);
-
-                    $page = new Page();
-                    $page->setImageUrl($newFilename);
-                    $page->setPageOrder($pageOrder);
-
-                    ++$pageOrder;
-
-                    $chapter->addPage($page);
-                    $em->persist($page);
                 }
 
                 $em->flush();
@@ -90,6 +95,7 @@ final class EditChapterController extends AbstractController
         return $this->render('edit_chapter/index.html.twig', [
             'chapter' => $chapter,
             'manga' => $manga,
+            'form' => $form->createView(),
         ]);
     }
 }

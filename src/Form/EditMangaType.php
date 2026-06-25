@@ -23,7 +23,7 @@ class EditMangaType extends AbstractType
             'required' => false,
             'constraints' => [
                 new File(
-                    maxSize: '2M',
+                    maxSize: '5M',
                     mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
                     mimeTypesMessage: 'Merci de fournir une image valide (PNG, JPEG ou WebP).',
                 ),

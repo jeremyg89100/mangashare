@@ -55,7 +55,7 @@
                                         {{ article.textContent|sanitize_html }}
                                     </div>
 
-                                    <div class="edit-btn">
+                                    <div class="edit-btn-articles">
                                         <a href="{{ path('app_edit_articles', {'id' : article.id }) }}">Éditer</a>
 
                                         <form action="{{ path('app_delete_article', {'id': article.id}) }}" method="POST" onsubmit="return confirm('Supprimer cet article ?')">
