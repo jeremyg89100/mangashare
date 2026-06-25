@@ -44,14 +44,17 @@ final class MangaCommentController extends AbstractController
                     'id' => $manga->getId(),
                 ]);
 
-                $notification = new Notification();
-                $notification->setCreatedAt(new \DateTimeImmutable());
-                $notification->setUser($user);
-                $notification->setHasBeenRead((bool) 0);
-                $notification->setLink($url);
-                $notification->setMessage("\"{$manga->getTitle()}\" a été commenté");
+                // On notifie le propriétaire du manga, sauf s'il commente son propre manga.
+                if ($manga->getUser() !== $user) {
+                    $notification = new Notification();
+                    $notification->setCreatedAt(new \DateTimeImmutable());
+                    $notification->setUser($manga->getUser());
+                    $notification->setHasBeenRead(false);
+                    $notification->setLink($url);
+                    $notification->setMessage("\"{$manga->getTitle()}\" a été commenté");
 
-                $em->persist($notification);
+                    $em->persist($notification);
+                }
 
                 $em->persist($comment);
                 $em->flush();

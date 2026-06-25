@@ -23,6 +23,10 @@ final class DeleteChapterController extends AbstractController
         $user = $this->getUser();
         $pseudo = ($user instanceof User) ? $user->getPseudo() : 'Inconnu';
 
+        if ($chapter->getManga()->getUser() !== $user) {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer le chapitre d\'un autre utilisateur.');
+        }
+
         try {
             $em->remove($chapter);
             $em->flush();
