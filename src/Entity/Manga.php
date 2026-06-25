@@ -32,9 +32,6 @@ class Manga
     private string $status;
 
     #[ORM\Column]
-    private int $views;
-
-    #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
     #[ORM\ManyToOne(inversedBy: 'mangas')]
@@ -140,18 +137,6 @@ class Manga
     public function setStatus(string $status): static
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getViews(): int
-    {
-        return $this->views;
-    }
-
-    public function setViews(int $views): static
-    {
-        $this->views = $views;
 
         return $this;
     }

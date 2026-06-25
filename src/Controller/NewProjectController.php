@@ -39,7 +39,6 @@ final class NewProjectController extends AbstractController
 
             try {
                 $manga->setUser($user);
-                $manga->setViews(0);
                 $manga->setCreatedAt(new \DateTimeImmutable());
 
                 $miniature = $form->get('miniatureFile')->getData();
