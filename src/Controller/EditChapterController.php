@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Chapter;
 use App\Entity\Page;
 use App\Entity\User;
-use App\Form\ChapterType;
 use App\Form\EditChapterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;

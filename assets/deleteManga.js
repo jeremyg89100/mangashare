@@ -24,7 +24,6 @@ document.addEventListener("turbo:load", () => {
                     "X-Requested-With": "XMLHttpRequest",
                     "X-CSRF-Token": csrfToken,
                 },
-                // body: new FormData(form),
             })
                 .then((response) => response.json())
                 .then((data) => {

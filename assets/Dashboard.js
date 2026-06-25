@@ -8,16 +8,23 @@ class Dashboard {
 
     getCurrentWeek() {
         const now = new Date();
+        // In UTC to avoid bug with summer/winter hours
         const target = new Date(
             Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()),
         );
+        // Get the day on ISO (Monday = 0, Sunday = 6)
         const dayNr = (target.getUTCDay() + 6) % 7;
+        // Move the date to Thursday of the current week
         target.setUTCDate(target.getUTCDate() - dayNr + 3);
         const isoYear = target.getUTCFullYear();
+        // January 4th is always on week 1
         const firstThursday = new Date(Date.UTC(isoYear, 0, 4));
         const firstDayNr = (firstThursday.getUTCDay() + 6) % 7;
+        // Find the 1st thirsday of year to get the starting point
         firstThursday.setUTCDate(firstThursday.getUTCDate() - firstDayNr + 3);
+        // Calc the number of weeks
         const week = 1 + Math.round((target - firstThursday) / (7 * 86400000));
+        // Return the ISO Number of the week
         return `${isoYear}-W${String(week).padStart(2, "0")}`;
     }
 
