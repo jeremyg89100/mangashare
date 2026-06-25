@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * @extends AbstractType<Chapter>
@@ -33,6 +35,15 @@ class ChapterType extends AbstractType
                 'mapped' => false,
                 'multiple' => true,
                 'required' => true,
+                'constraints' => [
+                    new All([
+                        new File(
+                            maxSize: '5M',
+                            mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
+                            mimeTypesMessage: 'Merci de fournir une image valide (PNG, JPEG ou WebP).',
+                        ),
+                    ]),
+                ],
             ])
         ;
     }

@@ -31,6 +31,13 @@ final class DeleteMangaController extends AbstractController
             throw $this->createAccessDeniedException('Token CSRF invalide.');
         }
 
+        if ($manga->getUser() !== $user) {
+            if ($request->isXmlHttpRequest()) {
+                return new JsonResponse(['success' => false, 'message' => 'Accès refusé.'], 403);
+            }
+            throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer le manga d\'un autre utilisateur.');
+        }
+
         try {
             $em->remove($manga);
             $em->flush();
