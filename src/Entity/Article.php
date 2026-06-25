@@ -41,19 +41,19 @@ class Article
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article')]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article', orphanRemoval: true, cascade: ['remove'])]
     private Collection $comments;
 
     /**
      * @var Collection<int, LikeArticle>
      */
-    #[ORM\OneToMany(targetEntity: LikeArticle::class, mappedBy: 'article')]
+    #[ORM\OneToMany(targetEntity: LikeArticle::class, mappedBy: 'article', orphanRemoval: true, cascade: ['remove'])]
     private Collection $likeArticles;
 
     /**
      * @var Collection<int, View>
      */
-    #[ORM\OneToMany(targetEntity: View::class, mappedBy: 'article')]
+    #[ORM\OneToMany(targetEntity: View::class, mappedBy: 'article', orphanRemoval: true, cascade: ['remove'])]
     private Collection $views;
 
     public function __construct()

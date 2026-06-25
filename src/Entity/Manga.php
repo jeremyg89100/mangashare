@@ -44,7 +44,7 @@ class Manga
     /**
      * @var Collection<int, Chapter>
      */
-    #[ORM\OneToMany(targetEntity: Chapter::class, mappedBy: 'manga', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Chapter::class, mappedBy: 'manga', orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $chapters;
 
     /**
@@ -68,7 +68,7 @@ class Manga
     /**
      * @var Collection<int, View>
      */
-    #[ORM\OneToMany(targetEntity: View::class, mappedBy: 'manga')]
+    #[ORM\OneToMany(targetEntity: View::class, mappedBy: 'manga', orphanRemoval: true, cascade: ['remove'])]
     private Collection $mangaViews;
 
     public function __construct()

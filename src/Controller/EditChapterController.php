@@ -6,6 +6,7 @@ use App\Entity\Chapter;
 use App\Entity\Page;
 use App\Entity\User;
 use App\Form\ChapterType;
+use App\Form\EditChapterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,7 +38,7 @@ final class EditChapterController extends AbstractController
         $user = $this->getUser();
         $pseudo = ($user instanceof User) ? $user->getPseudo() : 'Inconnu';
 
-        $form = $this->createForm(ChapterType::class, $chapter);
+        $form = $this->createForm(EditChapterType::class, $chapter);
         $form->handleRequest($request);
 
         if ($manga->getUser() !== $this->getUser()) {
