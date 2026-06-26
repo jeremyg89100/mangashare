@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\View;
 use App\Repository\ChapterRepository;
 use App\Repository\MangaRepository;
+use App\Repository\ViewRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ReadMangaController extends AbstractController
 {
     #[Route('/read/manga/{mangaId}/{chapterId}', name: 'app_read_manga')]
-    public function index(int $mangaId, int $chapterId, MangaRepository $mangaRepository, ChapterRepository $chapterRepository, EntityManagerInterface $em): Response
+    public function index(int $mangaId, int $chapterId, MangaRepository $mangaRepository, ChapterRepository $chapterRepository, ViewRepository $viewRepository, EntityManagerInterface $em): Response
     {
         $manga = $mangaRepository->find($mangaId);
         $chapter = $chapterRepository->find($chapterId);
@@ -29,13 +30,15 @@ final class ReadMangaController extends AbstractController
         if (!$manga instanceof Manga || !$chapter instanceof Chapter) {
             throw $this->createNotFoundException();
         }
-
-        $view = new View();
-        $view->setManga($manga);
-        $view->setUser($user);
-        $view->setCreatedAt(new \DateTimeImmutable());
-        $em->persist($view);
-        $em->flush();
+        $day = new \DateTimeImmutable();
+        if (!$viewRepository->hasViewedMangaOnDay($user, $manga, $day)) {
+            $view = new View();
+            $view->setManga($manga);
+            $view->setUser($user);
+            $view->setCreatedAt($day);
+            $em->persist($view);
+            $em->flush();
+        }
 
         return $this->render('read_manga/index.html.twig', [
             'manga' => $manga,

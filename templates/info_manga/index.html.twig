@@ -28,7 +28,6 @@
             </div>
         </div>
 
-        {# 🎯 Grille alignant uniquement l'image et le bloc d'infos #}
         <div class="info-manga-grid">
             <a href="{{path('app_info_manga', {'id' : manga.id })}}" class="manga-card">
                 <div class="info-manga-card-cover">
@@ -62,14 +61,13 @@
                         {%endif%}
                     </button>
                 </div>
+                <span class="manga-author">Synopsis : </span>
                 <div class="synopsis-block">
-                    <span>Synopsis : </span>
                     <span class="manga-synopsis margin-top-class">{{manga.synopsis|sanitize_html}}</span>
                 </div>
             </div>
-        </div> {# 👈 FIX : Fermeture de la div .manga-grid ici pour séparer le haut du bas ! #}
+        </div>
 
-        {# 🎯 Ce bloc se placera maintenant parfaitement en dessous sur toute la largeur #}
         <div class="container-info-manga">
             <div class="edit-btn">
                 <a href="{{path('app_read_manga', {'mangaId' : manga.id, 'chapterId' : manga.chapters.first.id })}}">Lire</a>

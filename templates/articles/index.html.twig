@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{asset('styles/home.css')}}" >
+    <link rel="stylesheet" href="{{ asset('styles/home.css') }}">
 {% endblock %}
 
 {% block title %}
@@ -12,52 +12,55 @@
     <section class="home-section">
         <div class="project-header project-buttons">
             <h1>Partages tes astuces avec la communauté !</h1>
-            <a href="{{path('app_new_article')}}" class="add-project-button">Ecrire un article</a>
+            <a href="{{ path('app_new_article') }}" class="add-project-button">Ecrire un article</a>
         </div>
+
         <div class="project-section">
             <h3>Articles</h3>
+            
             <div class="filter">
-                <a href="{{ path('app_articles')}}" class="chip {{ currentCategory is null ? 'active' }}">Tout</a>
+                <a href="{{ path('app_articles') }}" class="chip {{ currentCategory is null ? 'active' }}">Tout</a>
                 {% for cat in categories %}
-                    <a href="{{ path('app_articles', {'category' : cat}) }}"
-                        class="chip {{currentCategory == cat ? 'active'}}"> {{ cat }}
-                        </a>
-                    {% endfor %}
-                </div>
-                <section class="articles-section">
-                    <div class="articles-grid">
-                        {% for article in articles %}
-                            <div class="article-card margin-bottom-class">
-                                <div class="article-card-left">
-                                    <a href="{{path('app_read_article', {'id' : article.id })}}" class="article-img">
-                                        {% if article.miniature %}
-                                            <img src="{{ asset('uploads/miniatureArticle/' ~ article.miniature) }}" alt="{{ article.title }}">
-                                        {% else %}
-                                            <div class="project-card-placeholder">
-                                                <p> {{article.title}} </p>
-                                            </div>
-                                        {% endif %}
-                                    </a>
-                                    <div class="article-infos">
-                                        <span> {{article.user.pseudo}} </span>
-                                        <span class="article-likes">
-                                            {{ article.likeArticles|length }}
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="article-card-right">
-                                    <div class="article-content">
-                                        <h3> {{article.title}} </h3>
-                                        <p> {{article.textContent|sanitize_html}} </p>
-                                    </div>
+                    <a href="{{ path('app_articles', {'category' : cat}) }}" class="chip {{ currentCategory == cat ? 'active' }}">
+                        {{ cat }}
+                    </a>
+                {% endfor %}
+            </div>
+
+            <section class="articles-section">
+                <div class="articles-grid">
+                    {% for article in articles %}
+                        <div class="article-card margin-bottom-class">
+                            <div class="article-card-left">
+                                <a href="{{ path('app_read_article', {'id' : article.id }) }}" class="article-img">
+                                    {% if article.miniature %}
+                                        <img src="{{ asset('uploads/miniatureArticle/' ~ article.miniature) }}" alt="{{ article.title }}">
+                                    {% else %}
+                                        <div class="project-card-placeholder">
+                                            <p>{{ article.title }}</p>
+                                        </div>
+                                    {% endif %}
+                                </a>
+                                <div class="article-infos">
+                                    <span>{{ article.user.pseudo }}</span>
+                                    <span class="article-likes">
+                                        {{ article.likeArticles|length }}
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                        </svg>
+                                    </span>
                                 </div>
                             </div>
-                        {%endfor%}
-                    </div>
-                </section>
-            </div>
-        </section>
-    {% endblock %}
+                            <div class="article-card-right">
+                                <div class="article-content">
+                                    <h3>{{ article.title }}</h3>
+                                    <p>{{ article.textContent|sanitize_html }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </section>
+{% endblock %}

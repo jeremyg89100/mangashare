@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * @extends AbstractType<Manga>
@@ -20,11 +21,21 @@ class MangaType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['required' => true])
+
             ->add('synopsis', TextareaType::class, ['required' => false])
+
             ->add('miniatureFile', FileType::class, [
                 'mapped' => false,
                 'required' => true,
+                'constraints' => [
+                    new File(
+                        maxSize: '5M',
+                        mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
+                        mimeTypesMessage: 'Merci de fournir une image valide (PNG, JPEG ou WebP).',
+                    ),
+                ],
             ])
+
             ->add('readingDirection', ChoiceType::class, [
                 'choices' => ['JP' => 'JP', 'FR' => 'FR'],
                 'expanded' => true,
@@ -32,6 +43,7 @@ class MangaType extends AbstractType
                     return ['style' => 'display: none;'];
                 },
             ])
+
             ->add('categories', ChoiceType::class, [
                 'choices' => [
                     'Action' => 'Action',

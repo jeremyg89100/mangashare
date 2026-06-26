@@ -32,6 +32,37 @@ class MangaRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return Manga[]
+     */
+    public function findMostPopularByCategory(string $category, int $limit): array
+    {
+        return $this->createQueryBuilder('manga')
+            ->leftJoin('manga.likes', 'likes')
+            ->addSelect('COUNT(likes.id) as HIDDEN likeCount')
+            ->where('manga.categories LIKE :category')
+            ->setParameter('category', '%'.$category.'%')
+            ->groupBy('manga.id')
+            ->orderBy('likeCount', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Manga[]
+     */
+    public function findByDateAndByCategory(string $category, int $limit): array
+    {
+        return $this->createQueryBuilder('manga')
+            ->where('manga.categories LIKE :category')
+            ->setParameter('category', '%'.$category.'%')
+            ->orderBy('manga.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * @return array<int, Manga>
      */
     public function search(string $query, int $maxResult): array

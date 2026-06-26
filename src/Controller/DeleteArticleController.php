@@ -20,6 +20,11 @@ final class DeleteArticleController extends AbstractController
         $articleId = $article->getId();
         $user = $this->getUser();
         $pseudo = ($user instanceof User) ? $user->getPseudo() : 'Inconnu';
+
+        if ($article->getUser() !== $user) {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer l\'article d\'un autre utilisateur.');
+        }
+
         try {
             $em->remove($article);
             $em->flush();

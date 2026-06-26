@@ -32,7 +32,6 @@ final class ArticlesController extends AbstractController
             'articles' => $articles,
             'categories' => $categories,
             'currentCategory' => $category,
-            'controller_name' => 'ArticlesController',
         ]);
     }
 }
