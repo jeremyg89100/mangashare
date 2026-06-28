@@ -74,7 +74,7 @@
                             </div>
 
                             <div class="nav-user">
-                                <div class="nav-avatar" id="avatar-btn">
+                                <div class="nav-avatar-base" id="avatar-btn">
                                     {% if app.user.avatar %}
                                         <img src="{{ asset('uploads/avatar/' ~ app.user.avatar) }}" alt="Avatar">
                                     {% else %}
@@ -107,7 +107,10 @@
                 </div>
             </nav>
             <div class="banner">
-                <img src="{{asset('uploads/MangashareBannerMobile.png')}}">
+                <img src="{{asset('uploads/mangashareBanner2Mobile.png')}}">
+            </div>
+            <div class="banner-tablet">
+                <img src="{{asset('uploads/mangashareBanner2Tablet.png')}}">
             </div>
 
             {# Mobile Menu #}
