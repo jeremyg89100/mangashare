@@ -1855,6 +1855,7 @@ textarea.project-synopsis:focus {
 .col-auteur,
 .col-auteur-data {
     width: 25%;
+    color: #141414;
 }
 
 .col-contenu,
@@ -1862,6 +1863,7 @@ textarea.project-synopsis:focus {
     width: 50%;
     padding-right: 20px;
     box-sizing: border-box;
+    color: #141414;
 }
 
 .col-actions,
@@ -1869,6 +1871,7 @@ textarea.project-synopsis:focus {
     width: 25%;
     display: flex;
     flex-direction: column;
+    color: #141414;
 }
 
 .col-contenu-data {
@@ -1968,16 +1971,19 @@ textarea.project-synopsis:focus {
 
 .col-pseudo {
     width: 25%;
+    color: #141414;
 }
 
 .col-id {
     width: 10%;
+    color: #141414;
 }
 
 .col-actions-comment {
     width: 60%;
     display: flex;
     flex-direction: row;
+    color: #141414;
     gap: 10px;
 }
 
@@ -2007,7 +2013,7 @@ textarea.project-synopsis:focus {
     background-color: white;
     border: 1px solid var(--color-light-border);
     border-radius: 6px;
-    color: var(--text-main);
+    color: black;
     padding: 8px 10px;
     margin-bottom: 20px;
 }
@@ -2047,7 +2053,7 @@ textarea.project-synopsis:focus {
     padding: 10px 16px;
     font-size: 14px;
     font-family: var(--font-body);
-    color: var(--text-main);
+    color: #141414;
     background-color: #ffffff;
     border: 1px solid var(--color-light-border);
     border-radius: 6px;
